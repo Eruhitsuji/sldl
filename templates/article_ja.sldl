@@ -1,0 +1,29 @@
+document "new_article" : Article {
+    meta {
+        title: "記事タイトル"@ja;
+        author: "著者名"@ja;
+        date: Date("2026-04-30");
+        lang: "ja-JP";
+    }
+
+    section overview : Overview {
+        title: "概要"@ja;
+
+        paragraph {
+            text: "この記事の概要。"@ja;
+        }
+    }
+
+    section body : Body {
+        title: "本文"@ja;
+
+        definition def_topic : Definition {
+            term: "用語"@ja;
+            text: "用語の説明。"@ja;
+        }
+
+        paragraph {
+            text: "本文をここに書く。"@ja;
+        }
+    }
+}

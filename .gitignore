@@ -1,0 +1,59 @@
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Virtual environments and local environment files
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+*.whl
+
+# SLDL generated outputs
+sldl_build_manifest.json
+release_manifest.json
+*_manifest.json
+*.tmp
+*.bak
+
+# LaTeX generated files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

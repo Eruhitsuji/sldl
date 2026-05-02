@@ -1,0 +1,188 @@
+{
+  "config_type": "sldl.release_check",
+  "description": "SLDL v1.0.0 stable bilingual official examples release check.",
+  "version": "1.0.0",
+  "base_dir": "..",
+  "required_files": [
+    "README.md",
+    "CHANGELOG.md",
+    ".gitignore",
+    "docs/index.md",
+    "docs/getting_started.md",
+    "docs/sldl_language_reference.md",
+    "docs/document_model.md",
+    "docs/project_workflow.md",
+    "docs/config_reference.md",
+    "docs/commands_reference.md",
+    "docs/github_repository_guide.md",
+    "docs/v1_0_release_notes.md",
+    "docs/bilingual_documentation.md",
+    "docs/compatibility_policy.md",
+    "docs/migration_guide_v0_to_v1.md",
+    "docs/known_limitations.md",
+    "docs/release_process.md",
+    "docs/version_reset_policy.md",
+    "docs/ja/index.md",
+    "docs/ja/getting_started.md",
+    "docs/ja/sldl_language_reference.md",
+    "docs/ja/document_model.md",
+    "docs/ja/project_workflow.md",
+    "docs/ja/config_reference.md",
+    "docs/ja/commands_reference.md",
+    "docs/ja/github_repository_guide.md",
+    "docs/ja/known_limitations.md",
+    "docs/ja/release_process.md",
+    "docs/ja/compatibility_policy.md",
+    "docs/ja/v1_0_release_notes.md",
+    "docs/ja/bilingual_documentation.md",
+    "examples/README.md",
+    "examples/official_project_overview_en.sldl",
+    "examples/official_project_overview_ja.sldl",
+    "examples/research_report_en.sldl",
+    "examples/research_report_ja.sldl",
+    "examples/sldl_schema.json",
+    "examples/project_official_examples.json",
+    "examples/export_labels_en.json",
+    "examples/export_labels_ja.json",
+    "examples/latex_build_platex_dvipdfmx.json",
+    "examples/latex_build_platex_dvipdfmx_dry_run.json",
+    "examples/release_check.json",
+    "examples/golden_snapshot.json",
+    "sldl_compiler/quality.py",
+    "sldl_compiler/cli.py",
+    "tests/test_v1_ready_workflow.py"
+  ],
+  "forbidden_paths": [
+    "docs/bilingual_release_preparation.md",
+    "docs/reset_preparation.md",
+    "docs/v1_0_release_candidate_plan.md",
+    "examples/archive"
+  ],
+  "forbidden_globs": [
+    "build/v0*",
+    "docs/sldl_v0_*",
+    "docs/v0_*",
+    "examples/v0*",
+    "examples/v1[0-9]*",
+    "examples/archive*",
+    "tests/test_v0*.py",
+    "tests/test_v1[0-5]*.py",
+    "docs/*release_candidate*",
+    "docs/*_preparation.md"
+  ],
+  "config_files": [
+    "examples/export_labels_en.json",
+    "examples/export_labels_ja.json",
+    "examples/latex_build_platex_dvipdfmx_dry_run.json",
+    "examples/latex_build_platex_dvipdfmx.json",
+    "examples/sldl_schema.json",
+    "examples/project_official_examples.json",
+    "examples/release_check.json",
+    "examples/golden_snapshot.json"
+  ],
+  "commands": [
+    {
+      "name": "template-list",
+      "args": [
+        "template",
+        "list"
+      ]
+    },
+    {
+      "name": "schema-check",
+      "args": [
+        "schema",
+        "check",
+        "examples/sldl_schema.json"
+      ]
+    },
+    {
+      "name": "config-list",
+      "args": [
+        "config",
+        "list"
+      ]
+    },
+    {
+      "name": "config-explain-project",
+      "args": [
+        "config",
+        "explain",
+        "sldl.project"
+      ]
+    },
+    {
+      "name": "config-explain-release-check",
+      "args": [
+        "config",
+        "explain",
+        "sldl.release_check"
+      ]
+    },
+    {
+      "name": "grammar",
+      "args": [
+        "grammar"
+      ]
+    },
+    {
+      "name": "template-project-help",
+      "args": [
+        "template",
+        "project",
+        "--help"
+      ]
+    },
+    {
+      "name": "check-overview-en",
+      "args": [
+        "check",
+        "examples/official_project_overview_en.sldl",
+        "--schema",
+        "examples/sldl_schema.json"
+      ]
+    },
+    {
+      "name": "check-overview-ja",
+      "args": [
+        "check",
+        "examples/official_project_overview_ja.sldl",
+        "--schema",
+        "examples/sldl_schema.json"
+      ]
+    },
+    {
+      "name": "check-report-en",
+      "args": [
+        "check",
+        "examples/research_report_en.sldl",
+        "--schema",
+        "examples/sldl_schema.json"
+      ]
+    },
+    {
+      "name": "check-report-ja",
+      "args": [
+        "check",
+        "examples/research_report_ja.sldl",
+        "--schema",
+        "examples/sldl_schema.json"
+      ]
+    }
+  ],
+  "project_files": [
+    "examples/project_official_examples.json"
+  ],
+  "build_project_files": [
+    "examples/project_official_examples.json"
+  ],
+  "build_manifest_files": [
+    "build/official_examples/sldl_build_manifest.json"
+  ],
+  "golden_snapshot": "examples/golden_snapshot.json",
+  "compileall": true,
+  "compile_paths": [
+    "sldl_compiler",
+    "tests/test_v1_ready_workflow.py"
+  ]
+}

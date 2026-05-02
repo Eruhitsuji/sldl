@@ -1,0 +1,45 @@
+document "new_minutes" : Minutes {
+    meta {
+        title: "会議名"@ja;
+        date: Date("2026-04-30");
+        lang: "ja-JP";
+    }
+
+    object p1 : Person {
+        name: "参加者名"@ja;
+        role: "司会"@ja;
+    }
+
+    section agenda : Agenda {
+        title: "議題"@ja;
+
+        paragraph {
+            text: "議題の概要。"@ja;
+        }
+    }
+
+    section discussion : Discussion {
+        title: "議論"@ja;
+
+        claim c_decision : Claim {
+            text: "決定事項または合意事項。"@ja;
+            strength: asserted;
+        }
+
+        reason r_decision : Reason {
+            text: "その決定に至った理由。"@ja;
+            supports: c_decision;
+        }
+    }
+
+    section actions : ActionItems {
+        title: "アクションアイテム"@ja;
+
+        object action1 : Task {
+            title: "実施事項"@ja;
+            assignee: p1;
+            due: Date("2026-05-07");
+            status: "open";
+        }
+    }
+}

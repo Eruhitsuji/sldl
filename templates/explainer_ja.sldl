@@ -1,0 +1,31 @@
+document "new_explainer" : Explainer {
+    meta {
+        title: "説明資料タイトル"@ja;
+        date: Date("2026-04-30");
+        lang: "ja-JP";
+    }
+
+    section goal : Goal {
+        title: "目的"@ja;
+
+        paragraph {
+            text: "この資料の目的。"@ja;
+        }
+    }
+
+    section steps : Steps {
+        title: "手順"@ja;
+
+        flowchart fl_steps : Flowchart {
+            nodes: {
+                start: "開始"@ja;
+                step1: "手順1"@ja;
+                end: "終了"@ja;
+            };
+            edges: [
+                [start, step1],
+                [step1, end]
+            ];
+        }
+    }
+}

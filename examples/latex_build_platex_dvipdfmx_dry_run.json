@@ -1,0 +1,48 @@
+{
+  "config_type": "sldl.latex_build",
+  "description": "Dry-run pLaTeX + dvipdfmx pipeline for release checks.",
+  "version": "1.0.0",
+  "dry_run": true,
+  "capture_output": true,
+  "timeout_sec": 120,
+  "work_dir": "{tex_dir}",
+  "output_dir": "{tex_dir}",
+  "job_name": "{tex_stem}",
+  "pdf_path": "{output_dir}/{job_name}.pdf",
+  "stop_on_error": true,
+  "show_output": false,
+  "engine": {
+    "name": "platex",
+    "command": "platex",
+    "passes": 2,
+    "args": [
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "-file-line-error",
+      "-output-directory",
+      "{output_dir}",
+      "{tex_path}"
+    ]
+  },
+  "dvi_to_pdf": {
+    "enabled": true,
+    "name": "dvipdfmx",
+    "command": "dvipdfmx",
+    "args": [
+      "-o",
+      "{pdf_path}",
+      "{dvi_path}"
+    ]
+  },
+  "cleanup": {
+    "enabled": false,
+    "extensions": [
+      ".aux",
+      ".log",
+      ".dvi",
+      ".toc",
+      ".out"
+    ],
+    "files": []
+  }
+}

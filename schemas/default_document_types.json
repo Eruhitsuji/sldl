@@ -1,0 +1,74 @@
+{
+  "config_type": "sldl.schema",
+  "description": "Default SLDL document type schema registry.",
+  "document_types": {
+    "Paper": {
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Reference"
+      ]
+    },
+    "Minutes": {
+      "required_meta": [
+        "title",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Object",
+        "Table",
+        "Conclusion"
+      ]
+    },
+    "Explainer": {
+      "required_meta": [
+        "title",
+        "author"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Definition",
+        "Figure"
+      ]
+    },
+    "Article": {
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Reference"
+      ]
+    }
+  },
+  "object_classes": {
+    "Dataset": {
+      "name": "Text",
+      "description": "Text",
+      "size": "Int|Text",
+      "license": "Text",
+      "url": "Text"
+    },
+    "Method": {
+      "name": "Text",
+      "description": "Text",
+      "input": "Text",
+      "output": "Text"
+    }
+  }
+}

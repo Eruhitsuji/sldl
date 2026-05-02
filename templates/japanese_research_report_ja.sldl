@@ -1,0 +1,94 @@
+document "new_japanese_research_report" : JapaneseResearchReport {
+    meta {
+        title: "研究報告書タイトル"@ja;
+        author: "著者名"@ja;
+        date: Date("2026-05-01");
+        lang: "ja-JP";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+        latex_hyperref: true;
+    }
+
+    section intro : Section {
+        title: "序論"@ja;
+
+        paragraph {
+            text: "研究背景と目的を記述する。"@ja;
+        }
+
+        claim c_research_goal : Claim {
+            text: "本研究は対象課題に対する有効な解決方法を提示する。"@ja;
+            evidence: [e_problem];
+            strength: asserted;
+        }
+
+        evidence e_problem : Evidence {
+            text: "既存手法には、適用範囲または運用上の課題が残されている。"@ja;
+            source: ref_sample;
+        }
+    }
+
+    section method : Section {
+        title: "提案手法"@ja;
+
+        paragraph {
+            text: "提案手法の構成を説明する。処理の流れは{{ref:fig_pipeline}}に示す。"@ja;
+            xrefs: [fig_pipeline];
+        }
+
+        flowchart fig_pipeline : Flowchart {
+            caption: "提案手法の処理フロー"@ja;
+            direction: "LR";
+            nodes: { input: "入力"; process: "処理"; output: "出力"; };
+            edges: [
+                ["input", "process", "analyze"],
+                ["process", "output", "export"]
+            ];
+        }
+    }
+
+    section result : Section {
+        title: "実験結果"@ja;
+
+        table t_results : Table {
+            caption: "評価結果"@ja;
+            columns: [
+                { name: "method"; type: Text; },
+                { name: "score"; type: Float; }
+            ];
+            rows: [
+                ["baseline", 0.80],
+                ["proposed", 0.90]
+            ];
+        }
+
+        paragraph {
+            text: "提案手法はbaselineより高いscoreを示した。"@ja;
+            source: t_results;
+            supports: c_research_goal;
+        }
+    }
+
+    section conclusion : Section {
+        title: "結論"@ja;
+
+        conclusion con_main : Conclusion {
+            text: "提案手法により、対象課題に対する改善を確認した。"@ja;
+            based_on: [c_research_goal, e_problem];
+        }
+    }
+
+    section references : Section {
+        title: "参考文献"@ja;
+
+        reference ref_sample : Article {
+            bibkey: "sample2026";
+            author: "Author Name"@en;
+            title: "Sample Reference"@en;
+            year: 2026;
+            journal: "Sample Journal"@en;
+        }
+    }
+}

@@ -1,0 +1,121 @@
+{
+  "config_type": "sldl.project",
+  "description": "SLDL v1.0.0 bilingual official examples project for v1.0 public release.",
+  "version": "1.0.0",
+  "output_dir": "../build/official_examples",
+  "citation_style": "author-year",
+  "toc": true,
+  "mermaid_mode": "placeholder",
+  "latex": {
+    "profile": "platex-jreport",
+    "geometry": "margin=25mm",
+    "hyperref": true,
+    "top_level": "chapter",
+    "code_font_size": "small",
+    "mermaid_mode": "placeholder"
+  },
+  "documents": [
+    {
+      "name": "official_project_overview_en",
+      "input": "official_project_overview_en.sldl",
+      "export_config": "export_labels_en.json",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/official_examples/official_project_overview_en.md"
+        },
+        {
+          "format": "html",
+          "path": "../build/official_examples/official_project_overview_en.html"
+        },
+        {
+          "format": "latex",
+          "path": "../build/official_examples/official_project_overview_en.tex"
+        },
+        {
+          "format": "pdf",
+          "path": "../build/official_examples/official_project_overview_en.pdf",
+          "tex_path": "../build/official_examples/official_project_overview_en_pdf.tex"
+        }
+      ]
+    },
+    {
+      "name": "official_project_overview_ja",
+      "input": "official_project_overview_ja.sldl",
+      "export_config": "export_labels_ja.json",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/official_examples/official_project_overview_ja.md"
+        },
+        {
+          "format": "html",
+          "path": "../build/official_examples/official_project_overview_ja.html"
+        },
+        {
+          "format": "latex",
+          "path": "../build/official_examples/official_project_overview_ja.tex"
+        },
+        {
+          "format": "pdf",
+          "path": "../build/official_examples/official_project_overview_ja.pdf",
+          "tex_path": "../build/official_examples/official_project_overview_ja_pdf.tex"
+        }
+      ]
+    },
+    {
+      "name": "research_report_en",
+      "input": "research_report_en.sldl",
+      "export_config": "export_labels_en.json",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/official_examples/research_report_en.md"
+        },
+        {
+          "format": "html",
+          "path": "../build/official_examples/research_report_en.html"
+        },
+        {
+          "format": "latex",
+          "path": "../build/official_examples/research_report_en.tex"
+        },
+        {
+          "format": "pdf",
+          "path": "../build/official_examples/research_report_en.pdf",
+          "tex_path": "../build/official_examples/research_report_en_pdf.tex"
+        }
+      ]
+    },
+    {
+      "name": "research_report_ja",
+      "input": "research_report_ja.sldl",
+      "export_config": "export_labels_ja.json",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/official_examples/research_report_ja.md"
+        },
+        {
+          "format": "html",
+          "path": "../build/official_examples/research_report_ja.html"
+        },
+        {
+          "format": "latex",
+          "path": "../build/official_examples/research_report_ja.tex"
+        },
+        {
+          "format": "pdf",
+          "path": "../build/official_examples/research_report_ja.pdf",
+          "tex_path": "../build/official_examples/research_report_ja_pdf.tex"
+        }
+      ]
+    }
+  ],
+  "write_manifest": "../build/official_examples/sldl_build_manifest.json",
+  "schemas": [
+    "sldl_schema.json"
+  ],
+  "export_config": "export_labels_en.json",
+  "latex_build_config": "latex_build_platex_dvipdfmx_dry_run.json"
+}

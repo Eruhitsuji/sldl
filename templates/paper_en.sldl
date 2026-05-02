@@ -1,0 +1,45 @@
+document "new_paper_en" : Paper {
+    meta {
+        title: "New Paper Title"@en;
+        author: "Author Name"@en;
+        date: Date("2026-04-30");
+        lang: "en-US";
+    }
+
+    section intro : Introduction {
+        title: "Introduction"@en;
+
+        claim c_main : Claim {
+            text: "This is the main claim of the paper."@en;
+            evidence: [ev_main];
+            strength: asserted;
+        }
+
+        evidence ev_main : Evidence {
+            text: "This is evidence for the main claim."@en;
+            source: ref_main;
+        }
+
+        paragraph {
+            text: "This paper explains the problem, method, evaluation, and discussion."@en;
+            cite: [ref_main];
+            supports: c_main;
+        }
+    }
+
+    section conclusion : ConclusionSection {
+        title: "Conclusion"@en;
+
+        conclusion con_main : Conclusion {
+            text: "This is the conclusion of the paper."@en;
+            based_on: [c_main, ev_main];
+        }
+    }
+
+    reference ref_main : Article {
+        author: "Author Name"@en;
+        title: "Reference Title"@en;
+        year: 2026;
+        url: "https://example.com";
+    }
+}

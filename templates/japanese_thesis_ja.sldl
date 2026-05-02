@@ -1,0 +1,72 @@
+document "new_japanese_thesis" : JapaneseThesis {
+    meta {
+        title: "修士論文タイトル"@ja;
+        author: "著者名"@ja;
+        date: Date("2026-05-01");
+        lang: "ja-JP";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+        latex_hyperref: true;
+    }
+
+    section intro : Section {
+        title: "序論"@ja;
+        paragraph { text: "研究背景、目的、本論文の構成を記述する。"@ja; }
+        claim c_thesis : Claim {
+            text: "本論文は対象課題に対する体系的な解決方法を示す。"@ja;
+            evidence: [e_related];
+            strength: asserted;
+        }
+    }
+
+    section related_work : Section {
+        title: "関連研究"@ja;
+        evidence e_related : Evidence {
+            text: "関連研究には有効性が示された手法が存在するが、対象条件における課題が残る。"@ja;
+            source: ref_related;
+        }
+        paragraph { text: "既存研究と本研究の位置づけを整理する。"@ja; cite: [ref_related]; }
+    }
+
+    section method : Section {
+        title: "提案手法"@ja;
+        paragraph { text: "提案手法の設計、アルゴリズム、実装方針を記述する。"@ja; supports: c_thesis; }
+    }
+
+    section experiments : Section {
+        title: "実験"@ja;
+        table t_experiment_plan : Table {
+            caption: "実験条件"@ja;
+            columns: [
+                { name: "item"; type: Text; },
+                { name: "value"; type: Text; }
+            ];
+            rows: [
+                ["dataset", "sample"],
+                ["metric", "score"]
+            ];
+        }
+        paragraph { text: "実験条件に基づいて評価を行う。"@ja; source: t_experiment_plan; }
+    }
+
+    section conclusion : Section {
+        title: "結論"@ja;
+        conclusion con_thesis : Conclusion {
+            text: "本論文の主張、実験結果、今後の課題をまとめる。"@ja;
+            based_on: [c_thesis, e_related];
+        }
+    }
+
+    section references : Section {
+        title: "参考文献"@ja;
+        reference ref_related : Article {
+            bibkey: "related2026";
+            author: "Author Name"@en;
+            title: "Related Work"@en;
+            year: 2026;
+            journal: "Sample Journal"@en;
+        }
+    }
+}

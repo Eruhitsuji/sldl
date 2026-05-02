@@ -1,0 +1,25 @@
+{
+  "config_type": "sldl.export_labels",
+  "description": "Default Japanese labels bundled with the SLDL compiler.",
+  "html_lang": "ja",
+  "labels": {
+    "author": "Author",
+    "date": "Date",
+    "version": "Version",
+    "references": "参考文献",
+    "figure": "図",
+    "table": "表",
+    "listing": "リスト",
+    "claim": "Claim",
+    "evidence": "Evidence",
+    "reason": "Reason",
+    "counterargument": "Counterargument",
+    "conclusion": "Conclusion",
+    "definition": "Definition",
+    "object": "Object",
+    "class": "Class",
+    "function": "Function",
+    "section": "Section",
+    "toc": "目次"
+  }
+}

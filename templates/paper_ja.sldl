@@ -1,0 +1,82 @@
+document "new_paper" : Paper {
+    meta {
+        title: "新しい論文タイトル"@ja;
+        author: "著者名"@ja;
+        date: Date("2026-04-30");
+        lang: "ja-JP";
+    }
+
+    section intro : Introduction {
+        title: "序論"@ja;
+
+        definition def_main : Definition {
+            term: "主要概念"@ja;
+            text: "この論文で扱う主要概念の定義。"@ja;
+        }
+
+        claim c_main : Claim {
+            text: "本研究の中心的な主張。"@ja;
+            evidence: [ev_main];
+            strength: asserted;
+        }
+
+        evidence ev_main : Evidence {
+            text: "主張を支える証拠。"@ja;
+            source: ref_main;
+        }
+
+        paragraph {
+            text: "本稿では，問題設定，提案手法，評価，考察を順に述べる。"@ja;
+            cite: [ref_main];
+            supports: c_main;
+        }
+    }
+
+    section method : Method {
+        title: "提案手法"@ja;
+
+        paragraph {
+            text: "提案手法の概要を説明する。"@ja;
+        }
+    }
+
+    section result : Result {
+        title: "結果"@ja;
+
+        table tbl_result : Table {
+            caption: "評価結果"@ja;
+            columns: [
+                { name: "method"; type: Text; },
+                { name: "score"; type: Float; }
+            ];
+            rows: [
+                ["baseline", 0.80],
+                ["proposed", 0.90]
+            ];
+        }
+
+        chart ch_result : Chart {
+            type: "bar";
+            title: "評価結果"@ja;
+            data: tbl_result;
+            x: "method";
+            y: "score";
+        }
+    }
+
+    section conclusion : ConclusionSection {
+        title: "結論"@ja;
+
+        conclusion con_main : Conclusion {
+            text: "本研究の結論。"@ja;
+            based_on: [c_main, ev_main];
+        }
+    }
+
+    reference ref_main : Article {
+        author: "Author Name"@en;
+        title: "Reference Title"@en;
+        year: 2026;
+        url: "https://example.com";
+    }
+}

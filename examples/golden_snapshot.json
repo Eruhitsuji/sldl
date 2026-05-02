@@ -1,0 +1,67 @@
+{
+  "config_type": "sldl.snapshot_manifest",
+  "description": "SLDL v1.0.0 official example golden file snapshot",
+  "version": "1.0.0",
+  "files": [
+    {
+      "path": "build/official_examples/official_project_overview_en.md",
+      "bytes": 3900,
+      "sha256": "86d377e7e260770b95eb80a403eb84c25d74c112e5e55db6b8c8235d8d36b916"
+    },
+    {
+      "path": "build/official_examples/official_project_overview_en.html",
+      "bytes": 6166,
+      "sha256": "a727bfe0a0038508c9c482b8457956023198c76ec8fad14d74f0fc8381140859"
+    },
+    {
+      "path": "build/official_examples/official_project_overview_en.tex",
+      "bytes": 5549,
+      "sha256": "75716b8fece9936ec4d2214138f5b5c54939ee61a51af9ce17d01171d6a394a7"
+    },
+    {
+      "path": "build/official_examples/official_project_overview_ja.md",
+      "bytes": 3931,
+      "sha256": "71e9c0feec2030634205231218e7bfafe0a92782cadecf0e1a2697d2dfe196bc"
+    },
+    {
+      "path": "build/official_examples/official_project_overview_ja.html",
+      "bytes": 6190,
+      "sha256": "6ab25bd67d26ba36dbf20d6561c1b9b567c0a466d173bf82fafdb98e6effc0be"
+    },
+    {
+      "path": "build/official_examples/official_project_overview_ja.tex",
+      "bytes": 5616,
+      "sha256": "5068666e202177ba13d4da3f121024eea19839a41637f4e27b61c7b179690cb9"
+    },
+    {
+      "path": "build/official_examples/research_report_en.md",
+      "bytes": 1753,
+      "sha256": "51cabe6491ca9062f2231247a744b0a530ab2e327eb1465eebd932e383a6ee18"
+    },
+    {
+      "path": "build/official_examples/research_report_en.html",
+      "bytes": 3712,
+      "sha256": "3538030e5ea30bebdb415e6f0a8c829fa040ab98b50c3e164e59b3d8584fd38e"
+    },
+    {
+      "path": "build/official_examples/research_report_en.tex",
+      "bytes": 3289,
+      "sha256": "2fc829e2f5a881d9a8346a872eb57b726b3c4236669894ac66205b43985636cc"
+    },
+    {
+      "path": "build/official_examples/research_report_ja.md",
+      "bytes": 1848,
+      "sha256": "c74c89940867e6e7e11227cdda27de256943a9c97c5226ee7297ab723b7d2b78"
+    },
+    {
+      "path": "build/official_examples/research_report_ja.html",
+      "bytes": 3798,
+      "sha256": "ad808a2823dc7468609e2ec5503b42f6e3004e64bc10ba066395240f733c1c7e"
+    },
+    {
+      "path": "build/official_examples/research_report_ja.tex",
+      "bytes": 3395,
+      "sha256": "324f3723177736d18d57a35318e4b37c0c1622a6d1f75d71542de4402d835247"
+    }
+  ]
+}

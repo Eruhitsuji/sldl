@@ -1,0 +1,63 @@
+{
+  "config_type": "sldl.template_manifest",
+  "description": "Bundled SLDL template manifest.",
+  "version": "1.0.0",
+  "templates": [
+    {
+      "name": "paper",
+      "description": "論文向けテンプレート",
+      "document_type": "Paper",
+      "language": "ja-JP",
+      "path": "paper_ja.sldl"
+    },
+    {
+      "name": "minutes",
+      "description": "議事録向けテンプレート",
+      "document_type": "Minutes",
+      "language": "ja-JP",
+      "path": "minutes_ja.sldl"
+    },
+    {
+      "name": "article",
+      "description": "記事・解説資料向けテンプレート",
+      "document_type": "Article",
+      "language": "ja-JP",
+      "path": "article_ja.sldl"
+    },
+    {
+      "name": "explainer",
+      "description": "説明資料向けテンプレート",
+      "document_type": "Explainer",
+      "language": "ja-JP",
+      "path": "explainer_ja.sldl"
+    },
+    {
+      "name": "paper_en",
+      "description": "Paper template in English",
+      "document_type": "Paper",
+      "language": "en-US",
+      "path": "paper_en.sldl"
+    },
+    {
+      "name": "japanese_research_report",
+      "description": "日本語研究報告書テンプレート",
+      "document_type": "JapaneseResearchReport",
+      "language": "ja-JP",
+      "path": "japanese_research_report_ja.sldl"
+    },
+    {
+      "name": "japanese_thesis",
+      "description": "日本語卒業論文・修士論文向けテンプレート",
+      "document_type": "JapaneseThesis",
+      "language": "ja-JP",
+      "path": "japanese_thesis_ja.sldl"
+    },
+    {
+      "name": "technical_specification",
+      "description": "技術仕様書テンプレート",
+      "document_type": "TechnicalSpecification",
+      "language": "ja-JP",
+      "path": "technical_specification_ja.sldl"
+    }
+  ]
+}

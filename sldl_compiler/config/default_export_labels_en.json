@@ -1,0 +1,25 @@
+{
+  "config_type": "sldl.export_labels",
+  "description": "Default English labels bundled with the SLDL compiler.",
+  "html_lang": "en",
+  "labels": {
+    "author": "Author",
+    "date": "Date",
+    "version": "Version",
+    "references": "References",
+    "figure": "Figure",
+    "table": "Table",
+    "listing": "Listing",
+    "claim": "Claim",
+    "evidence": "Evidence",
+    "reason": "Reason",
+    "counterargument": "Counterargument",
+    "conclusion": "Conclusion",
+    "definition": "Definition",
+    "object": "Object",
+    "class": "Class",
+    "function": "Function",
+    "section": "Section",
+    "toc": "Table of Contents"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "config_type": "sldl.export_labels",
+  "description": "Japanese labels used by the curated SLDL examples.",
+  "version": "1.0.0",
+  "html_lang": "ja",
+  "labels": {
+    "author": "著者",
+    "date": "日付",
+    "version": "版",
+    "toc": "目次",
+    "claim": "主張",
+    "evidence": "証拠",
+    "conclusion": "結論",
+    "references": "参考文献",
+    "figure": "図",
+    "table": "表",
+    "listing": "リスト"
+  }
+}

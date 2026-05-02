@@ -1,0 +1,127 @@
+document "official_project_overview_ja" : ProjectOverview {
+    meta {
+        title: "SLDL公式プロジェクト概要"@ja;
+        author: "SLDL Project"@en;
+        date: Date("2026-05-02");
+        lang: "ja-JP";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+    }
+
+    section purpose : Section {
+        title: "SLDLの目的"@ja;
+
+        paragraph {
+            text: "SLDL（Structured Logical Document Language）は、文書構造、主張、根拠、参考文献、図表、出力設定を、公開前に機械的に検査できる形で記述するための文書ソース形式である。"@ja;
+        }
+
+        claim c_structured_source : Claim {
+            text: "文書本文、スキーマ、ビルド設定、release checkを分離しつつ接続して管理すると、文書プロジェクトを保守しやすくなる。"@ja;
+            evidence: [e_project_files];
+            strength: asserted;
+        }
+
+        evidence e_project_files : Evidence {
+            text: "公式サンプルプロジェクトは、schema JSON、project JSON、言語別export labels、LaTeX build JSON、release check JSONを用いる。"@ja;
+            source: ref_sldl_docs;
+        }
+    }
+
+    section grammar : Section {
+        title: "実用上の文法"@ja;
+
+        paragraph {
+            text: "基本文法は、型付きdocument、metaブロック、型付きsectionから始まる。section内にはparagraph、claim、evidence、conclusion、reference、table、figure、chart、flowchartなどを配置できる。"@ja;
+            supports: c_structured_source;
+        }
+
+        table t_grammar : Table {
+            caption: "SLDLソースの主要要素"@ja;
+            columns: [
+                { name: "element"; type: Text; },
+                { name: "role"; type: Text; }
+            ];
+            rows: [
+                ["document", "文書IDと文書型を宣言する。"],
+                ["meta", "タイトル、著者、日付、言語、版、出力ヒントを保存する。"],
+                ["section", "文書内容を安定した構造へ分ける。"],
+                ["claim/evidence/conclusion", "文書内の論理構造を表す。"],
+                ["reference", "根拠や引用を文献情報へ接続する。"]
+            ];
+        }
+    }
+
+    section json_files : Section {
+        title: "再現可能な出力に必要なJSON"@ja;
+
+        paragraph {
+            text: "通常のプロジェクトでは、検査、ラベル、出力生成、PDFビルド、リリース品質確認をJSONで記述する。これらをSLDL本文から分離することで、同じ文書を異なる出力方針で再生成できる。"@ja;
+        }
+
+        table t_json : Table {
+            caption: "公式JSON設定の役割"@ja;
+            columns: [
+                { name: "file"; type: Text; },
+                { name: "config_type"; type: Text; },
+                { name: "purpose"; type: Text; }
+            ];
+            rows: [
+                ["sldl_schema.json", "sldl.schema", "文書型と論理規則を定義する。"],
+                ["project_official_examples.json", "sldl.project", "英語・日本語の公式サンプル群をビルドする。"],
+                ["export_labels_en.json", "sldl.export_labels", "英語出力用ラベルを提供する。"],
+                ["export_labels_ja.json", "sldl.export_labels", "日本語出力用ラベルを提供する。"],
+                ["latex_build_platex_dvipdfmx_dry_run.json", "sldl.latex_build", "ローカルTeXなしでPDFビルド計画を検査する。"],
+                ["release_check.json", "sldl.release_check", "配布ツリー、コマンド、manifest、snapshotを検査する。"]
+            ];
+        }
+    }
+
+    section workflow : Section {
+        title: "資料作成フロー"@ja;
+
+        paragraph {
+            text: "推奨フローは、SLDL本文の作成、JSON設定の検査、project check、Markdown/HTML/LaTeX/PDF出力の生成、manifest確認、release checkの実行である。"@ja;
+            xrefs: [fig_workflow];
+        }
+
+        flowchart fig_workflow : Flowchart {
+            caption: "公式SLDLワークフロー"@ja;
+            direction: "LR";
+            nodes: { source: "SLDL本文"; schema: "Schema"; project: "Project JSON"; build: "出力生成"; quality: "Release check"; };
+            edges: [
+                ["source", "schema", "validate"],
+                ["schema", "project", "configure"],
+                ["project", "build", "generate"],
+                ["build", "quality", "verify"]
+            ];
+        }
+    }
+
+    section release_quality : Section {
+        title: "リリース品質"@ja;
+
+        paragraph {
+            text: "v1.0.0では、整理済みの互換性基準、英語第一の二言語ドキュメント、公式二言語サンプルを、最初の安定公開版の構成として扱う。"@ja;
+            source: t_json;
+        }
+
+        conclusion con_v1_ready : Conclusion {
+            text: "v1.0.0では、この二言語サンプルとドキュメント基準を安定した公開ワークフローとして使用する。"@ja;
+            based_on: [c_structured_source, e_project_files];
+        }
+    }
+
+    section references : Section {
+        title: "参考文献"@ja;
+
+        reference ref_sldl_docs : Article {
+            bibkey: "sldl2026";
+            author: "SLDL Project"@en;
+            title: "Structured Logical Document Language documentation"@en;
+            year: 2026;
+            journal: "Project documentation"@en;
+        }
+    }
+}

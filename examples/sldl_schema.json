@@ -1,0 +1,142 @@
+{
+  "config_type": "sldl.schema",
+  "description": "SLDL v1.0.0 bilingual official example schema for the v1.0 public release tree.",
+  "schema_version": "1.0.0",
+  "document_types": {
+    "ResearchReport": {
+      "required_blocks": [
+        "meta"
+      ],
+      "allowed_top_level": [
+        "meta",
+        "section",
+        "bibliography",
+        "object"
+      ],
+      "allowed_node_kinds": [
+        "Person",
+        "Section",
+        "Paragraph",
+        "Claim",
+        "Counterargument",
+        "Reason",
+        "Evidence",
+        "Conclusion",
+        "Reference",
+        "Heading",
+        "List",
+        "Table",
+        "Figure",
+        "CodeBlock",
+        "Reasoning",
+        "Rebuttal",
+        "Chart",
+        "Flowchart"
+      ]
+    },
+    "ProjectOverview": {
+      "required_blocks": [
+        "meta"
+      ],
+      "allowed_top_level": [
+        "meta",
+        "section",
+        "bibliography",
+        "object"
+      ],
+      "allowed_node_kinds": [
+        "Person",
+        "Section",
+        "Paragraph",
+        "Claim",
+        "Counterargument",
+        "Reason",
+        "Evidence",
+        "Conclusion",
+        "Reference",
+        "Heading",
+        "List",
+        "Table",
+        "Figure",
+        "CodeBlock",
+        "Reasoning",
+        "Rebuttal",
+        "Chart",
+        "Flowchart"
+      ]
+    },
+    "JapaneseResearchReport": {
+      "required_blocks": [
+        "meta"
+      ],
+      "allowed_top_level": [
+        "meta",
+        "section",
+        "bibliography",
+        "object"
+      ],
+      "allowed_node_kinds": [
+        "Person",
+        "Section",
+        "Paragraph",
+        "Claim",
+        "Counterargument",
+        "Reason",
+        "Evidence",
+        "Conclusion",
+        "Reference",
+        "Heading",
+        "List",
+        "Table",
+        "Figure",
+        "CodeBlock",
+        "Reasoning",
+        "Rebuttal",
+        "Chart",
+        "Flowchart"
+      ]
+    },
+    "TechnicalSpecification": {
+      "required_blocks": [
+        "meta"
+      ],
+      "allowed_top_level": [
+        "meta",
+        "section",
+        "bibliography",
+        "object"
+      ],
+      "allowed_node_kinds": [
+        "Person",
+        "Section",
+        "Paragraph",
+        "Claim",
+        "Counterargument",
+        "Reason",
+        "Evidence",
+        "Conclusion",
+        "Reference",
+        "Heading",
+        "List",
+        "Table",
+        "Figure",
+        "CodeBlock",
+        "Reasoning",
+        "Rebuttal",
+        "Chart",
+        "Flowchart"
+      ]
+    }
+  },
+  "logic_rules": {
+    "enabled": true,
+    "require_grounded_claims": "warning",
+    "require_grounded_conclusions": "warning",
+    "support_cycle_policy": "warning",
+    "accepted_contradiction_policy": "warning",
+    "rejected_support_policy": "warning",
+    "counterargument_support_policy": "warning",
+    "evidence_source_policy": "warning",
+    "confidence_policy": "warning"
+  }
+}

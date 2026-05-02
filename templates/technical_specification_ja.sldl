@@ -1,0 +1,75 @@
+document "new_technical_specification" : TechnicalSpecification {
+    meta {
+        title: "技術仕様書タイトル"@ja;
+        author: "著者名"@ja;
+        date: Date("2026-05-01");
+        lang: "ja-JP";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+        latex_hyperref: true;
+    }
+
+    section overview : Section {
+        title: "概要"@ja;
+        paragraph { text: "本仕様書の対象、目的、想定利用者を記述する。"@ja; }
+    }
+
+    section requirements : Section {
+        title: "要求"@ja;
+        claim c_requirement : Claim {
+            text: "本システムは入力データを検証し、指定された形式で出力できる必要がある。"@ja;
+            evidence: [e_use_case];
+            strength: asserted;
+        }
+        evidence e_use_case : Evidence {
+            text: "利用者は同じ入力からMarkdown、HTML、LaTeX、PDFを再生成する。"@ja;
+            source: ref_spec;
+        }
+    }
+
+    section design : Section {
+        title: "設計"@ja;
+        flowchart fig_architecture : Flowchart {
+            caption: "構成図"@ja;
+            direction: "LR";
+            nodes: { input: "Input"; compiler: "Compiler"; output: "Output"; };
+            edges: [
+                ["input", "compiler"],
+                ["compiler", "output"]
+            ];
+        }
+        paragraph { text: "主要コンポーネントとデータフローを説明する。"@ja; xrefs: [fig_architecture]; }
+    }
+
+    section interface : Section {
+        title: "インタフェース"@ja;
+        code api_example : CodeBlock {
+            lang: "bash";
+            caption: "CLI実行例"@ja;
+            source: """
+python3 -m sldl_compiler.cli project build project.json
+""";
+        }
+    }
+
+    section validation : Section {
+        title: "検証"@ja;
+        conclusion con_validation : Conclusion {
+            text: "要求、設計、インタフェースを満たすことをテストで確認する。"@ja;
+            based_on: [c_requirement, e_use_case];
+        }
+    }
+
+    section references : Section {
+        title: "参考資料"@ja;
+        reference ref_spec : Article {
+            bibkey: "spec2026";
+            author: "SLDL Project"@en;
+            title: "Technical Specification Template"@en;
+            year: 2026;
+            journal: "SLDL Notes"@en;
+        }
+    }
+}

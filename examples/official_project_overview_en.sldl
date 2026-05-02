@@ -1,0 +1,127 @@
+document "official_project_overview_en" : ProjectOverview {
+    meta {
+        title: "SLDL official project overview"@en;
+        author: "SLDL Project"@en;
+        date: Date("2026-05-02");
+        lang: "en-US";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+    }
+
+    section purpose : Section {
+        title: "Purpose of SLDL"@en;
+
+        paragraph {
+            text: "SLDL, the Structured Logical Document Language, is a source format for writing documents whose structure, claims, evidence, references, diagrams, tables, and output settings can be checked by tools before publication."@en;
+        }
+
+        claim c_structured_source : Claim {
+            text: "A document project becomes easier to maintain when the source document, schema, build configuration, and release checks are kept as separate but connected files."@en;
+            evidence: [e_project_files];
+            strength: asserted;
+        }
+
+        evidence e_project_files : Evidence {
+            text: "The official example project uses one schema file, one project JSON file, language-specific export label files, a LaTeX build JSON file, and a release-check JSON file."@en;
+            source: ref_sldl_docs;
+        }
+    }
+
+    section grammar : Section {
+        title: "Language grammar in practice"@en;
+
+        paragraph {
+            text: "The basic grammar starts with a typed document, a meta block, and typed sections. Inside sections, authors can write paragraphs, claims, evidence, conclusions, references, tables, figures, charts, and flowcharts."@en;
+            supports: c_structured_source;
+        }
+
+        table t_grammar : Table {
+            caption: "Core SLDL source elements"@en;
+            columns: [
+                { name: "element"; type: Text; },
+                { name: "role"; type: Text; }
+            ];
+            rows: [
+                ["document", "Declares the document identifier and document type."],
+                ["meta", "Stores title, author, date, language, version, and output hints."],
+                ["section", "Groups document content into a stable structure."],
+                ["claim/evidence/conclusion", "Represents the logical argument of the document."],
+                ["reference", "Connects evidence and citations to bibliographic metadata."]
+            ];
+        }
+    }
+
+    section json_files : Section {
+        title: "JSON files required for repeatable output"@en;
+
+        paragraph {
+            text: "A normal project uses JSON files to describe validation, labels, output generation, PDF build behavior, and release quality checks. These files are intentionally separate from the SLDL text so the same document can be rebuilt with different output policies."@en;
+        }
+
+        table t_json : Table {
+            caption: "Official JSON configuration roles"@en;
+            columns: [
+                { name: "file"; type: Text; },
+                { name: "config_type"; type: Text; },
+                { name: "purpose"; type: Text; }
+            ];
+            rows: [
+                ["sldl_schema.json", "sldl.schema", "Defines document types and logic rules."],
+                ["project_official_examples.json", "sldl.project", "Builds the bilingual sample set."],
+                ["export_labels_en.json", "sldl.export_labels", "Provides English output labels."],
+                ["export_labels_ja.json", "sldl.export_labels", "Provides Japanese output labels."],
+                ["latex_build_platex_dvipdfmx_dry_run.json", "sldl.latex_build", "Checks the PDF build plan without requiring a local TeX install."],
+                ["release_check.json", "sldl.release_check", "Verifies the release tree, commands, manifests, and snapshots."]
+            ];
+        }
+    }
+
+    section workflow : Section {
+        title: "Document creation workflow"@en;
+
+        paragraph {
+            text: "The recommended flow is to write SLDL, validate the JSON configuration, check the project, build Markdown/HTML/LaTeX/PDF outputs, inspect the manifest, and run the release check."@en;
+            xrefs: [fig_workflow];
+        }
+
+        flowchart fig_workflow : Flowchart {
+            caption: "Official SLDL workflow"@en;
+            direction: "LR";
+            nodes: { source: "SLDL source"; schema: "Schema"; project: "Project JSON"; build: "Build outputs"; quality: "Release check"; };
+            edges: [
+                ["source", "schema", "validate"],
+                ["schema", "project", "configure"],
+                ["project", "build", "generate"],
+                ["build", "quality", "verify"]
+            ];
+        }
+    }
+
+    section release_quality : Section {
+        title: "Release quality"@en;
+
+        paragraph {
+            text: "v1.0.0 keeps the cleaned compatibility baseline, bilingual documentation, and official bilingual samples as the first stable public release structure."@en;
+            source: t_json;
+        }
+
+        conclusion con_v1_ready : Conclusion {
+            text: "The v1.0.0 release uses this bilingual sample and documentation baseline as the stable public workflow."@en;
+            based_on: [c_structured_source, e_project_files];
+        }
+    }
+
+    section references : Section {
+        title: "References"@en;
+
+        reference ref_sldl_docs : Article {
+            bibkey: "sldl2026";
+            author: "SLDL Project"@en;
+            title: "Structured Logical Document Language documentation"@en;
+            year: 2026;
+            journal: "Project documentation"@en;
+        }
+    }
+}
