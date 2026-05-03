@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3 - template manifest compatibility update
+
+- Added `template explain <name> --format markdown|json|text` while keeping `--json` as a compatibility alias.
+- Added template manifest compatibility checks between `templates/template_manifest.json` and `templates/manifest.json`.
+- Added detection of unlisted `*.sldl` files in template directories.
+- Added template metadata to generated project JSON and project build manifests.
+- Updated getting-started documentation for the template-first workflow.
+- Updated release checks for the new explain output modes and manifest compatibility validation.
+
 ## 1.0.2 - template binding diagnostics update
 
 - Added `template explain <name>` for inspecting template-schema/export/LaTeX bindings.

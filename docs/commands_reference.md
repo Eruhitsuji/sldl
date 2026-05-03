@@ -80,3 +80,13 @@ python3 -S -m sldl_compiler.cli template project research_report_en \
   -o examples/my_report_project.json \
   --document-output examples/my_report.sldl
 ```
+
+## Template explain output modes (v1.0.3)
+
+```bash
+python3 -S -m sldl_compiler.cli template explain research_report_en --format text
+python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
+python3 -S -m sldl_compiler.cli template explain research_report_en --format json
+```
+
+The `--json` flag remains as a compatibility alias for `--format json`.

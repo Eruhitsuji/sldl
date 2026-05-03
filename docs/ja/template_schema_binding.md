@@ -66,3 +66,7 @@ python3 -S -m sldl_compiler.cli project check \
 ## release checkとの統合
 
 `examples/release_check.json` は、template manifest、正常系template command、生成project、意図的な失敗例を検査します。v1.0.2では expected-failure command に対応したため、失敗すべき例をリポジトリ内に保持したままrelease checkで検証できます。
+
+## v1.0.3のmanifest互換性とexplain出力形式
+
+v1.0.3では、`templates/template_manifest.json` と `templates/manifest.json` の互換性検査を追加しました。また、`template explain` は `text`、`markdown`、`json` の出力形式に対応します。project buildでは、document entryにtemplate由来情報がある場合、build manifestにもtemplate情報を記録します。

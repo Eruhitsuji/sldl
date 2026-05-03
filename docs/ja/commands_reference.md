@@ -48,3 +48,13 @@ manifestに紐づいたschemaでテンプレートを検査します。
 ```bash
 python3 -S -m sldl_compiler.cli template check research_report_en
 ```
+
+## template explainの出力形式 (v1.0.3)
+
+```bash
+python3 -S -m sldl_compiler.cli template explain research_report_en --format text
+python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
+python3 -S -m sldl_compiler.cli template explain research_report_en --format json
+```
+
+`--json` は `--format json` の互換エイリアスとして残しています。

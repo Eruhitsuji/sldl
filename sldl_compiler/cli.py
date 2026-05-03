@@ -18,7 +18,7 @@ from .logic import run_logic_checks, export_logic_report, export_logic_mermaid
 from .formatter import format_document
 from .parser import parse_source
 from .resolver import resolve
-from .templates import get_template, get_template_from_schema, list_templates
+from .templates import get_template, get_template_from_schema, list_templates, template_info, template_info_markdown
 from .schema_tools import check_schema_files, schema_explain, schema_summary
 from .semantic import install_schema_semantics, check_semantics
 from .bibtex_importer import attach_bibtex_references, parse_bibtex, bibtex_to_sldl_fragment, reference_id_from_bibkey
@@ -347,33 +347,37 @@ def command_template(args) -> int:
         return 0
     if(args.template_command=="explain"):
         try:
-            tmpl=get_template(args.name, args.template_dir)
-            info={
-                "name": tmpl.name,
-                "description": tmpl.description,
-                "document_type": tmpl.document_type,
-                "language": tmpl.language,
-                "source_path": str(tmpl.source_path) if(tmpl.source_path is not None) else None,
-                "schema": tmpl.schema,
-                "default_export_config": tmpl.default_export_config,
-                "default_latex_build_config": tmpl.default_latex_build_config,
-                "strict_schema": tmpl.strict_schema,
-            }
+            fmt=getattr(args, "format", "text")
+            if(getattr(args, "json", False)):
+                fmt="json"
+            info=template_info(args.name, args.template_dir)
+            if(fmt=="json"):
+                output=json.dumps(info, ensure_ascii=False, indent=2)+"\n"
+            elif(fmt=="markdown"):
+                output=template_info_markdown(args.name, args.template_dir)
+            else:
+                lines=[
+                    f"# Template: {info['name']}",
+                    f"description: {info['description']}",
+                    f"document_type: {info['document_type'] or '-'}",
+                    f"language: {info['language'] or '-'}",
+                    f"source_path: {info['source_path'] or '-'}",
+                    f"schema: {info['schema'] or '-'}",
+                    f"default_export_config: {info['default_export_config'] or '-'}",
+                    f"default_latex_build_config: {info['default_latex_build_config'] or '-'}",
+                    f"strict_schema: {info['strict_schema']}",
+                    f"manifest_path: {info['manifest_path'] or '-'}",
+                    f"manifest_version: {info['manifest_version'] or '-'}",
+                ]
+                output="\n".join(lines)+"\n"
         except (KeyError, FileNotFoundError) as exc:
             print(str(exc), file=sys.stderr)
             return 2
-        if(args.json):
-            print(json.dumps(info, ensure_ascii=False, indent=2))
+        if(getattr(args, "output", None)):
+            _write_text_file(Path(args.output), output)
+            print(f"Wrote: {args.output}")
         else:
-            print(f"# Template: {info['name']}")
-            print(f"description: {info['description']}")
-            print(f"document_type: {info['document_type'] or '-'}")
-            print(f"language: {info['language'] or '-'}")
-            print(f"source_path: {info['source_path'] or '-'}")
-            print(f"schema: {info['schema'] or '-'}")
-            print(f"default_export_config: {info['default_export_config'] or '-'}")
-            print(f"default_latex_build_config: {info['default_latex_build_config'] or '-'}")
-            print(f"strict_schema: {info['strict_schema']}")
+            print(output, end="")
         return 0
     if(args.template_command=="check"):
         try:
@@ -494,8 +498,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.2 project generated from template: {tmpl.name}",
-        "version": "1.0.2",
+        "description": f"SLDL v1.0.3 project generated from template: {tmpl.name}",
+        "version": "1.0.3",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -513,6 +517,8 @@ def _make_template_project_config(args, tmpl) -> dict:
                 "name": doc_stem,
                 "input": document_ref,
                 "template": tmpl.name,
+                "template_source": _project_relative_ref(project_output, tmpl.source_path) if(tmpl.source_path is not None) else None,
+                "template_manifest": _project_relative_ref(project_output, tmpl.manifest_path) if(tmpl.manifest_path is not None) else None,
                 "document_type": tmpl.document_type,
                 "outputs": outputs,
             }
@@ -652,11 +658,20 @@ def command_project(args) -> int:
         if(doc.diagnostics):
             print_diagnostics(doc, source, input_path, not args.no_source_context)
         print_warning_policy_note(doc, warnings_as_errors)
+        template_meta=None
+        if(doc_cfg.get("template") or doc_cfg.get("template_source") or doc_cfg.get("template_manifest")):
+            template_meta={
+                "name": doc_cfg.get("template"),
+                "source": doc_cfg.get("template_source"),
+                "manifest": doc_cfg.get("template_manifest"),
+                "declared_document_type": expected_doc_type,
+            }
         doc_result={
             "name": doc_cfg.get("name", input_path.stem),
             "input": str(input_path),
             "schemas": schema_paths,
             "document_type": doc.type_name,
+            "template": template_meta,
             "diagnostics": [d.__dict__ for d in doc.diagnostics],
             "diagnostic_counts": _diagnostic_counts(doc),
             "outputs": [],
@@ -944,7 +959,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.2 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.3 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -994,7 +1009,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_format=sub.add_parser("format", help="format SLDL file"); p_format.add_argument("input"); p_format.add_argument("-o","--output"); p_format.add_argument("--in-place", action="store_true"); p_format.add_argument("--check", action="store_true"); p_format.add_argument("--indent", type=int, default=4); p_format.set_defaults(func=command_format)
     p_template=sub.add_parser("template", help="work with file-based templates"); template_sub=p_template.add_subparsers(dest="template_command", required=True)
     p_template_list=template_sub.add_parser("list", help="list templates"); p_template_list.add_argument("--template-dir"); p_template_list.set_defaults(func=command_template)
-    p_template_explain=template_sub.add_parser("explain", help="explain a template and its bound configuration files"); p_template_explain.add_argument("name", help="template name"); p_template_explain.add_argument("--template-dir"); p_template_explain.add_argument("--json", action="store_true"); p_template_explain.set_defaults(func=command_template)
+    p_template_explain=template_sub.add_parser("explain", help="explain a template and its bound configuration files"); p_template_explain.add_argument("name", help="template name"); p_template_explain.add_argument("--template-dir"); p_template_explain.add_argument("--format", choices=["text", "markdown", "json"], default="text"); p_template_explain.add_argument("--json", action="store_true", help="deprecated alias for --format json"); p_template_explain.add_argument("-o", "--output", help="write explanation to a file"); p_template_explain.set_defaults(func=command_template)
     p_template_check=template_sub.add_parser("check", help="check a template against its bound schema"); p_template_check.add_argument("name", help="template name"); p_template_check.add_argument("--template-dir"); p_template_check.add_argument("--schema", help="schema override; requires --allow-schema-override when the template already binds a schema"); p_template_check.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors"); p_template_check.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_check.set_defaults(func=command_template)
     p_template_new=template_sub.add_parser("new", help="create a new file from a template"); p_template_new.add_argument("name", nargs="?"); p_template_new.add_argument("-o","--output"); p_template_new.add_argument("--force", action="store_true"); p_template_new.add_argument("--template-dir"); p_template_new.add_argument("--schema", help="create from schema when name is omitted, or override a named template schema when allowed"); p_template_new.add_argument("--document-type", help="document_types.<TypeName> to use when a schema contains multiple document types"); p_template_new.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors during generation check"); p_template_new.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_new.set_defaults(func=command_template)
     p_template_project=template_sub.add_parser("project", help="create a document and project JSON from a template")

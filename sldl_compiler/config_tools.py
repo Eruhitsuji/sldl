@@ -142,7 +142,7 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
     elif(config_type=="sldl.latex_build"):
         diagnostics.extend(_check_latex_build_config(data))
     elif(config_type=="sldl.template_manifest"):
-        diagnostics.extend(_check_template_manifest(data, base_dir, check_paths))
+        diagnostics.extend(_check_template_manifest(data, base_dir, check_paths, path))
     elif(config_type=="sldl.build_manifest"):
         diagnostics.extend(_check_build_manifest(data))
     elif(config_type=="sldl.release_check"):
@@ -335,7 +335,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "templates": [
                 {
                     "name": "sample",
@@ -575,7 +575,7 @@ def _check_command_object(obj: dict[str, Any], diagnostics: list[Diagnostic], pr
         diagnostics.append(Diagnostic("error", "E_LATEX_BUILD_ARGS", f"{prefix}.args list items must be scalar values"))
 
 
-def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: bool) -> list[Diagnostic]:
+def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: bool, manifest_path: Path | None = None) -> list[Diagnostic]:
     diagnostics=[]
     templates=data.get("templates")
     if(isinstance(templates, dict)):
@@ -629,7 +629,50 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_STRICT_SCHEMA", f"{loc}.strict_schema must be a boolean"))
         if(check_paths):
             _check_template_manifest_bound_file_types(item, base_dir, diagnostics, loc)
+    if(check_paths):
+        listed_paths=set()
+        for item in templates:
+            if(isinstance(item, dict)):
+                path_value=item.get("path", item.get("template_file"))
+                if(isinstance(path_value, str) and path_value):
+                    listed_paths.add((base_dir/path_value).resolve())
+        for sldl_path in sorted(base_dir.glob("*.sldl")):
+            if(sldl_path.resolve() not in listed_paths):
+                diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_UNLISTED_TEMPLATE", f"template file is not listed in manifest: {sldl_path.name}"))
+        if(manifest_path is not None):
+            sibling_name="manifest.json" if(manifest_path.name=="template_manifest.json") else "template_manifest.json"
+            sibling=manifest_path.parent/sibling_name
+            if(sibling.exists()):
+                sibling_data,sibling_diags=load_config_json(sibling)
+                for diag in sibling_diags:
+                    diagnostics.append(Diagnostic(diag.level, diag.code, f"{sibling.name}: {diag.message}", diag.line, diag.column))
+                if(isinstance(sibling_data, dict) and _template_manifest_signature(data)!=_template_manifest_signature(sibling_data)):
+                    diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_COMPATIBILITY", f"{manifest_path.name} and {sibling.name} declare different template sets"))
     return diagnostics
+
+
+def _template_manifest_signature(data: dict[str, Any]) -> list[tuple[str, str, str, str]]:
+    templates=data.get("templates")
+    if(isinstance(templates, dict)):
+        items=[]
+        for name,value in templates.items():
+            if(isinstance(value, dict)):
+                item=dict(value)
+                item.setdefault("name", str(name))
+                items.append(item)
+    elif(isinstance(templates, list)):
+        items=[item for item in templates if(isinstance(item, dict))]
+    else:
+        items=[]
+    signature=[]
+    for item in items:
+        signature.append((
+            str(item.get("name", "")),
+            str(item.get("path", item.get("template_file", ""))),
+            str(item.get("document_type", "")),
+            str(item.get("schema", "")),
+        ))
+    return sorted(signature)
 
 
 def _check_template_manifest_bound_file_types(item: dict[str, Any], base_dir: Path, diagnostics: list[Diagnostic], loc: str) -> None:
@@ -677,6 +720,14 @@ def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:
             continue
         if("outputs" in doc and not isinstance(doc.get("outputs"), list)):
             diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_OUTPUTS", f"documents[{i}].outputs must be a list"))
+        if("template" in doc and doc.get("template") is not None):
+            template=doc.get("template")
+            if(not isinstance(template, dict)):
+                diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE", f"documents[{i}].template must be an object or null"))
+            else:
+                for key in ("name", "source", "manifest", "declared_document_type"):
+                    if(key in template and template.get(key) is not None and not isinstance(template.get(key), str)):
+                        diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_FIELD", f"documents[{i}].template.{key} must be a string or null"))
     return diagnostics
 
 

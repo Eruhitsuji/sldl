@@ -18,6 +18,8 @@ class Template:
     default_export_config: str | None = None
     default_latex_build_config: str | None = None
     strict_schema: bool = False
+    manifest_path: Path | None = None
+    manifest_version: str | None = None
 
 
 def default_template_dir() -> Path:
@@ -54,6 +56,57 @@ def _load_manifest(template_dir: Path) -> tuple[dict[str, Any], Path]:
         }, template_dir
     return json.loads(manifest_path.read_text(encoding="utf-8")), manifest_path.parent
 
+
+
+
+def _template_info_from_template(t: Template) -> dict[str, Any]:
+    return {
+        "name": t.name,
+        "description": t.description,
+        "document_type": t.document_type,
+        "language": t.language,
+        "source_path": str(t.source_path) if(t.source_path is not None) else None,
+        "schema": t.schema,
+        "default_export_config": t.default_export_config,
+        "default_latex_build_config": t.default_latex_build_config,
+        "strict_schema": t.strict_schema,
+        "manifest_path": str(t.manifest_path) if(t.manifest_path is not None) else None,
+        "manifest_version": t.manifest_version,
+    }
+
+
+def template_info(name: str, template_dir: str | Path | None = None) -> dict[str, Any]:
+    return _template_info_from_template(get_template(name, template_dir))
+
+
+def template_info_markdown(name: str, template_dir: str | Path | None = None) -> str:
+    info=template_info(name, template_dir)
+    lines=[f"# Template: {info['name']}", ""]
+    rows=[
+        ("description", info.get("description") or "-"),
+        ("document_type", info.get("document_type") or "-"),
+        ("language", info.get("language") or "-"),
+        ("source_path", info.get("source_path") or "-"),
+        ("schema", info.get("schema") or "-"),
+        ("default_export_config", info.get("default_export_config") or "-"),
+        ("default_latex_build_config", info.get("default_latex_build_config") or "-"),
+        ("strict_schema", str(info.get("strict_schema"))),
+        ("manifest_path", info.get("manifest_path") or "-"),
+        ("manifest_version", info.get("manifest_version") or "-"),
+    ]
+    lines.append("| Field | Value |")
+    lines.append("|---|---|")
+    for key,value in rows:
+        escaped=str(value).replace("|", "\\|")
+        lines.append(f"| `{key}` | `{escaped}` |")
+    lines.append("")
+    lines.append("## Typical commands")
+    lines.append("")
+    lines.append("```bash")
+    lines.append(f"python3 -S -m sldl_compiler.cli template check {info['name']}")
+    lines.append(f"python3 -S -m sldl_compiler.cli template project {info['name']} --document-output examples/generated_from_template.sldl -o examples/generated_from_template_project.json --force")
+    lines.append("```")
+    return "\n".join(lines)+"\n"
 
 def _iter_template_items(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     raw=manifest.get("templates", [])
@@ -107,6 +160,8 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
             default_export_config=_resolve_optional(manifest_base, item.get("default_export_config")),
             default_latex_build_config=_resolve_optional(manifest_base, item.get("default_latex_build_config")),
             strict_schema=bool(item.get("strict_schema", False)),
+            manifest_path=manifest_base/"template_manifest.json" if((manifest_base/"template_manifest.json").exists()) else (_manifest_path(directory)),
+            manifest_version=manifest.get("version") if(isinstance(manifest.get("version"), str)) else None,
         )
     return result
 
@@ -124,6 +179,8 @@ def list_templates(template_dir: str | Path | None = None) -> list[dict[str, Any
             "default_export_config": t.default_export_config or "",
             "default_latex_build_config": t.default_latex_build_config or "",
             "strict_schema": t.strict_schema,
+            "manifest_path": str(t.manifest_path) if(t.manifest_path is not None) else "",
+            "manifest_version": t.manifest_version or "",
         }
         for t in templates.values()
     ]
@@ -169,6 +226,8 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 language=candidate.get("language"),
                 schema=str(path.resolve()),
                 strict_schema=strict_schema,
+                manifest_path=None,
+                manifest_version=None,
             )
         if(template_file or inline_template):
             template_path=(path.parent/(template_file or inline_template)).resolve()
@@ -183,6 +242,8 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 language=candidate.get("language"),
                 schema=str(path.resolve()),
                 strict_schema=strict_schema,
+                manifest_path=None,
+                manifest_version=None,
             )
 
         template_name=candidate.get("template_name")

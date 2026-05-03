@@ -12,8 +12,8 @@ from sldl_compiler.templates import get_template, list_templates
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v102():
-    assert __version__=="1.0.2"
+def test_version_metadata_v103():
+    assert __version__=="1.0.3"
 
 
 def test_template_manifest_is_schema_bound():
@@ -31,6 +31,8 @@ def test_template_manifest_is_schema_bound():
 def test_template_explain_outputs_binding():
     assert main(["template", "explain", "research_report_en", "--template-dir", str(ROOT/"templates")])==0
     assert main(["template", "explain", "research_report_en", "--template-dir", str(ROOT/"templates"), "--json"])==0
+    assert main(["template", "explain", "research_report_en", "--template-dir", str(ROOT/"templates"), "--format", "json"])==0
+    assert main(["template", "explain", "research_report_en", "--template-dir", str(ROOT/"templates"), "--format", "markdown"])==0
 
 
 def test_template_check_uses_bound_schema():
@@ -66,12 +68,32 @@ def test_template_project_inherits_manifest_defaults(tmp_path):
         "--build-dir", str(tmp_path/"build"),
     ])==0
     project=json.loads(project_path.read_text(encoding="utf-8"))
-    assert project["version"]=="1.0.2"
+    assert project["version"]=="1.0.3"
     assert project["schemas"]
     assert project["export_config"].endswith("examples/export_labels_en.json")
     assert project["latex_build_config"].endswith("examples/latex_build_platex_dvipdfmx_dry_run.json")
     assert project["documents"][0]["template"]=="research_report_en"
     assert main(["project", "check", str(project_path), "--warnings-as-errors"])==0
+
+
+def test_template_project_build_manifest_records_template_metadata(tmp_path):
+    project_path=tmp_path/"generated_project.json"
+    document_path=tmp_path/"generated_report.sldl"
+    build_dir=tmp_path/"build"
+    assert main([
+        "template", "project", "research_report_en",
+        "--template-dir", str(ROOT/"templates"),
+        "-o", str(project_path),
+        "--document-output", str(document_path),
+        "--formats", "markdown",
+        "--build-dir", str(build_dir),
+    ])==0
+    assert main(["project", "build", str(project_path)])==0
+    manifest=json.loads((build_dir/"sldl_build_manifest.json").read_text(encoding="utf-8"))
+    template_info=manifest["documents"][0].get("template")
+    assert template_info["name"]=="research_report_en"
+    assert template_info["declared_document_type"]=="ResearchReport"
+    assert main(["quality", "manifest", str(build_dir/"sldl_build_manifest.json")])==0
 
 
 def test_project_document_type_mismatch_negative_example_fails():
@@ -99,6 +121,11 @@ def test_template_manifest_rejects_unknown_document_type(tmp_path):
     }, ensure_ascii=False), encoding="utf-8")
     diagnostics=check_config_file(manifest)
     assert any(d.code=="E_TEMPLATE_SCHEMA_DOCUMENT_TYPE" for d in diagnostics)
+
+
+def test_template_manifest_compatibility_copy_is_checked():
+    diagnostics=check_config_file(ROOT/"templates"/"manifest.json")
+    assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]
 
 
 def test_release_check_expected_failure_command_support(tmp_path):

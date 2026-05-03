@@ -66,3 +66,7 @@ python3 -S -m sldl_compiler.cli project check \
 ## Release check integration
 
 `examples/release_check.json` checks template manifests, positive template commands, generated projects, and the intentional negative example. v1.0.2 adds expected-failure release commands so invalid examples can be kept in the repository without breaking the release check.
+
+## v1.0.3 manifest compatibility and explain formats
+
+v1.0.3 adds compatibility validation between `templates/template_manifest.json` and `templates/manifest.json`. It also adds explicit `text`, `markdown`, and `json` output modes to `template explain`. Project builds preserve template metadata in the build manifest when a document entry contains template provenance fields.

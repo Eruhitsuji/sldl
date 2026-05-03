@@ -83,3 +83,7 @@ Canonical example: `examples/golden_snapshot.json`.
 ```
 
 When `strict_schema` is true, warnings found while checking a generated template are treated as errors by `template check`, `template new`, and `template project`.
+
+## `sldl.template_manifest` compatibility checks in v1.0.3
+
+v1.0.3 keeps `templates/template_manifest.json` as the canonical manifest and `templates/manifest.json` as a compatibility copy. Config checks verify that the two files declare the same template names, paths, document types, and schema bindings. The checker also warns when a `*.sldl` file in the template directory is not listed by the manifest.

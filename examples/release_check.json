@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.2 stable bilingual release check with template binding diagnostics.",
-  "version": "1.0.2",
+  "description": "SLDL v1.0.3 stable bilingual release check with template manifest compatibility and explain-format diagnostics.",
+  "version": "1.0.3",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -66,7 +66,9 @@
     "docs/ja/v1_0_1_release_notes.md",
     "docs/v1_0_2_release_notes.md",
     "docs/ja/v1_0_2_release_notes.md",
-    "examples/template_schema_binding_failure_project.json"
+    "examples/template_schema_binding_failure_project.json",
+    "docs/v1_0_3_release_notes.md",
+    "docs/ja/v1_0_3_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -96,7 +98,8 @@
     "examples/release_check.json",
     "examples/golden_snapshot.json",
     "templates/template_manifest.json",
-    "examples/template_schema_binding_failure_project.json"
+    "examples/template_schema_binding_failure_project.json",
+    "templates/manifest.json"
   ],
   "commands": [
     {
@@ -112,6 +115,26 @@
         "template",
         "explain",
         "research_report_en"
+      ]
+    },
+    {
+      "name": "template-explain-research-report-en-markdown",
+      "args": [
+        "template",
+        "explain",
+        "research_report_en",
+        "--format",
+        "markdown"
+      ]
+    },
+    {
+      "name": "template-explain-research-report-en-json",
+      "args": [
+        "template",
+        "explain",
+        "research_report_en",
+        "--format",
+        "json"
       ]
     },
     {
