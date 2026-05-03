@@ -1,6 +1,6 @@
 # SLDL official examples
 
-This directory contains the v1.0.0 official bilingual example set for v1.0 public release.
+This directory contains the v1.0.2 official bilingual example set for v1.0 public release.
 
 ## Source examples
 
@@ -19,6 +19,8 @@ This directory contains the v1.0.0 official bilingual example set for v1.0 publi
 - `latex_build_platex_dvipdfmx.json`: real pLaTeX + dvipdfmx build configuration.
 - `release_check.json`: release-quality check target.
 - `golden_snapshot.json`: SHA-256 snapshot for generated official outputs.
+- `template_schema_binding_project.json`: generated schema-bound template project example.
+- `template_schema_binding_failure_project.json`: intentional negative example for document-type mismatch diagnostics.
 
 ## Build
 
@@ -26,4 +28,4 @@ This directory contains the v1.0.0 official bilingual example set for v1.0 publi
 python3 -S -m sldl_compiler.cli project build examples/project_official_examples.json
 ```
 
-Legacy `v0*` examples and generated-output archives are intentionally removed from this tree. The v1.0 release should be distributed with this curated example set rather than historical development samples.
+The negative example is checked through an expected-failure release command. Legacy `v0*` examples and generated-output archives are intentionally removed from this tree. The v1.0 release should be distributed with this curated example set rather than historical development samples.

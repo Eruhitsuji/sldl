@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.1 stable bilingual release check with template-schema binding.",
-  "version": "1.0.1",
+  "description": "SLDL v1.0.2 stable bilingual release check with template binding diagnostics.",
+  "version": "1.0.2",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -63,7 +63,10 @@
     "examples/template_schema_binding_project.json",
     "examples/template_schema_binding_report.sldl",
     "docs/v1_0_1_release_notes.md",
-    "docs/ja/v1_0_1_release_notes.md"
+    "docs/ja/v1_0_1_release_notes.md",
+    "docs/v1_0_2_release_notes.md",
+    "docs/ja/v1_0_2_release_notes.md",
+    "examples/template_schema_binding_failure_project.json"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -92,7 +95,8 @@
     "examples/project_official_examples.json",
     "examples/release_check.json",
     "examples/golden_snapshot.json",
-    "templates/template_manifest.json"
+    "templates/template_manifest.json",
+    "examples/template_schema_binding_failure_project.json"
   ],
   "commands": [
     {
@@ -101,6 +105,23 @@
         "template",
         "list"
       ]
+    },
+    {
+      "name": "template-explain-research-report-en",
+      "args": [
+        "template",
+        "explain",
+        "research_report_en"
+      ]
+    },
+    {
+      "name": "project-check-template-binding-negative-example",
+      "args": [
+        "project",
+        "check",
+        "examples/template_schema_binding_failure_project.json"
+      ],
+      "expect_failure": true
     },
     {
       "name": "schema-check",

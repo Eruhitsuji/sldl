@@ -11,7 +11,7 @@ python3 -S -m sldl_compiler.cli quality release --targets examples/release_check
 
 英語版の完全な一覧は `docs/commands_reference.md` を参照してください。
 
-## template-schema binding commands (v1.0.1)
+## template-schema binding commands (v1.0.2)
 
 manifestで紐づけられたschemaに対してテンプレートを検査します。
 
@@ -32,4 +32,19 @@ python3 -S -m sldl_compiler.cli template new research_report_en \
 python3 -S -m sldl_compiler.cli template project research_report_en \
   -o examples/my_report_project.json \
   --document-output examples/my_report.sldl
+```
+
+
+## Template-schema binding commands (v1.0.2)
+
+テンプレートの紐づけ情報を確認します。
+
+```bash
+python3 -S -m sldl_compiler.cli template explain research_report_en
+```
+
+manifestに紐づいたschemaでテンプレートを検査します。
+
+```bash
+python3 -S -m sldl_compiler.cli template check research_report_en
 ```

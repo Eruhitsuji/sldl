@@ -13,7 +13,7 @@ SLDLの設定JSONは `config_type` を持つJSONオブジェクトです。
 
 公式例は `examples/project_official_examples.json` と `examples/sldl_schema.json` を参照してください。
 
-## v1.0.1の`sldl.template_manifest`追加項目
+## v1.0.2の`sldl.template_manifest`追加項目
 
 `templates/template_manifest.json` では、各テンプレートにschemaや関連configを紐づけられます。
 

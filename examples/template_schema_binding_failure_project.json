@@ -1,0 +1,20 @@
+{
+  "config_type": "sldl.project",
+  "description": "Negative example for v1.0.2: project metadata intentionally expects ResearchReport while the input declares ProjectOverview.",
+  "version": "1.0.2",
+  "schemas": ["sldl_schema.json"],
+  "documents": [
+    {
+      "name": "wrong_document_type_example",
+      "input": "official_project_overview_en.sldl",
+      "template": "research_report_en",
+      "document_type": "ResearchReport",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/template_schema_binding_failure/wrong_document_type_example.md"
+        }
+      ]
+    }
+  ]
+}

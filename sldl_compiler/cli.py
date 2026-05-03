@@ -24,6 +24,7 @@ from .semantic import install_schema_semantics, check_semantics
 from .bibtex_importer import attach_bibtex_references, parse_bibtex, bibtex_to_sldl_fragment, reference_id_from_bibkey
 from .config_tools import SUPPORTED_CONFIG_TYPES, check_config_file, config_summary, explain_config_file, explain_config_type, init_config_data
 from .quality import check_snapshot, make_snapshot, run_release_check, validate_build_manifest
+from .diagnostics import Diagnostic
 
 try:
     from .schemas import load_schema_registry, check_with_schema
@@ -298,11 +299,21 @@ def _strict_for_template(args, tmpl) -> bool:
     return bool(getattr(args, "strict_schema", False) or getattr(tmpl, "strict_schema", False))
 
 
-def _check_template_path(path: Path, schema_path: str | None, strict_schema: bool, label: str) -> bool:
+def _append_document_type_mismatch(doc, expected_type: str | None, context: str) -> None:
+    if(expected_type and doc.type_name and doc.type_name!=expected_type):
+        doc.diagnostics.append(Diagnostic(
+            "error",
+            "E_TEMPLATE_DOCUMENT_TYPE_MISMATCH",
+            f"{context} expects document_type {expected_type}, but the document declares {doc.type_name}"
+        ))
+
+
+def _check_template_path(path: Path, schema_path: str | None, strict_schema: bool, label: str, expected_document_type: str | None = None) -> bool:
     if(not schema_path):
         print(f"OK: {label} (no schema bound)")
         return True
     doc,source=load_and_analyze(path, schema_path)
+    _append_document_type_mismatch(doc, expected_document_type, f"Template {label}")
     if(doc.diagnostics):
         print_diagnostics(doc, source, path, True)
     print_warning_policy_note(doc, strict_schema)
@@ -314,12 +325,12 @@ def _check_template_path(path: Path, schema_path: str | None, strict_schema: boo
 
 def _check_template_content(tmpl, schema_path: str | None, strict_schema: bool) -> bool:
     if(tmpl.source_path is not None):
-        return _check_template_path(tmpl.source_path, schema_path, strict_schema, tmpl.name)
+        return _check_template_path(tmpl.source_path, schema_path, strict_schema, tmpl.name, tmpl.document_type)
     with tempfile.NamedTemporaryFile("w", suffix=".sldl", encoding="utf-8", delete=False) as tmp:
         tmp.write(tmpl.content)
         tmp_path=Path(tmp.name)
     try:
-        return _check_template_path(tmp_path, schema_path, strict_schema, tmpl.name)
+        return _check_template_path(tmp_path, schema_path, strict_schema, tmpl.name, tmpl.document_type)
     finally:
         try:
             tmp_path.unlink()
@@ -333,6 +344,36 @@ def command_template(args) -> int:
             schema=item.get("schema", "")
             strict="strict" if(item.get("strict_schema")) else ""
             print(f"{item['name']}\t{item['description']}\t{item['document_type']}\t{item['language']}\t{schema}\t{strict}")
+        return 0
+    if(args.template_command=="explain"):
+        try:
+            tmpl=get_template(args.name, args.template_dir)
+            info={
+                "name": tmpl.name,
+                "description": tmpl.description,
+                "document_type": tmpl.document_type,
+                "language": tmpl.language,
+                "source_path": str(tmpl.source_path) if(tmpl.source_path is not None) else None,
+                "schema": tmpl.schema,
+                "default_export_config": tmpl.default_export_config,
+                "default_latex_build_config": tmpl.default_latex_build_config,
+                "strict_schema": tmpl.strict_schema,
+            }
+        except (KeyError, FileNotFoundError) as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        if(args.json):
+            print(json.dumps(info, ensure_ascii=False, indent=2))
+        else:
+            print(f"# Template: {info['name']}")
+            print(f"description: {info['description']}")
+            print(f"document_type: {info['document_type'] or '-'}")
+            print(f"language: {info['language'] or '-'}")
+            print(f"source_path: {info['source_path'] or '-'}")
+            print(f"schema: {info['schema'] or '-'}")
+            print(f"default_export_config: {info['default_export_config'] or '-'}")
+            print(f"default_latex_build_config: {info['default_latex_build_config'] or '-'}")
+            print(f"strict_schema: {info['strict_schema']}")
         return 0
     if(args.template_command=="check"):
         try:
@@ -366,7 +407,7 @@ def command_template(args) -> int:
                 return 1
             out_path.write_text(output, encoding="utf-8")
             print(f"Created: {out_path}")
-            if(not _check_template_path(out_path, schema_path, strict_schema, str(out_path))):
+            if(not _check_template_path(out_path, schema_path, strict_schema, str(out_path), tmpl.document_type)):
                 return 1
         else:
             if(schema_path and not _check_template_content(tmpl, schema_path, strict_schema)):
@@ -453,8 +494,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.1 project generated from template: {tmpl.name}",
-        "version": "1.0.1",
+        "description": f"SLDL v1.0.2 project generated from template: {tmpl.name}",
+        "version": "1.0.2",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -601,6 +642,13 @@ def command_project(args) -> int:
         schema_paths=_project_schema_paths(base_dir, config, doc_cfg)
         warnings_as_errors=bool(project_warnings_as_errors or doc_cfg.get("warnings_as_errors", False))
         doc,source=load_and_analyze(input_path, schema_paths)
+        expected_doc_type=doc_cfg.get("document_type")
+        if(isinstance(expected_doc_type, str) and expected_doc_type and doc.type_name!=expected_doc_type):
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_PROJECT_DOCUMENT_TYPE_MISMATCH",
+                f"Project document expects document_type {expected_doc_type}, but {input_path} declares {doc.type_name}"
+            ))
         if(doc.diagnostics):
             print_diagnostics(doc, source, input_path, not args.no_source_context)
         print_warning_policy_note(doc, warnings_as_errors)
@@ -896,7 +944,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.1 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.2 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -946,6 +994,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_format=sub.add_parser("format", help="format SLDL file"); p_format.add_argument("input"); p_format.add_argument("-o","--output"); p_format.add_argument("--in-place", action="store_true"); p_format.add_argument("--check", action="store_true"); p_format.add_argument("--indent", type=int, default=4); p_format.set_defaults(func=command_format)
     p_template=sub.add_parser("template", help="work with file-based templates"); template_sub=p_template.add_subparsers(dest="template_command", required=True)
     p_template_list=template_sub.add_parser("list", help="list templates"); p_template_list.add_argument("--template-dir"); p_template_list.set_defaults(func=command_template)
+    p_template_explain=template_sub.add_parser("explain", help="explain a template and its bound configuration files"); p_template_explain.add_argument("name", help="template name"); p_template_explain.add_argument("--template-dir"); p_template_explain.add_argument("--json", action="store_true"); p_template_explain.set_defaults(func=command_template)
     p_template_check=template_sub.add_parser("check", help="check a template against its bound schema"); p_template_check.add_argument("name", help="template name"); p_template_check.add_argument("--template-dir"); p_template_check.add_argument("--schema", help="schema override; requires --allow-schema-override when the template already binds a schema"); p_template_check.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors"); p_template_check.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_check.set_defaults(func=command_template)
     p_template_new=template_sub.add_parser("new", help="create a new file from a template"); p_template_new.add_argument("name", nargs="?"); p_template_new.add_argument("-o","--output"); p_template_new.add_argument("--force", action="store_true"); p_template_new.add_argument("--template-dir"); p_template_new.add_argument("--schema", help="create from schema when name is omitted, or override a named template schema when allowed"); p_template_new.add_argument("--document-type", help="document_types.<TypeName> to use when a schema contains multiple document types"); p_template_new.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors during generation check"); p_template_new.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_new.set_defaults(func=command_template)
     p_template_project=template_sub.add_parser("project", help="create a document and project JSON from a template")

@@ -1,0 +1,50 @@
+{
+  "config_type": "sldl.project",
+  "description": "SLDL v1.0.2 project generated from template: research_report_en",
+  "version": "1.0.2",
+  "output_dir": "../build/template_schema_binding",
+  "citation_style": "author-year",
+  "toc": true,
+  "mermaid_mode": "placeholder",
+  "latex": {
+    "profile": "platex-jreport",
+    "geometry": "margin=25mm",
+    "hyperref": true,
+    "top_level": "chapter",
+    "code_font_size": "small",
+    "mermaid_mode": "placeholder"
+  },
+  "documents": [
+    {
+      "name": "template_schema_binding_report",
+      "input": "template_schema_binding_report.sldl",
+      "template": "research_report_en",
+      "document_type": "ResearchReport",
+      "outputs": [
+        {
+          "format": "markdown",
+          "path": "../build/template_schema_binding/template_schema_binding_report.md"
+        },
+        {
+          "format": "html",
+          "path": "../build/template_schema_binding/template_schema_binding_report.html"
+        },
+        {
+          "format": "latex",
+          "path": "../build/template_schema_binding/template_schema_binding_report.tex"
+        },
+        {
+          "format": "pdf",
+          "path": "../build/template_schema_binding/template_schema_binding_report.pdf",
+          "tex_path": "../build/template_schema_binding/template_schema_binding_report_pdf.tex"
+        }
+      ]
+    }
+  ],
+  "write_manifest": "../build/template_schema_binding/sldl_build_manifest.json",
+  "schemas": [
+    "sldl_schema.json"
+  ],
+  "export_config": "export_labels_en.json",
+  "latex_build_config": "latex_build_platex_dvipdfmx_dry_run.json"
+}

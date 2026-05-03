@@ -293,10 +293,11 @@ def _run_cli_command_check(manifest: dict[str, Any], base: Path, command: Any, w
         return
     if(warnings_as_errors and "--warnings-as-errors" not in args and args and args[0] in {"check", "project", "schema", "config"}):
         args=args+["--warnings-as-errors"]
-    _run_cli_args_check(manifest, base, name, args)
+    expect_failure=bool(command.get("expect_failure", False))
+    _run_cli_args_check(manifest, base, name, args, expect_failure=expect_failure)
 
 
-def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: list[str]) -> None:
+def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: list[str], expect_failure: bool = False) -> None:
     old_cwd=Path.cwd()
     stdout_text=""
     stderr_text=""
@@ -322,11 +323,17 @@ def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: l
             stderr_file.seek(0)
             stdout_text=stdout_file.read()
             stderr_text=stderr_file.read()
-        ok=returncode==0
-        diagnostics=[] if(ok) else [Diagnostic("error", "E_RELEASE_COMMAND_FAILED", f"command failed with exit code {returncode}: {' '.join(args)}")]
+        ok=(returncode!=0) if(expect_failure) else (returncode==0)
+        if(ok):
+            diagnostics=[]
+        elif(expect_failure):
+            diagnostics=[Diagnostic("error", "E_RELEASE_COMMAND_UNEXPECTED_SUCCESS", f"command was expected to fail but succeeded: {' '.join(args)}")]
+        else:
+            diagnostics=[Diagnostic("error", "E_RELEASE_COMMAND_FAILED", f"command failed with exit code {returncode}: {' '.join(args)}")]
         _add_check(manifest, "command", name, ok, diagnostics, extra={
             "args": args,
             "returncode": returncode,
+            "expect_failure": expect_failure,
             "stdout_tail": _tail(stdout_text),
             "stderr_tail": _tail(stderr_text),
         })

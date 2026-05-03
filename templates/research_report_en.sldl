@@ -1,0 +1,41 @@
+document "research_report_en" : ResearchReport {
+    meta {
+        title: "Bilingual SLDL research report example"@en;
+        author: "SLDL Project"@en;
+        date: Date("2026-05-02");
+        lang: "en-US";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+    }
+
+    section intro : Section {
+        title: "Objective"@en;
+        paragraph { text: "This report is an English canonical example for the v1.0 public release tree. It demonstrates a compact research-report structure with a claim, evidence, table, flowchart, and conclusion."@en; }
+        claim c_goal : Claim { text: "SLDL can describe both document structure and logical support in one source file."@en; evidence: [e_manifest]; strength: asserted; }
+        evidence e_manifest : Evidence { text: "The project build manifest records output paths, diagnostics, and generated artifacts."@en; source: ref_sldl; }
+    }
+
+    section workflow : Section {
+        title: "Workflow"@en;
+        paragraph { text: "The standard flow is to check the schema and project, build outputs, and verify the generated manifest and golden snapshot."@en; xrefs: [fig_workflow]; }
+        flowchart fig_workflow : Flowchart { caption: "Research report workflow"@en; direction: "LR"; nodes: { source: "SLDL"; check: "Check"; build: "Build"; release: "Release"; }; edges: [["source", "check", "schema"], ["check", "build", "project"], ["build", "release", "quality"]]; }
+    }
+
+    section result : Section {
+        title: "Checks"@en;
+        table t_checks : Table { caption: "Checks used by the example"@en; columns: [{ name: "item"; type: Text; }, { name: "status"; type: Text; }]; rows: [["syntax", "checked"], ["config", "checked"], ["project", "checked"], ["snapshot", "checked"]]; }
+        paragraph { text: "The release checks syntax, configuration, project output, manifest structure, and snapshot consistency."@en; source: t_checks; supports: c_goal; }
+    }
+
+    section conclusion : Section {
+        title: "Conclusion"@en;
+        conclusion con_main : Conclusion { text: "The English sample is suitable as one part of the v1.0 official example set."@en; based_on: [c_goal, e_manifest]; }
+    }
+
+    section references : Section {
+        title: "References"@en;
+        reference ref_sldl : Article { bibkey: "sldl2026"; author: "SLDL Project"@en; title: "Structured Logical Document Language"@en; year: 2026; journal: "Project Documentation"@en; }
+    }
+}

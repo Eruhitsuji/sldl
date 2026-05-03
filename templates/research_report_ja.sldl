@@ -1,0 +1,41 @@
+document "research_report_ja" : JapaneseResearchReport {
+    meta {
+        title: "二言語SLDL研究報告書サンプル"@ja;
+        author: "SLDL Project"@en;
+        date: Date("2026-05-02");
+        lang: "ja-JP";
+        version: "1.0.0";
+        toc: true;
+        latex_profile: "platex-jreport";
+        latex_top_level: "chapter";
+    }
+
+    section intro : Section {
+        title: "目的"@ja;
+        paragraph { text: "この報告書は、v1.0準備ツリー向けの日本語公式サンプルである。主張、根拠、表、フローチャート、結論を含む短い研究報告書構造を示す。"@ja; }
+        claim c_goal : Claim { text: "SLDLは、文書構造と論理的な根拠関係を1つのソースファイルで記述できる。"@ja; evidence: [e_manifest]; strength: asserted; }
+        evidence e_manifest : Evidence { text: "project build manifestには、出力先、診断結果、生成物が記録される。"@ja; source: ref_sldl; }
+    }
+
+    section workflow : Section {
+        title: "ワークフロー"@ja;
+        paragraph { text: "標準的な流れは、schemaとprojectを検査し、出力を生成し、生成されたmanifestとgolden snapshotを検証することである。"@ja; xrefs: [fig_workflow]; }
+        flowchart fig_workflow : Flowchart { caption: "研究報告書のワークフロー"@ja; direction: "LR"; nodes: { source: "SLDL"; check: "Check"; build: "Build"; release: "Release"; }; edges: [["source", "check", "schema"], ["check", "build", "project"], ["build", "release", "quality"]]; }
+    }
+
+    section result : Section {
+        title: "確認項目"@ja;
+        table t_checks : Table { caption: "サンプルで用いる確認項目"@ja; columns: [{ name: "item"; type: Text; }, { name: "status"; type: Text; }]; rows: [["syntax", "checked"], ["config", "checked"], ["project", "checked"], ["snapshot", "checked"]]; }
+        paragraph { text: "正式版候補では、構文、設定、project出力、manifest構造、snapshot整合性を検査する。"@ja; source: t_checks; supports: c_goal; }
+    }
+
+    section conclusion : Section {
+        title: "結論"@ja;
+        conclusion con_main : Conclusion { text: "日本語サンプルは、v1.0公式サンプルセットの一部として利用できる。"@ja; based_on: [c_goal, e_manifest]; }
+    }
+
+    section references : Section {
+        title: "参考文献"@ja;
+        reference ref_sldl : Article { bibkey: "sldl2026"; author: "SLDL Project"@en; title: "Structured Logical Document Language"@en; year: 2026; journal: "Project Documentation"@en; }
+    }
+}

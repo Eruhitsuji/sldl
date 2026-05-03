@@ -65,7 +65,7 @@ Records SHA-256 hashes and file sizes for generated golden outputs.
 
 Canonical example: `examples/golden_snapshot.json`.
 
-## `sldl.template_manifest` additions in v1.0.1
+## `sldl.template_manifest` additions in v1.0.2
 
 `templates/template_manifest.json` may bind each template to supporting config files:
 

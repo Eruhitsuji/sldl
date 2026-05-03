@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 - template binding diagnostics update
+
+- Added `template explain <name>` for inspecting template-schema/export/LaTeX bindings.
+- Strengthened `sldl.template_manifest` validation for bound config types and schema-defined document types.
+- Added template and project document-type mismatch diagnostics.
+- Added `expect_failure` support for release-check commands.
+- Added `examples/template_schema_binding_failure_project.json` as an intentional negative example.
+- Updated README and template-schema binding documentation for the v1.0.2 workflow.
+
 ## 1.0.1 - template-schema binding stability update
 
 - Added `templates/template_manifest.json` as the canonical bundled template manifest.

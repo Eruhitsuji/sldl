@@ -48,7 +48,7 @@ SUPPORTED_CONFIG_TYPES={
         "title": "SLDL release check configuration",
         "description": "Declare files, configs, CLI commands, projects, and golden snapshots for release quality checks.",
         "required": ["config_type"],
-        "important": ["version", "base_dir", "required_files", "forbidden_paths", "forbidden_globs", "config_files", "commands", "project_files", "build_project_files", "build_manifest_files", "golden_snapshot", "compileall", "compile_paths"],
+        "important": ["version", "base_dir", "required_files", "forbidden_paths", "forbidden_globs", "config_files", "commands", "commands[].expect_failure", "project_files", "build_project_files", "build_manifest_files", "golden_snapshot", "compileall", "compile_paths"],
     },
     "sldl.release_manifest": {
         "title": "SLDL release quality manifest",
@@ -335,7 +335,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "templates": [
                 {
                     "name": "sample",
@@ -367,7 +367,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
             "required_files": ["README.md", "CHANGELOG.md"],
             "forbidden_globs": ["examples/v0*", "docs/sldl_v0_*", "docs/v0_*", "tests/test_v0*.py"],
             "config_files": ["examples/sldl_schema.json", "examples/project_official_examples.json"],
-            "commands": [{"name": "config-list", "args": ["config", "list"]}],
+            "commands": [{"name": "config-list", "args": ["config", "list"]}, {"name": "negative-example", "args": ["project", "check", "examples/invalid_project.json"], "expect_failure": True}],
             "project_files": ["examples/project_official_examples.json"],
             "build_project_files": ["examples/project_official_examples.json"],
             "build_manifest_files": ["build/official_examples/sldl_build_manifest.json"],
@@ -591,12 +591,19 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(not isinstance(templates, list) or not templates):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATES", "templates must be a non-empty list or object"))
         return diagnostics
+    allowed_keys={
+        "name", "description", "document_type", "language", "path", "template_file",
+        "schema", "default_export_config", "default_latex_build_config", "strict_schema"
+    }
     seen=set()
     for i,item in enumerate(templates):
         loc=f"templates[{i}]"
         if(not isinstance(item, dict)):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATE", f"{loc} must be an object"))
             continue
+        for key in item.keys():
+            if(key not in allowed_keys):
+                diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_UNKNOWN_KEY", f"{loc}.{key} is not a known template manifest field"))
         for key in ("name", "description", "document_type", "language"):
             if(not isinstance(item.get(key), str) or not item.get(key)):
                 diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.{key} must be a non-empty string"))
@@ -620,7 +627,42 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
                 _warn_missing_path(base_dir/value, diagnostics, f"{loc}.{key}")
         if("strict_schema" in item and not isinstance(item.get("strict_schema"), bool)):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_STRICT_SCHEMA", f"{loc}.strict_schema must be a boolean"))
+        if(check_paths):
+            _check_template_manifest_bound_file_types(item, base_dir, diagnostics, loc)
     return diagnostics
+
+
+def _check_template_manifest_bound_file_types(item: dict[str, Any], base_dir: Path, diagnostics: list[Diagnostic], loc: str) -> None:
+    expected={
+        "schema": "sldl.schema",
+        "default_export_config": "sldl.export_labels",
+        "default_latex_build_config": "sldl.latex_build",
+    }
+    loaded: dict[str, dict[str, Any]]={}
+    for key,expected_type in expected.items():
+        value=item.get(key)
+        if(not isinstance(value, str) or not value):
+            continue
+        path=base_dir/value
+        if(not path.exists()):
+            continue
+        data,sub_diags=load_config_json(path)
+        if(data is None):
+            for diag in sub_diags:
+                diagnostics.append(Diagnostic(diag.level, diag.code, f"{loc}.{key}: {diag.message}", diag.line, diag.column))
+            continue
+        config_type,inferred_diag=detect_config_type(data)
+        if(inferred_diag and inferred_diag.level=="error"):
+            diagnostics.append(Diagnostic("error", inferred_diag.code, f"{loc}.{key}: {inferred_diag.message}"))
+        if(config_type!=expected_type):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE", f"{loc}.{key} must reference {expected_type}, got {config_type or '-'}"))
+        loaded[key]=data
+    schema_data=loaded.get("schema")
+    document_type=item.get("document_type")
+    if(schema_data is not None and isinstance(document_type, str) and document_type):
+        document_types=schema_data.get("document_types")
+        if(not isinstance(document_types, dict) or document_type not in document_types):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_SCHEMA_DOCUMENT_TYPE", f"{loc}.document_type {document_type} is not defined by the bound schema"))
 
 
 def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:
@@ -669,6 +711,8 @@ def _check_release_check_config(data: dict[str, Any], base_dir: Path, check_path
                     continue
                 if("args" not in command or not _is_string_list(command.get("args"))):
                     diagnostics.append(Diagnostic("error", "E_RELEASE_COMMAND_ARGS", f"commands[{i}].args must be a list of strings"))
+                if("expect_failure" in command and not isinstance(command.get("expect_failure"), bool)):
+                    diagnostics.append(Diagnostic("error", "E_RELEASE_COMMAND_EXPECT_FAILURE", f"commands[{i}].expect_failure must be a boolean"))
     snapshot=data.get("golden_snapshot")
     if(snapshot is not None):
         if(not isinstance(snapshot, str)):

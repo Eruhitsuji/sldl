@@ -52,7 +52,13 @@ python3 -S -m sldl_compiler.cli quality snapshot-check examples/golden_snapshot.
 python3 -S -m sldl_compiler.cli grammar
 ```
 
-## Template-schema binding commands (v1.0.1)
+## Template-schema binding commands (v1.0.2)
+
+Inspect a bundled template binding:
+
+```bash
+python3 -S -m sldl_compiler.cli template explain research_report_en
+```
 
 Check a bundled template against its manifest-bound schema:
 
