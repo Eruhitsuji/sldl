@@ -2,7 +2,7 @@
 
 SLDL (Structured Logical Document Language) is a document source format for research reports, technical documents, and specifications. It keeps the document body, logical support relations, schemas, output settings, and release checks in a repeatable workflow.
 
-English documentation is the primary reference for the v1.0.0 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
+English documentation is the primary reference for the v1.0.1 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
 
 ## Start here
 
@@ -10,7 +10,8 @@ English documentation is the primary reference for the v1.0.0 public release. Ja
 2. Build the official bilingual examples with `examples/project_official_examples.json`.
 3. Check the language syntax in `docs/sldl_language_reference.md`.
 4. Check JSON configuration in `docs/config_reference.md`.
-5. Run release checks using `docs/release_process.md`.
+5. Check schema-bound templates with `docs/template_schema_binding.md`.
+6. Run release checks using `docs/release_process.md`.
 
 ## Official examples
 
@@ -34,5 +35,7 @@ The official example set is under `examples/`:
 - `bilingual_documentation.md`: English-first and Japanese companion documentation policy.
 - `compatibility_policy.md`: v1.x compatibility surface.
 - `v1_0_release_notes.md`: v1.0.0 release notes.
+- `v1_0_1_release_notes.md`: v1.0.1 release notes.
 - `known_limitations.md`: known limitations.
+- `template_schema_binding.md`: v1.0.1 template-schema binding workflow.
 - `release_process.md`: release checklist.

@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata():
-    assert __version__=="1.0.0"
+    assert __version__=="1.0.1"
 
 
 def test_curated_config_files_are_valid():
@@ -23,6 +23,7 @@ def test_curated_config_files_are_valid():
         "examples/sldl_schema.json",
         "examples/project_official_examples.json",
         "examples/release_check.json",
+        "templates/template_manifest.json",
     ]:
         diagnostics=check_config_file(ROOT/rel)
         assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]

@@ -247,6 +247,10 @@ def _check_template_info(schema: dict[str, Any], label: str) -> list[Diagnostic]
         diagnostics.append(Diagnostic("error", "E_SCHEMA_TEMPLATE_NAME", f"{label}.template_name must be a string"))
     if("template_file" in schema and not isinstance(schema["template_file"], str)):
         diagnostics.append(Diagnostic("error", "E_SCHEMA_TEMPLATE_FILE", f"{label}.template_file must be a string path"))
+    if("template_dir" in schema and not isinstance(schema["template_dir"], str)):
+        diagnostics.append(Diagnostic("error", "E_SCHEMA_TEMPLATE_DIR", f"{label}.template_dir must be a string path"))
+    if("strict_schema" in schema and not isinstance(schema["strict_schema"], bool)):
+        diagnostics.append(Diagnostic("error", "E_SCHEMA_TEMPLATE_STRICT", f"{label}.strict_schema must be a boolean"))
     return diagnostics
 
 

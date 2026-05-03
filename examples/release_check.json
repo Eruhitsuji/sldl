@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.0 stable bilingual official examples release check.",
-  "version": "1.0.0",
+  "description": "SLDL v1.0.1 stable bilingual release check with template-schema binding.",
+  "version": "1.0.1",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -50,7 +50,20 @@
     "examples/golden_snapshot.json",
     "sldl_compiler/quality.py",
     "sldl_compiler/cli.py",
-    "tests/test_v1_ready_workflow.py"
+    "tests/test_v1_ready_workflow.py",
+    "templates/template_manifest.json",
+    "templates/manifest.json",
+    "templates/research_report_en.sldl",
+    "templates/research_report_ja.sldl",
+    "templates/project_overview_en.sldl",
+    "templates/project_overview_ja.sldl",
+    "docs/template_schema_binding.md",
+    "docs/ja/template_schema_binding.md",
+    "tests/test_template_schema_binding.py",
+    "examples/template_schema_binding_project.json",
+    "examples/template_schema_binding_report.sldl",
+    "docs/v1_0_1_release_notes.md",
+    "docs/ja/v1_0_1_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -78,7 +91,8 @@
     "examples/sldl_schema.json",
     "examples/project_official_examples.json",
     "examples/release_check.json",
-    "examples/golden_snapshot.json"
+    "examples/golden_snapshot.json",
+    "templates/template_manifest.json"
   ],
   "commands": [
     {
@@ -168,21 +182,74 @@
         "--schema",
         "examples/sldl_schema.json"
       ]
+    },
+    {
+      "name": "config-explain-template-manifest",
+      "args": [
+        "config",
+        "explain",
+        "sldl.template_manifest"
+      ]
+    },
+    {
+      "name": "template-check-research-report-en",
+      "args": [
+        "template",
+        "check",
+        "research_report_en"
+      ]
+    },
+    {
+      "name": "template-check-research-report-ja",
+      "args": [
+        "template",
+        "check",
+        "research_report_ja"
+      ]
+    },
+    {
+      "name": "template-check-minutes",
+      "args": [
+        "template",
+        "check",
+        "minutes"
+      ]
+    },
+    {
+      "name": "template-project-schema-bound",
+      "args": [
+        "template",
+        "project",
+        "research_report_en",
+        "-o",
+        "examples/template_schema_binding_project.json",
+        "--document-output",
+        "examples/template_schema_binding_report.sldl",
+        "--force",
+        "--formats",
+        "markdown,html,latex,pdf",
+        "--build-dir",
+        "../build/template_schema_binding"
+      ]
     }
   ],
   "project_files": [
-    "examples/project_official_examples.json"
+    "examples/project_official_examples.json",
+    "examples/template_schema_binding_project.json"
   ],
   "build_project_files": [
-    "examples/project_official_examples.json"
+    "examples/project_official_examples.json",
+    "examples/template_schema_binding_project.json"
   ],
   "build_manifest_files": [
-    "build/official_examples/sldl_build_manifest.json"
+    "build/official_examples/sldl_build_manifest.json",
+    "build/template_schema_binding/sldl_build_manifest.json"
   ],
   "golden_snapshot": "examples/golden_snapshot.json",
   "compileall": true,
   "compile_paths": [
     "sldl_compiler",
-    "tests/test_v1_ready_workflow.py"
+    "tests/test_v1_ready_workflow.py",
+    "tests/test_template_schema_binding.py"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.schema",
-  "description": "SLDL v1.0.0 bilingual official example schema for the v1.0 public release tree.",
-  "schema_version": "1.0.0",
+  "description": "SLDL v1.0.1 bilingual official schema with template-schema bindings.",
+  "schema_version": "1.0.1",
   "document_types": {
     "ResearchReport": {
       "required_blocks": [
@@ -32,7 +32,18 @@
         "Rebuttal",
         "Chart",
         "Flowchart"
-      ]
+      ],
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "template_name": "research_report_en",
+      "template_dir": "../templates",
+      "strict_schema": true
     },
     "ProjectOverview": {
       "required_blocks": [
@@ -63,7 +74,18 @@
         "Rebuttal",
         "Chart",
         "Flowchart"
-      ]
+      ],
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "template_name": "project_overview_en",
+      "template_dir": "../templates",
+      "strict_schema": true
     },
     "JapaneseResearchReport": {
       "required_blocks": [
@@ -94,7 +116,18 @@
         "Rebuttal",
         "Chart",
         "Flowchart"
-      ]
+      ],
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "template_name": "research_report_ja",
+      "template_dir": "../templates",
+      "strict_schema": true
     },
     "TechnicalSpecification": {
       "required_blocks": [
@@ -125,7 +158,102 @@
         "Rebuttal",
         "Chart",
         "Flowchart"
-      ]
+      ],
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "template_name": "technical_specification",
+      "template_dir": "../templates",
+      "strict_schema": true
+    },
+    "Paper": {
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Reference"
+      ],
+      "template_name": "paper_en",
+      "template_dir": "../templates",
+      "strict_schema": true
+    },
+    "Article": {
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Reference"
+      ],
+      "template_name": "article",
+      "template_dir": "../templates",
+      "strict_schema": true
+    },
+    "Explainer": {
+      "required_meta": [
+        "title",
+        "author"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Definition",
+        "Figure"
+      ],
+      "template_name": "explainer",
+      "template_dir": "../templates",
+      "strict_schema": true
+    },
+    "Minutes": {
+      "required_meta": [
+        "title",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Object",
+        "Table",
+        "Conclusion"
+      ],
+      "template_name": "minutes",
+      "template_dir": "../templates",
+      "strict_schema": true
+    },
+    "JapaneseThesis": {
+      "required_meta": [
+        "title",
+        "author",
+        "date"
+      ],
+      "required_nodes": [
+        "Section"
+      ],
+      "recommended_nodes": [
+        "Claim",
+        "Evidence",
+        "Conclusion",
+        "Reference"
+      ],
+      "template_name": "japanese_thesis",
+      "template_dir": "../templates",
+      "strict_schema": true
     }
   },
   "logic_rules": {
@@ -138,5 +266,13 @@
     "counterargument_support_policy": "warning",
     "evidence_source_policy": "warning",
     "confidence_policy": "warning"
+  },
+  "object_classes": {
+    "Task": {
+      "title": "Text",
+      "assignee": "Ref<Object>|Text",
+      "due": "Date|Text",
+      "status": "Text"
+    }
   }
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1 - template-schema binding stability update
+
+- Added `templates/template_manifest.json` as the canonical bundled template manifest.
+- Added schema-bound template checking with `template check <name>`.
+- Updated `template new` and `template project` so generated files are checked against the template's bound schema.
+- Added manifest fields for `schema`, `default_export_config`, `default_latex_build_config`, and `strict_schema`.
+- Added schema-bound official templates for English/Japanese research reports and project overviews.
+- Updated release checks so bundled templates fail the release if they drift from the declared schema.
+
 ## 1.0.0 - stable bilingual public release
 
 - Promoted the cleaned SLDL tree to the first stable public release.

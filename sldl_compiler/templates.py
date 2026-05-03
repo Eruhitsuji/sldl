@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 import json
 
 
@@ -13,6 +14,10 @@ class Template:
     source_path: Path | None = None
     document_type: str | None = None
     language: str | None = None
+    schema: str | None = None
+    default_export_config: str | None = None
+    default_latex_build_config: str | None = None
+    strict_schema: bool = False
 
 
 def default_template_dir() -> Path:
@@ -25,9 +30,17 @@ def _normalize_template_dir(template_dir: str | Path | None) -> Path:
     return Path(template_dir)
 
 
-def _load_manifest(template_dir: Path) -> dict:
-    manifest_path=template_dir/"manifest.json"
-    if(not manifest_path.exists()):
+def _manifest_path(template_dir: Path) -> Path | None:
+    for name in ("template_manifest.json", "manifest.json"):
+        path=template_dir/name
+        if(path.exists()):
+            return path
+    return None
+
+
+def _load_manifest(template_dir: Path) -> tuple[dict[str, Any], Path]:
+    manifest_path=_manifest_path(template_dir)
+    if(manifest_path is None):
         return {
             "version": "adhoc",
             "templates": [
@@ -38,8 +51,32 @@ def _load_manifest(template_dir: Path) -> dict:
                 }
                 for p in sorted(template_dir.glob("*.sldl"))
             ],
-        }
-    return json.loads(manifest_path.read_text(encoding="utf-8"))
+        }, template_dir
+    return json.loads(manifest_path.read_text(encoding="utf-8")), manifest_path.parent
+
+
+def _iter_template_items(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    raw=manifest.get("templates", [])
+    if(isinstance(raw, dict)):
+        items=[]
+        for name,value in raw.items():
+            if(isinstance(value, dict)):
+                item=dict(value)
+                item.setdefault("name", str(name))
+                items.append(item)
+        return items
+    if(isinstance(raw, list)):
+        return [item for item in raw if(isinstance(item, dict))]
+    return []
+
+
+def _resolve_optional(base_dir: Path, value: Any) -> str | None:
+    if(value is None):
+        return None
+    if(not isinstance(value, str) or not value.strip()):
+        return None
+    path=Path(value)
+    return str(path if(path.is_absolute()) else (base_dir/path).resolve())
 
 
 def load_templates(template_dir: str | Path | None = None) -> dict[str, Template]:
@@ -47,14 +84,16 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
     if(not directory.exists()):
         raise FileNotFoundError(f"Template directory not found: {directory}")
 
-    manifest=_load_manifest(directory)
+    manifest,manifest_base=_load_manifest(directory)
     result: dict[str, Template]={}
-    for item in manifest.get("templates", []):
-        name=item["name"]
-        rel_path=item.get("path")
+    for item in _iter_template_items(manifest):
+        name=item.get("name")
+        if(not isinstance(name, str) or not name):
+            continue
+        rel_path=item.get("path") or item.get("template_file")
         if(not rel_path):
             continue
-        source_path=(directory/rel_path).resolve()
+        source_path=(manifest_base/rel_path).resolve()
         if(not source_path.exists()):
             raise FileNotFoundError(f"Template file not found: {source_path}")
         result[name]=Template(
@@ -64,11 +103,15 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
             source_path=source_path,
             document_type=item.get("document_type"),
             language=item.get("language"),
+            schema=_resolve_optional(manifest_base, item.get("schema")),
+            default_export_config=_resolve_optional(manifest_base, item.get("default_export_config")),
+            default_latex_build_config=_resolve_optional(manifest_base, item.get("default_latex_build_config")),
+            strict_schema=bool(item.get("strict_schema", False)),
         )
     return result
 
 
-def list_templates(template_dir: str | Path | None = None) -> list[dict]:
+def list_templates(template_dir: str | Path | None = None) -> list[dict[str, Any]]:
     templates=load_templates(template_dir)
     return [
         {
@@ -77,6 +120,10 @@ def list_templates(template_dir: str | Path | None = None) -> list[dict]:
             "document_type": t.document_type or "",
             "language": t.language or "",
             "source_path": str(t.source_path) if(t.source_path is not None) else "",
+            "schema": t.schema or "",
+            "default_export_config": t.default_export_config or "",
+            "default_latex_build_config": t.default_latex_build_config or "",
+            "strict_schema": t.strict_schema,
         }
         for t in templates.values()
     ]
@@ -111,6 +158,7 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
     for candidate in candidates:
         inline_template=candidate.get("template")
         template_file=candidate.get("template_file")
+        strict_schema=bool(candidate.get("strict_schema", False))
         if(inline_template is not None and "\n" in str(inline_template)):
             return Template(
                 name=candidate.get("name", candidate.get("document_type", "schema_template")),
@@ -119,6 +167,8 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 source_path=None,
                 document_type=candidate.get("document_type"),
                 language=candidate.get("language"),
+                schema=str(path.resolve()),
+                strict_schema=strict_schema,
             )
         if(template_file or inline_template):
             template_path=(path.parent/(template_file or inline_template)).resolve()
@@ -131,13 +181,18 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 source_path=template_path,
                 document_type=candidate.get("document_type"),
                 language=candidate.get("language"),
+                schema=str(path.resolve()),
+                strict_schema=strict_schema,
             )
 
         template_name=candidate.get("template_name")
         template_dir=candidate.get("template_dir")
         if(template_name):
             base_dir=(path.parent/template_dir).resolve() if(template_dir) else None
-            return get_template(template_name, base_dir)
+            tmpl=get_template(template_name, base_dir)
+            if(tmpl.schema is None):
+                tmpl.schema=str(path.resolve())
+            return tmpl
 
     raise KeyError(
         "Schema does not define a template. "

@@ -1,12 +1,18 @@
 document "new_explainer" : Explainer {
     meta {
         title: "説明資料タイトル"@ja;
+        author: "著者名"@ja;
         date: Date("2026-04-30");
         lang: "ja-JP";
     }
 
     section goal : Goal {
         title: "目的"@ja;
+
+        definition def_topic : Definition {
+            term: "説明対象"@ja;
+            text: "この資料で説明する中心概念。"@ja;
+        }
 
         paragraph {
             text: "この資料の目的。"@ja;
@@ -15,6 +21,12 @@ document "new_explainer" : Explainer {
 
     section steps : Steps {
         title: "手順"@ja;
+
+        figure fig_overview : Figure {
+            src: "figures/overview.png"@en;
+            alt: "概要図"@ja;
+            caption: "概要図"@ja;
+        }
 
         flowchart fl_steps : Flowchart {
             nodes: {

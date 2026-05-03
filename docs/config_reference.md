@@ -64,3 +64,22 @@ Canonical example: `examples/release_check.json`.
 Records SHA-256 hashes and file sizes for generated golden outputs.
 
 Canonical example: `examples/golden_snapshot.json`.
+
+## `sldl.template_manifest` additions in v1.0.1
+
+`templates/template_manifest.json` may bind each template to supporting config files:
+
+```json
+{
+  "name": "research_report_en",
+  "document_type": "ResearchReport",
+  "language": "en-US",
+  "path": "research_report_en.sldl",
+  "schema": "../examples/sldl_schema.json",
+  "default_export_config": "../examples/export_labels_en.json",
+  "default_latex_build_config": "../examples/latex_build_platex_dvipdfmx_dry_run.json",
+  "strict_schema": true
+}
+```
+
+When `strict_schema` is true, warnings found while checking a generated template are treated as errors by `template check`, `template new`, and `template project`.

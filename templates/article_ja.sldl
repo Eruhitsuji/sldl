@@ -24,6 +24,14 @@ document "new_article" : Article {
 
         paragraph {
             text: "本文をここに書く。"@ja;
+            cite: [ref_article];
         }
+    }
+
+    reference ref_article : Article {
+        author: "著者名"@ja;
+        title: "参考資料"@ja;
+        year: 2026;
+        journal: "Example Journal"@en;
     }
 }

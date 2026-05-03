@@ -8,6 +8,8 @@ document "new_minutes" : Minutes {
     object p1 : Person {
         name: "参加者名"@ja;
         role: "司会"@ja;
+        email: "participant@example.com"@en;
+        affiliation: "所属"@ja;
     }
 
     section agenda : Agenda {
@@ -23,7 +25,13 @@ document "new_minutes" : Minutes {
 
         claim c_decision : Claim {
             text: "決定事項または合意事項。"@ja;
+            evidence: [e_decision];
             strength: asserted;
+        }
+
+        evidence e_decision : Evidence {
+            text: "会議中に参加者の合意が確認された。"@ja;
+            source: ref_minutes;
         }
 
         reason r_decision : Reason {
@@ -35,11 +43,29 @@ document "new_minutes" : Minutes {
     section actions : ActionItems {
         title: "アクションアイテム"@ja;
 
+        table t_action_summary : Table {
+            caption: "アクションアイテム一覧"@ja;
+            columns: [{ name: "item"; type: Text; }, { name: "assignee"; type: Text; }];
+            rows: [["実施事項", "参加者名"]];
+        }
+
         object action1 : Task {
             title: "実施事項"@ja;
             assignee: p1;
             due: Date("2026-05-07");
             status: "open";
         }
+
+        conclusion con_action : Conclusion {
+            text: "次回までに担当者がアクションアイテムを進める。"@ja;
+            based_on: [c_decision, e_decision];
+        }
+    }
+
+    reference ref_minutes : Article {
+        author: "会議参加者"@ja;
+        title: "会議記録"@ja;
+        year: 2026;
+        journal: "Meeting Notes"@en;
     }
 }

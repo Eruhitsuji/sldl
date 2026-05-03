@@ -51,3 +51,26 @@ python3 -S -m sldl_compiler.cli quality snapshot-check examples/golden_snapshot.
 ```bash
 python3 -S -m sldl_compiler.cli grammar
 ```
+
+## Template-schema binding commands (v1.0.1)
+
+Check a bundled template against its manifest-bound schema:
+
+```bash
+python3 -S -m sldl_compiler.cli template check research_report_en
+```
+
+Generate a document from a template and immediately check it with the bound schema:
+
+```bash
+python3 -S -m sldl_compiler.cli template new research_report_en \
+  -o examples/my_report.sldl
+```
+
+Generate a document and a project JSON with schema/export/LaTeX defaults inherited from the template manifest:
+
+```bash
+python3 -S -m sldl_compiler.cli template project research_report_en \
+  -o examples/my_report_project.json \
+  --document-output examples/my_report.sldl
+```

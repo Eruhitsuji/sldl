@@ -334,10 +334,20 @@ def init_config_data(config_type: str) -> dict[str, Any]:
     if(config_type=="sldl.template_manifest"):
         return {
             "config_type": "sldl.template_manifest",
-            "description": "SLDL template manifest.",
-            "version": "1.0.0",
+            "description": "SLDL template manifest with schema binding.",
+            "version": "1.0.1",
             "templates": [
-                {"name": "sample", "description": "Sample template", "document_type": "SampleDocument", "language": "ja-JP", "path": "official_project_overview_en.sldl"}
+                {
+                    "name": "sample",
+                    "description": "Sample template",
+                    "document_type": "SampleDocument",
+                    "language": "en-US",
+                    "path": "sample.sldl",
+                    "schema": "../examples/sldl_schema.json",
+                    "default_export_config": "../examples/export_labels_en.json",
+                    "default_latex_build_config": "../examples/latex_build_platex_dvipdfmx_dry_run.json",
+                    "strict_schema": True
+                }
             ]
         }
     if(config_type=="sldl.build_manifest"):
@@ -568,19 +578,48 @@ def _check_command_object(obj: dict[str, Any], diagnostics: list[Diagnostic], pr
 def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: bool) -> list[Diagnostic]:
     diagnostics=[]
     templates=data.get("templates")
+    if(isinstance(templates, dict)):
+        template_items=[]
+        for name,value in templates.items():
+            if(isinstance(value, dict)):
+                item=dict(value)
+                item.setdefault("name", str(name))
+                template_items.append(item)
+            else:
+                diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATE", f"templates.{name} must be an object"))
+        templates=template_items
     if(not isinstance(templates, list) or not templates):
-        diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATES", "templates must be a non-empty list"))
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATES", "templates must be a non-empty list or object"))
         return diagnostics
+    seen=set()
     for i,item in enumerate(templates):
         loc=f"templates[{i}]"
         if(not isinstance(item, dict)):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATE", f"{loc} must be an object"))
             continue
-        for key in ("name", "description", "document_type", "language", "path"):
+        for key in ("name", "description", "document_type", "language"):
             if(not isinstance(item.get(key), str) or not item.get(key)):
                 diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.{key} must be a non-empty string"))
-        if(check_paths and isinstance(item.get("path"), str)):
-            _warn_missing_path(base_dir/item["path"], diagnostics, f"{loc}.path")
+        path_value=item.get("path", item.get("template_file"))
+        if(not isinstance(path_value, str) or not path_value):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.path must be a non-empty string"))
+        elif(check_paths):
+            _warn_missing_path(base_dir/path_value, diagnostics, f"{loc}.path")
+        name=item.get("name")
+        if(isinstance(name, str)):
+            if(name in seen):
+                diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_DUPLICATE", f"duplicate template name: {name}"))
+            seen.add(name)
+        for key in ("schema", "default_export_config", "default_latex_build_config"):
+            value=item.get(key)
+            if(value is None):
+                continue
+            if(not isinstance(value, str) or not value):
+                diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.{key} must be a non-empty string"))
+            elif(check_paths):
+                _warn_missing_path(base_dir/value, diagnostics, f"{loc}.{key}")
+        if("strict_schema" in item and not isinstance(item.get("strict_schema"), bool)):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_STRICT_SCHEMA", f"{loc}.strict_schema must be a boolean"))
     return diagnostics
 
 
