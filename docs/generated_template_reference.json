@@ -1,7 +1,9 @@
 {
   "config_type": "sldl.template_reference",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "language": "en",
+  "source_manifest": "templates/template_manifest.json",
+  "source_manifest_sha256": "213ad3c7412549f7e04172b926067ce3ffdcb7d47dc1881908c88cccf05dd05b",
   "templates": [
     {
       "name": "paper",
@@ -14,7 +16,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -28,7 +30,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -42,7 +44,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -56,7 +58,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -70,7 +72,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -84,7 +86,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -98,7 +100,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -112,7 +114,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -126,7 +128,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -140,7 +142,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -154,7 +156,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     },
     {
@@ -168,7 +170,7 @@
       "default_latex_build_config": "examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true,
       "manifest_path": "templates/template_manifest.json",
-      "manifest_version": "1.0.5",
+      "manifest_version": "1.0.6",
       "manifest_role": "canonical"
     }
   ]

@@ -86,7 +86,7 @@ When `strict_schema` is true, warnings found while checking a generated template
 
 ## `sldl.template_manifest` compatibility checks
 
-v1.0.5 keeps `templates/template_manifest.json` as the canonical manifest and `templates/manifest.json` as a legacy compatibility copy. Config checks verify that the two files declare the same template names, paths, document types, and schema bindings. The checker also warns when a `*.sldl` file in the template directory is not listed by the manifest.
+v1.0.6 keeps `templates/template_manifest.json` as the canonical manifest and `templates/manifest.json` as a legacy compatibility copy. Config checks verify that the two files declare the same template names, paths, document types, and schema bindings. The checker also warns when a `*.sldl` file in the template directory is not listed by the manifest.
 
 ## Template manifest policy fields (v1.0.4)
 

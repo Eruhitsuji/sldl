@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide shows the recommended v1.0.5 workflow. For new documents, start from a schema-bound template, generate a project JSON, then build all outputs through the project command.
+This guide shows the recommended v1.0.6 workflow. For new documents, start from a schema-bound template, generate a project JSON, then build all outputs through the project command.
 
 ## 1. Inspect a template
 
@@ -11,7 +11,7 @@ python3 -S -m sldl_compiler.cli template check research_report_en
 python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
 ```
 
-`template explain` shows the template source file, document type, bound schema, export-label config, LaTeX build config, and strict-schema setting. In v1.0.5 it supports `text`, `markdown`, and `json` output formats. `templates/template_manifest.json` is the canonical manifest; `templates/manifest.json` is kept only as a compatibility copy.
+`template explain` shows the template source file, document type, bound schema, export-label config, LaTeX build config, and strict-schema setting. In v1.0.6 it supports `text`, `markdown`, and `json` output formats. `templates/template_manifest.json` is the canonical manifest; `templates/manifest.json` is kept only as a compatibility copy.
 
 ## 2. Generate a document and project file
 

@@ -91,7 +91,7 @@ python3 -S -m sldl_compiler.cli template explain research_report_en --format jso
 
 The `--json` flag remains as a compatibility alias for `--format json`.
 
-## Template reference generation (v1.0.5)
+## Template reference generation (v1.0.6)
 
 ```bash
 python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
@@ -100,7 +100,7 @@ python3 -S -m sldl_compiler.cli template docs --format json
 
 `template docs` reads the active template manifest and emits a generated reference. In bundled releases, `templates/template_manifest.json` is canonical and `templates/manifest.json` is a legacy compatibility copy.
 
-## Template reference drift check (v1.0.5)
+## Template reference drift check (v1.0.6)
 
 ```bash
 python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md

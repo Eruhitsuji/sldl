@@ -34,7 +34,7 @@ SLDLの設定JSONは `config_type` を持つJSONオブジェクトです。
 
 ## `sldl.template_manifest`互換性検査
 
-v1.0.5では、`templates/template_manifest.json` を正式manifest、`templates/manifest.json` を互換用コピーとして扱います。config checkでは、両者が同じtemplate名、path、document type、schema bindingを宣言しているか確認します。また、templateディレクトリ内の未登録 `*.sldl` ファイルを警告します。
+v1.0.6では、`templates/template_manifest.json` を正式manifest、`templates/manifest.json` を互換用コピーとして扱います。config checkでは、両者が同じtemplate名、path、document type、schema bindingを宣言しているか確認します。また、templateディレクトリ内の未登録 `*.sldl` ファイルを警告します。
 
 ## Template manifest policy fields (v1.0.4)
 

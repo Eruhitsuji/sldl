@@ -1,7 +1,7 @@
 [project]
 name = "sldl-compiler"
-version = "1.0.5"
-description = "SLDL v1.0.5 stable bilingual release with template reference drift checks"
+version = "1.0.6"
+description = "SLDL v1.0.6 stable bilingual release with manifest consistency hardening"
 requires-python = ">=3.10"
 dependencies = []
 

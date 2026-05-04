@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.6 - template/build manifest consistency hardening
+
+- Require template-related SHA-256 metadata in build manifest validation.
+- Validate build manifest template metadata against the referenced canonical template manifest entry.
+- Add source manifest metadata to generated template reference JSON.
+- Strengthen release checks for generated template reference and template-bound build manifests.
+
 ## 1.0.5 - generated template reference consistency update
 
 - Added `template docs --check <path>` for release-checkable drift detection between generated template references and static documentation files.

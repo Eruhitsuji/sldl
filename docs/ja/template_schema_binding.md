@@ -71,7 +71,7 @@ python3 -S -m sldl_compiler.cli project check \
 
 v1.0.3では、`templates/template_manifest.json` と `templates/manifest.json` の互換性検査を追加しました。また、`template explain` は `text`、`markdown`、`json` の出力形式に対応します。project buildでは、document entryにtemplate由来情報がある場合、build manifestにもtemplate情報を記録します。
 
-## v1.0.5の正式manifest方針
+## v1.0.6の正式manifest方針
 
 `templates/template_manifest.json` が正式なmanifestです。`templates/manifest.json` は互換用コピーとして残しますが、主な編集対象にはしません。正式manifestを変更した後は、次のコマンドでtemplate referenceを再生成できます。
 

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.project",
-  "description": "SLDL v1.0.5 project generated from template: research_report_en",
-  "version": "1.0.5",
+  "description": "SLDL v1.0.6 project generated from template: research_report_en",
+  "version": "1.0.6",
   "output_dir": "../build/template_schema_binding",
   "citation_style": "author-year",
   "toc": true,

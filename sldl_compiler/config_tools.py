@@ -152,7 +152,7 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
     elif(config_type=="sldl.template_manifest"):
         diagnostics.extend(_check_template_manifest(data, base_dir, check_paths, path))
     elif(config_type=="sldl.template_reference"):
-        diagnostics.extend(_check_template_reference(data))
+        diagnostics.extend(_check_template_reference(data, base_dir, check_paths))
     elif(config_type=="sldl.build_manifest"):
         diagnostics.extend(_check_build_manifest(data))
     elif(config_type=="sldl.release_check"):
@@ -348,7 +348,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "templates": [
                 {
                     "name": "sample",
@@ -608,7 +608,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.5"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.6"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -731,7 +731,7 @@ def _check_template_manifest_bound_file_types(item: dict[str, Any], base_dir: Pa
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_SCHEMA_DOCUMENT_TYPE", f"{loc}.document_type {document_type} is not defined by the bound schema"))
 
 
-def _check_template_reference(data: dict[str, Any]) -> list[Diagnostic]:
+def _check_template_reference(data: dict[str, Any], base_dir: Path, check_paths: bool) -> list[Diagnostic]:
     diagnostics=[]
     templates=data.get("templates")
     if(not isinstance(templates, list) or not templates):
@@ -750,10 +750,101 @@ def _check_template_reference(data: dict[str, Any]) -> list[Diagnostic]:
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_DUPLICATE", f"duplicate template name: {name}"))
         else:
             seen.add(name)
-        for key in ("document_type", "language", "schema", "manifest_role"):
+        for key in ("document_type", "language", "schema", "manifest_role", "source_path", "manifest_path", "default_export_config", "default_latex_build_config"):
             if(key in item and item.get(key) is not None and not isinstance(item.get(key), str)):
                 diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_FIELD", f"{loc}.{key} must be a string or null"))
+    manifest_value=data.get("source_manifest")
+    if(manifest_value is not None and not isinstance(manifest_value, str)):
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_SOURCE_MANIFEST", "source_manifest must be a string or null"))
+    hash_value=data.get("source_manifest_sha256")
+    if(hash_value is not None and (not isinstance(hash_value, str) or len(hash_value)!=64)):
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_SOURCE_HASH", "source_manifest_sha256 must be a SHA-256 hex string or null"))
+    if(check_paths and isinstance(manifest_value, str) and manifest_value):
+        manifest_path=_resolve_reference_path(base_dir, manifest_value)
+        if(manifest_path is None or not manifest_path.exists()):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_SOURCE_MISSING", f"source_manifest does not exist: {manifest_value}"))
+        else:
+            if(isinstance(hash_value, str) and len(hash_value)==64):
+                import hashlib
+                digest=hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+                if(digest!=hash_value):
+                    diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_SOURCE_HASH_MISMATCH", "source_manifest_sha256 does not match source_manifest"))
+            manifest_data,manifest_diags=load_config_json(manifest_path)
+            for diag in manifest_diags:
+                diagnostics.append(Diagnostic(diag.level, diag.code, f"source_manifest: {diag.message}", diag.line, diag.column))
+            if(isinstance(manifest_data, dict)):
+                expected=_template_reference_signature_from_manifest(manifest_data, manifest_path.parent)
+                actual=_template_reference_signature_from_reference(data, base_dir)
+                if(expected!=actual):
+                    diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_MANIFEST_MISMATCH", "generated template reference does not match source_manifest template metadata"))
     return diagnostics
+
+
+def _resolve_reference_path(base_dir: Path, value: str) -> Path | None:
+    path=Path(value)
+    if(path.is_absolute()):
+        return path
+    candidates=[base_dir/path, Path.cwd()/path, base_dir.parent/path]
+    for candidate in candidates:
+        try:
+            resolved=candidate.resolve()
+        except OSError:
+            resolved=candidate
+        if(resolved.exists()):
+            return resolved
+    return (base_dir/path).resolve()
+
+
+def _normalize_reference_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except Exception:
+        return path.resolve().as_posix()
+
+
+def _template_reference_signature_from_manifest(data: dict[str, Any], manifest_base: Path) -> list[tuple[str, str, str, str, str, str, str]]:
+    templates=data.get("templates")
+    items=[]
+    if(isinstance(templates, dict)):
+        for name,value in templates.items():
+            if(isinstance(value, dict)):
+                item=dict(value)
+                item.setdefault("name", str(name))
+                items.append(item)
+    elif(isinstance(templates, list)):
+        items=[item for item in templates if(isinstance(item, dict))]
+    signature=[]
+    for item in items:
+        path_value=str(item.get("path", item.get("template_file", "")))
+        schema_value=str(item.get("schema", ""))
+        export_value=str(item.get("default_export_config", ""))
+        latex_value=str(item.get("default_latex_build_config", ""))
+        signature.append((
+            str(item.get("name", "")),
+            str(item.get("document_type", "")),
+            str(item.get("language", "")),
+            _normalize_reference_path(manifest_base/path_value) if(path_value) else "",
+            _normalize_reference_path(manifest_base/schema_value) if(schema_value) else "",
+            _normalize_reference_path(manifest_base/export_value) if(export_value) else "",
+            _normalize_reference_path(manifest_base/latex_value) if(latex_value) else "",
+        ))
+    return sorted(signature)
+
+
+def _template_reference_signature_from_reference(data: dict[str, Any], base_dir: Path) -> list[tuple[str, str, str, str, str, str, str]]:
+    items=[item for item in data.get("templates", []) if(isinstance(item, dict))]
+    signature=[]
+    for item in items:
+        signature.append((
+            str(item.get("name", "")),
+            str(item.get("document_type", "")),
+            str(item.get("language", "")),
+            _normalize_reference_path(_resolve_reference_path(base_dir, str(item.get("source_path", ""))) or Path(str(item.get("source_path", "")))) if(item.get("source_path")) else "",
+            _normalize_reference_path(_resolve_reference_path(base_dir, str(item.get("schema", ""))) or Path(str(item.get("schema", "")))) if(item.get("schema")) else "",
+            _normalize_reference_path(_resolve_reference_path(base_dir, str(item.get("default_export_config", ""))) or Path(str(item.get("default_export_config", "")))) if(item.get("default_export_config")) else "",
+            _normalize_reference_path(_resolve_reference_path(base_dir, str(item.get("default_latex_build_config", ""))) or Path(str(item.get("default_latex_build_config", "")))) if(item.get("default_latex_build_config")) else "",
+        ))
+    return sorted(signature)
 
 
 def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:

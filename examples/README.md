@@ -1,6 +1,6 @@
 # SLDL official examples
 
-This directory contains the v1.0.5 official bilingual example set for v1.0 public release.
+This directory contains the v1.0.6 official bilingual example set for v1.0 public release.
 
 ## Source examples
 
@@ -29,3 +29,20 @@ python3 -S -m sldl_compiler.cli project build examples/project_official_examples
 ```
 
 The negative example is checked through an expected-failure release command. Legacy `v0*` examples and generated-output archives are intentionally removed from this tree. The v1.0 release should be distributed with this curated example set rather than historical development samples.
+
+
+## Template workflow example
+
+The recommended v1.0.6 path for new material is to generate a schema-bound project from a template and then build the project.
+
+```bash
+python3 -S -m sldl_compiler.cli template project research_report_en \
+  --document-output examples/template_schema_binding_report.sldl \
+  -o examples/template_schema_binding_project.json \
+  --formats markdown,html,latex,pdf \
+  --build-dir ../build/template_schema_binding \
+  --force
+
+python3 -S -m sldl_compiler.cli project build examples/template_schema_binding_project.json
+python3 -S -m sldl_compiler.cli quality manifest build/template_schema_binding/sldl_build_manifest.json
+```

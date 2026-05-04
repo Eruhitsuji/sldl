@@ -12,8 +12,8 @@ from sldl_compiler.templates import get_template, list_templates
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v105():
-    assert __version__=="1.0.5"
+def test_version_metadata_v106():
+    assert __version__=="1.0.6"
 
 
 def test_template_manifest_is_schema_bound():
@@ -68,7 +68,7 @@ def test_template_project_inherits_manifest_defaults(tmp_path):
         "--build-dir", str(tmp_path/"build"),
     ])==0
     project=json.loads(project_path.read_text(encoding="utf-8"))
-    assert project["version"]=="1.0.5"
+    assert project["version"]=="1.0.6"
     assert project["schemas"]
     assert project["export_config"].endswith("examples/export_labels_en.json")
     assert project["latex_build_config"].endswith("examples/latex_build_platex_dvipdfmx_dry_run.json")
@@ -222,5 +222,57 @@ def test_build_manifest_template_hash_metadata_is_checked(tmp_path):
         assert len(template_info[key])==64
     assert main(["quality", "manifest", str(manifest_path)])==0
     template_info["source_sha256"]="0"*64
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    assert main(["quality", "manifest", str(manifest_path)])==1
+
+
+def test_template_reference_json_is_strictly_tied_to_manifest(tmp_path):
+    reference=tmp_path/"template_reference.json"
+    assert main(["template", "docs", "--template-dir", str(ROOT/"templates"), "--format", "json", "-o", str(reference)])==0
+    diagnostics=check_config_file(reference)
+    assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]
+    data=json.loads(reference.read_text(encoding="utf-8"))
+    data["templates"][0]["document_type"]="WrongDocumentType"
+    reference.write_text(json.dumps(data, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    diagnostics=check_config_file(reference)
+    assert any(d.code=="E_TEMPLATE_REFERENCE_MANIFEST_MISMATCH" for d in diagnostics)
+
+
+def test_build_manifest_requires_all_template_hashes(tmp_path):
+    project_path=tmp_path/"generated_project.json"
+    document_path=tmp_path/"generated_report.sldl"
+    build_dir=tmp_path/"build"
+    assert main([
+        "template", "project", "research_report_en",
+        "--template-dir", str(ROOT/"templates"),
+        "-o", str(project_path),
+        "--document-output", str(document_path),
+        "--formats", "markdown",
+        "--build-dir", str(build_dir),
+    ])==0
+    assert main(["project", "build", str(project_path)])==0
+    manifest_path=build_dir/"sldl_build_manifest.json"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["documents"][0]["template"].pop("schema_sha256")
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    assert main(["quality", "manifest", str(manifest_path)])==1
+
+
+def test_build_manifest_template_metadata_matches_manifest_entry(tmp_path):
+    project_path=tmp_path/"generated_project.json"
+    document_path=tmp_path/"generated_report.sldl"
+    build_dir=tmp_path/"build"
+    assert main([
+        "template", "project", "research_report_en",
+        "--template-dir", str(ROOT/"templates"),
+        "-o", str(project_path),
+        "--document-output", str(document_path),
+        "--formats", "markdown",
+        "--build-dir", str(build_dir),
+    ])==0
+    assert main(["project", "build", str(project_path)])==0
+    manifest_path=build_dir/"sldl_build_manifest.json"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["documents"][0]["template"]["declared_document_type"]="WrongDocumentType"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     assert main(["quality", "manifest", str(manifest_path)])==1

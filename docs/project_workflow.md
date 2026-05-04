@@ -53,6 +53,6 @@ python3 -S -m sldl_compiler.cli quality snapshot \
 ```
 
 
-## v1.0.5 template metadata in build manifests
+## v1.0.6 template metadata in build manifests
 
 When a project is generated with `template project`, each project document records `template`, `template_source`, `template_manifest`, and `template_manifest_role`. During `project build`, these values are copied into `sldl_build_manifest.json`. The release quality gate validates this metadata so template-generated documents remain traceable to the canonical `templates/template_manifest.json`.

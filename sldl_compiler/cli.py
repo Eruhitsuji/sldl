@@ -374,12 +374,30 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
             if(key in copied):
                 copied[key]=_template_reference_display_path(str(copied.get(key) or ""))
         display_items.append(copied)
+    source_manifest=""
+    source_manifest_sha256=None
+    for item in display_items:
+        if(item.get("manifest_role")=="canonical" and item.get("manifest_path")):
+            source_manifest=str(item.get("manifest_path"))
+            break
+    if(not source_manifest and display_items):
+        source_manifest=str(display_items[0].get("manifest_path") or "")
+    if(source_manifest):
+        source_manifest_sha256=_sha256_path(source_manifest)
     if(fmt=="json"):
-        return json.dumps({"config_type":"sldl.template_reference", "version":"1.0.5", "language":language, "templates":display_items}, ensure_ascii=False, indent=2)+"\n"
+        payload={
+            "config_type":"sldl.template_reference",
+            "version":"1.0.6",
+            "language":language,
+            "source_manifest": source_manifest or None,
+            "source_manifest_sha256": source_manifest_sha256,
+            "templates":display_items,
+        }
+        return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.5では、この出力と静的docsの一致をrelease checkで検査できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.6では、この出力と静的docsの一致、および正式template manifestとのmetadata一致をrelease checkで検査できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.5, release checks can verify that this generated output matches the static documentation file.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.6, release checks verify that this generated output matches the static documentation file and the canonical template manifest metadata.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -578,8 +596,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.5 project generated from template: {tmpl.name}",
-        "version": "1.0.5",
+        "description": f"SLDL v1.0.6 project generated from template: {tmpl.name}",
+        "version": "1.0.6",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -1053,7 +1071,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.5 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.6 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)

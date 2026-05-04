@@ -349,6 +349,66 @@ def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: l
 
 
 
+
+def _manifest_template_items(data: dict[str, Any]) -> list[dict[str, Any]]:
+    raw=data.get("templates")
+    if(isinstance(raw, dict)):
+        items=[]
+        for name,value in raw.items():
+            if(isinstance(value, dict)):
+                item=dict(value)
+                item.setdefault("name", str(name))
+                items.append(item)
+        return items
+    if(isinstance(raw, list)):
+        return [item for item in raw if(isinstance(item, dict))]
+    return []
+
+
+def _same_resolved_path(a: Path | None, b: Path | None) -> bool:
+    if(a is None or b is None):
+        return a is b
+    try:
+        return a.resolve()==b.resolve()
+    except OSError:
+        return str(a)==str(b)
+
+
+def _validate_template_metadata_against_manifest(template: dict[str, Any], resolved_paths: dict[str, Path], doc_index: int) -> list[Diagnostic]:
+    diagnostics=[]
+    manifest_path=resolved_paths.get("manifest")
+    if(manifest_path is None or not manifest_path.exists()):
+        return diagnostics
+    try:
+        data=json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return [Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_MANIFEST_READ", f"documents[{doc_index}].template.manifest cannot be read: {exc}")]
+    template_name=template.get("name")
+    matches=[item for item in _manifest_template_items(data) if(item.get("name")==template_name)]
+    if(not matches):
+        diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_ENTRY", f"documents[{doc_index}].template.name is not declared by its template manifest: {template_name}"))
+        return diagnostics
+    item=matches[0]
+    manifest_base=manifest_path.parent
+    expected_paths={
+        "source": manifest_base/str(item.get("path", item.get("template_file", ""))),
+        "schema": manifest_base/str(item.get("schema", "")) if(item.get("schema")) else None,
+        "export_config": manifest_base/str(item.get("default_export_config", "")) if(item.get("default_export_config")) else None,
+        "latex_build_config": manifest_base/str(item.get("default_latex_build_config", "")) if(item.get("default_latex_build_config")) else None,
+    }
+    for key,expected in expected_paths.items():
+        actual=resolved_paths.get(key)
+        if(expected is not None and actual is not None and not _same_resolved_path(actual, expected)):
+            diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_MANIFEST_MISMATCH", f"documents[{doc_index}].template.{key} does not match the canonical manifest entry for {template_name}"))
+    declared_type=template.get("declared_document_type")
+    manifest_type=item.get("document_type")
+    if(isinstance(manifest_type, str) and manifest_type and declared_type!=manifest_type):
+        diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_DOCUMENT_TYPE", f"documents[{doc_index}].template.declared_document_type must match manifest document_type {manifest_type}"))
+    manifest_role=data.get("manifest_role")
+    if(manifest_path.name=="template_manifest.json" and manifest_role not in {"canonical", None, ""}):
+        diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_MANIFEST_ROLE", f"documents[{doc_index}].template.manifest points to template_manifest.json but source manifest is not canonical"))
+    return diagnostics
+
 def _validate_build_manifest_file(path: Path) -> list[Diagnostic]:
     diagnostics=check_config_file(path, expected_type="sldl.build_manifest", check_paths=False)
     data,load_diags=load_config_json(path)
@@ -384,21 +444,25 @@ def _validate_build_manifest_file(path: Path) -> list[Diagnostic]:
                 role=template.get("manifest_role")
                 if(role not in {"canonical", "adhoc", None, ""}):
                     diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_ROLE", f"documents[{i}].template.manifest_role must be canonical for bundled templates"))
+                resolved_template_paths={}
                 if(project_dir is not None):
                     for key,ref in (("source", source_ref), ("manifest", manifest_ref), ("schema", template.get("schema")), ("export_config", template.get("export_config")), ("latex_build_config", template.get("latex_build_config"))):
                         if(isinstance(ref, str) and ref):
                             ref_path=Path(ref)
                             if(not ref_path.is_absolute()):
                                 ref_path=(project_dir/ref_path).resolve()
+                            resolved_template_paths[key]=ref_path
                             if(not ref_path.exists()):
                                 diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_PATH", f"documents[{i}].template.{key} does not exist: {ref}"))
                                 continue
                             expected_hash=template.get(f"{key}_sha256")
-                            if(expected_hash is not None):
-                                if(not isinstance(expected_hash, str) or len(expected_hash)!=64):
-                                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH", f"documents[{i}].template.{key}_sha256 must be a SHA-256 hex string"))
-                                elif(sha256_file(ref_path)!=expected_hash):
-                                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH_MISMATCH", f"documents[{i}].template.{key}_sha256 does not match {ref}"))
+                            if(expected_hash is None):
+                                diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH_MISSING", f"documents[{i}].template.{key}_sha256 must be recorded"))
+                            elif(not isinstance(expected_hash, str) or len(expected_hash)!=64):
+                                diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH", f"documents[{i}].template.{key}_sha256 must be a SHA-256 hex string"))
+                            elif(sha256_file(ref_path)!=expected_hash):
+                                diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH_MISMATCH", f"documents[{i}].template.{key}_sha256 does not match {ref}"))
+                    diagnostics.extend(_validate_template_metadata_against_manifest(template, resolved_template_paths, i))
             outputs=doc.get("outputs", [])
             if(isinstance(outputs, list)):
                 for j,out in enumerate(outputs):

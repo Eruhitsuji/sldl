@@ -1,8 +1,8 @@
-# SLDL v1.0.5 Python Compiler
+# SLDL v1.0.6 Python Compiler
 
 SLDL (Structured Logical Document Language) is a document source format for writing research reports, technical documents, and specifications with explicit structure, evidence, references, output settings, and release-quality checks.
 
-v1.0.5 is a stable maintenance update on top of the v1.0.0 public baseline. It keeps the canonical template manifest policy from v1.0.4 and adds release-checkable generated template reference consistency and stronger template hash traceability in build manifests.
+v1.0.6 is a stable maintenance update on top of the v1.0.0 public baseline. It keeps the canonical template manifest and generated reference checks from v1.0.5, and adds stricter build-manifest/template-manifest consistency validation.
 
 ## Highlights
 

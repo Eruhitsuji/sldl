@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.5 stable bilingual release check with template reference drift checks and build-manifest template hash traceability.",
-  "version": "1.0.5",
+  "description": "SLDL v1.0.6 stable bilingual release check with strict template reference and build-manifest template metadata consistency checks.",
+  "version": "1.0.6",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -77,7 +77,9 @@
     "docs/ja/generated_template_reference.md",
     "docs/v1_0_5_release_notes.md",
     "docs/ja/v1_0_5_release_notes.md",
-    "docs/generated_template_reference.json"
+    "docs/generated_template_reference.json",
+    "docs/v1_0_6_release_notes.md",
+    "docs/ja/v1_0_6_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
