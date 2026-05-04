@@ -1,6 +1,6 @@
 # SLDL official examples
 
-This directory contains the v1.0.8 official bilingual example set and the template-first workflow examples used by the release checks.
+This directory contains the v1.0.9 official bilingual example set and the template-first workflow examples used by the release checks.
 
 ## Recommended template workflow
 
@@ -62,3 +62,11 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 ```
 
 The negative examples are checked through expected-failure release commands. Legacy `v0*` examples and generated-output archives are intentionally removed from this tree. The v1.0 series should be distributed with this curated example set rather than historical development samples.
+
+## Diagnostics reference checks
+
+```bash
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```

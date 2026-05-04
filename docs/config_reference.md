@@ -95,3 +95,16 @@ v1.0.6 keeps `templates/template_manifest.json` as the canonical manifest and `t
 - `canonical`: use this for `templates/template_manifest.json`.
 - `legacy_compatibility`: use this for `templates/manifest.json` when it is kept as a compatibility copy.
 - `canonical_manifest`: in the legacy copy, this should point to `template_manifest.json`.
+
+## `sldl.diagnostics_reference`
+
+Records the generated diagnostics-code reference used by v1.0.9 release checks.
+
+Important keys:
+
+- `codes`
+- `counts`
+- `language`
+- `version`
+
+Canonical example: `docs/diagnostics_reference.json`.

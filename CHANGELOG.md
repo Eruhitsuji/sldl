@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.9 - generated diagnostics reference
+
+- Added `diagnostics list` and `diagnostics docs` commands.
+- Added generated English/Japanese diagnostics reference documents and machine-readable JSON.
+- Added release-check drift checks for diagnostics references.
+- Added `sldl.diagnostics_reference` config validation.
+- Linked diagnostics reference from README and command documentation.
+
 ## 1.0.8 - schema-template diagnostics hardening
 
 - Added explicit diagnostics for missing schema files and schema config-type mismatches.

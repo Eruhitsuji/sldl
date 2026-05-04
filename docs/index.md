@@ -2,7 +2,7 @@
 
 SLDL (Structured Logical Document Language) is a document source format for research reports, technical documents, and specifications. It keeps the document body, logical support relations, schemas, output settings, and release checks in a repeatable workflow.
 
-English documentation is the primary reference for the v1.0.8 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
+English documentation is the primary reference for the v1.0.9 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
 
 ## Start here
 
@@ -11,7 +11,8 @@ English documentation is the primary reference for the v1.0.8 public release. Ja
 3. Check the language syntax in `docs/sldl_language_reference.md`.
 4. Check JSON configuration in `docs/config_reference.md`.
 5. Check schema-bound templates with `docs/template_schema_binding.md`, `docs/generated_template_reference.md`, and `docs/generated_template_reference.json`.
-6. Run release checks using `docs/release_process.md`.
+6. Check diagnostic codes with `docs/diagnostics_reference.md` and `docs/diagnostics_reference.json`.
+7. Run release checks using `docs/release_process.md`.
 
 ## Official examples
 
@@ -37,6 +38,7 @@ The official example set is under `examples/`:
 - `v1_0_release_notes.md`: v1.0.0 release notes.
 - `v1_0_1_release_notes.md`: v1.0.1 release notes.
 - `v1_0_5_release_notes.md`: v1.0.5 release notes.
+- `v1_0_9_release_notes.md`: v1.0.9 release notes.
 - `v1_0_8_release_notes.md`: v1.0.8 release notes.
 - `v1_0_7_release_notes.md`: v1.0.7 release notes.
 - `v1_0_6_release_notes.md`: v1.0.6 release notes.
@@ -48,4 +50,6 @@ The official example set is under `examples/`:
 - `template_manifest_migration.md`: v1.0.4 canonical manifest migration guide.
 - `generated_template_reference.md`: generated template reference.
 - `generated_template_reference.json`: generated machine-readable template reference.
+- `diagnostics_reference.md`: generated diagnostic-code reference.
+- `diagnostics_reference.json`: generated machine-readable diagnostic-code reference.
 - `release_process.md`: release checklist.

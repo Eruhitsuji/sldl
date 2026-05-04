@@ -1,6 +1,6 @@
 # Commands reference
 
-This reference is synchronized with the v1.0.8 template-first workflow.
+This reference is synchronized with the v1.0.9 template-first workflow with generated diagnostics references.
 
 ## Recommended workflow commands
 
@@ -96,6 +96,23 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 ```
 
 `template docs --check` regenerates the reference in memory and fails if the static file is stale.
+
+
+## Diagnostics reference commands
+
+```bash
+python3 -S -m sldl_compiler.cli diagnostics list
+python3 -S -m sldl_compiler.cli diagnostics list --json
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown -o docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja -o docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json -o docs/diagnostics_reference.json
+
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```
+
+`diagnostics docs --check` regenerates the diagnostic-code reference in memory and fails if the static file is stale. Use `docs/diagnostics_reference.md` when an `E_*` or `W_*` code appears in command output.
 
 ## Quality commands
 

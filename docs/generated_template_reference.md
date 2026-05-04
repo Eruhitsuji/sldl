@@ -1,6 +1,6 @@
 # SLDL Template Reference
 
-Generated from the bundled template manifest. In v1.0.8, release checks keep the drift check and add stricter schema-template diagnostic coverage for representative failure cases.
+Generated from the bundled template manifest. In v1.0.9, release checks keep the template-reference drift check and also drift-check the diagnostics code reference.
 
 | Name | Document type | Language | Schema | Role |
 |---|---|---|---|---|

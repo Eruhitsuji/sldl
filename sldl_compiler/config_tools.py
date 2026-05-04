@@ -50,6 +50,12 @@ SUPPORTED_CONFIG_TYPES={
         "required": ["config_type", "templates"],
         "important": ["version", "language", "templates"],
     },
+    "sldl.diagnostics_reference": {
+        "title": "SLDL generated diagnostics reference",
+        "description": "Record diagnostics code reference data generated from compiler source files.",
+        "required": ["config_type", "codes"],
+        "important": ["version", "language", "counts", "codes"],
+    },
     "sldl.release_check": {
         "title": "SLDL release check configuration",
         "description": "Declare files, configs, CLI commands, projects, and golden snapshots for release quality checks.",
@@ -115,6 +121,8 @@ def detect_config_type(data: dict[str, Any]) -> tuple[str | None, Diagnostic | N
         inferred="sldl.release_check"
     elif("templates" in data and data.get("config_type")=="sldl.template_reference"):
         inferred="sldl.template_reference"
+    elif("codes" in data and (data.get("config_type")=="sldl.diagnostics_reference" or any(isinstance(item, dict) and "code" in item for item in data.get("codes", []) if isinstance(data.get("codes"), list)))):
+        inferred="sldl.diagnostics_reference"
     elif("templates" in data):
         inferred="sldl.template_manifest"
     elif("labels" in data or "html_lang" in data):
@@ -153,6 +161,8 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
         diagnostics.extend(_check_template_manifest(data, base_dir, check_paths, path))
     elif(config_type=="sldl.template_reference"):
         diagnostics.extend(_check_template_reference(data, base_dir, check_paths))
+    elif(config_type=="sldl.diagnostics_reference"):
+        diagnostics.extend(_check_diagnostics_reference(data))
     elif(config_type=="sldl.build_manifest"):
         diagnostics.extend(_check_build_manifest(data))
     elif(config_type=="sldl.release_check"):
@@ -198,6 +208,9 @@ def config_summary(path: str | Path) -> dict[str, Any]:
     elif(config_type=="sldl.template_reference"):
         templates=data.get("templates") if(isinstance(data.get("templates"), list)) else []
         summary["templates"]=len(templates)
+    elif(config_type=="sldl.diagnostics_reference"):
+        codes=data.get("codes") if(isinstance(data.get("codes"), list)) else []
+        summary["diagnostic_codes"]=len(codes)
     elif(config_type=="sldl.build_manifest"):
         documents=data.get("documents") if(isinstance(data.get("documents"), list)) else []
         summary["documents"]=len(documents)
@@ -348,7 +361,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "templates": [
                 {
                     "name": "sample",
@@ -370,6 +383,15 @@ def init_config_data(config_type: str) -> dict[str, Any]:
             "project": "project.json",
             "version": "1.0.0",
             "documents": []
+        }
+    if(config_type=="sldl.diagnostics_reference"):
+        return {
+            "config_type": "sldl.diagnostics_reference",
+            "description": "Generated SLDL diagnostics code reference.",
+            "version": "1.0.9",
+            "language": "en",
+            "counts": {"total": 0, "errors": 0, "warnings": 0},
+            "codes": []
         }
     if(config_type=="sldl.release_check"):
         return {
@@ -608,7 +630,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.8"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.9"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -877,6 +899,51 @@ def _template_reference_signature_from_reference(data: dict[str, Any], base_dir:
         ))
     return sorted(signature)
 
+
+
+
+def _check_diagnostics_reference(data: dict[str, Any]) -> list[Diagnostic]:
+    diagnostics=[]
+    language=data.get("language")
+    if(language is not None and language not in {"en", "ja"}):
+        diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_LANGUAGE", "language must be en or ja"))
+    counts=data.get("counts")
+    if(counts is not None and not isinstance(counts, dict)):
+        diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_COUNTS", "counts must be an object"))
+    codes=data.get("codes")
+    if(not isinstance(codes, list)):
+        diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_CODES", "codes must be a list"))
+        return diagnostics
+    seen=set()
+    for i,item in enumerate(codes):
+        loc=f"codes[{i}]"
+        if(not isinstance(item, dict)):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_CODE", f"{loc} must be an object"))
+            continue
+        code=item.get("code")
+        if(not isinstance(code, str) or not code.startswith(("E_", "W_"))):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_CODE", f"{loc}.code must start with E_ or W_"))
+        elif(code in seen):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_DUPLICATE", f"duplicate diagnostic code: {code}"))
+        else:
+            seen.add(code)
+        level=item.get("level")
+        expected="error" if(isinstance(code, str) and code.startswith("E_")) else "warning" if(isinstance(code, str) and code.startswith("W_")) else None
+        if(level not in {"error", "warning"}):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_LEVEL", f"{loc}.level must be error or warning"))
+        elif(expected and level!=expected):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_LEVEL", f"{loc}.level must match code prefix"))
+        sources=item.get("sources")
+        if(not isinstance(sources, list) or not all(isinstance(value, str) for value in sources)):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_SOURCES", f"{loc}.sources must be a list of strings"))
+        for key in ["category", "title", "meaning", "fix"]:
+            value=item.get(key)
+            if(value is not None and not isinstance(value, str)):
+                diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_FIELD", f"{loc}.{key} must be a string"))
+    if(isinstance(counts, dict)):
+        if(counts.get("total")!=len(seen)):
+            diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_COUNTS", "counts.total must match the number of unique codes"))
+    return diagnostics
 
 def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:
     diagnostics=[]

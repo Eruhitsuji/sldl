@@ -43,3 +43,16 @@ v1.0.6では、`templates/template_manifest.json` を正式manifest、`templates
 - `canonical`: `templates/template_manifest.json` に使用します。
 - `legacy_compatibility`: 互換用コピーである `templates/manifest.json` に使用します。
 - `canonical_manifest`: 互換用コピーでは `template_manifest.json` を指すようにします。
+
+## `sldl.diagnostics_reference`
+
+v1.0.9のrelease checkで使用する、生成済み診断コードリファレンスです。
+
+主なキー:
+
+- `codes`
+- `counts`
+- `language`
+- `version`
+
+代表例: `docs/diagnostics_reference.json`。

@@ -1,6 +1,6 @@
 # はじめに
 
-このページでは、v1.0.8で推奨する流れを説明します。基本は、schema-bound templateからSLDL文書とproject JSONを生成し、project commandで出力し、最後にbuild manifestを検査する流れです。
+このページでは、v1.0.9で推奨する流れを説明します。基本は、schema-bound templateからSLDL文書とproject JSONを生成し、project commandで出力し、最後にbuild manifestを検査する流れです。
 
 ## 1. 利用できるテンプレートを確認する
 
@@ -45,7 +45,17 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 
 これらはtemplate referenceをメモリ上で再生成し、静的ファイルが正式manifestからずれている場合に失敗します。
 
-## 5. release quality gateを実行する
+## 5. diagnostics reference docsの同期を確認する
+
+```bash
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```
+
+これらは診断コードリファレンスをメモリ上で再生成し、静的ファイルがcompiler sourceからずれている場合に失敗します。
+
+## 6. release quality gateを実行する
 
 ```bash
 python3 -m pytest -q
@@ -54,7 +64,7 @@ python3 -S -m sldl_compiler.cli quality release \
   --manifest build/release_manifest.json
 ```
 
-release checkでは、必要ファイル、config、template manifest互換性、意図的な失敗例、project build、build manifest、generated template reference、golden snapshotをまとめて検査します。
+release checkでは、必要ファイル、config、template manifest互換性、意図的な失敗例、project build、build manifest、generated template reference、diagnostics reference、golden snapshotをまとめて検査します。
 
 ## templateを使わない流れ
 

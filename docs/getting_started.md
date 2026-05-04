@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide shows the recommended v1.0.8 workflow. Start from a schema-bound template, generate a project JSON, build outputs through the project command, and verify the build manifest.
+This guide shows the recommended v1.0.9 workflow. Start from a schema-bound template, generate a project JSON, build outputs through the project command, and verify the build manifest.
 
 ## 1. Inspect available templates
 
@@ -45,7 +45,17 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 
 These commands regenerate the reference in memory and fail if the committed static files have drifted from the canonical manifest.
 
-## 5. Run the release quality gate
+## 5. Keep diagnostics reference docs synchronized
+
+```bash
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```
+
+These commands regenerate the diagnostic-code reference in memory and fail if the committed static files have drifted from the compiler source.
+
+## 6. Run the release quality gate
 
 ```bash
 python3 -m pytest -q
@@ -54,7 +64,7 @@ python3 -S -m sldl_compiler.cli quality release \
   --manifest build/release_manifest.json
 ```
 
-The release check verifies required documentation, config files, template manifest compatibility, intentional negative examples, project builds, build manifests, generated template references, and golden snapshots.
+The release check verifies required documentation, config files, template manifest compatibility, intentional negative examples, project builds, build manifests, generated template references, diagnostics references, and golden snapshots.
 
 ## Non-template workflow
 

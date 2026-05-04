@@ -1,6 +1,6 @@
 # コマンドリファレンス
 
-このページはv1.0.8のtemplate-first workflowに合わせた主要コマンド一覧です。
+このページはv1.0.9のtemplate-first workflowと診断コードリファレンスに合わせた主要コマンド一覧です。
 
 ## 推奨ワークフロー
 
@@ -89,6 +89,23 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 ```
 
 `template docs --check` はtemplate referenceをメモリ上で再生成し、静的ファイルが古い場合に失敗します。
+
+
+## diagnostics reference生成・drift check
+
+```bash
+python3 -S -m sldl_compiler.cli diagnostics list
+python3 -S -m sldl_compiler.cli diagnostics list --json
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown -o docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja -o docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json -o docs/diagnostics_reference.json
+
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```
+
+`diagnostics docs --check` は診断コードリファレンスをメモリ上で再生成し、静的ファイルが古い場合に失敗します。`E_*` や `W_*` のコードが出た場合は `docs/diagnostics_reference.md` または `docs/ja/diagnostics_reference.md` を確認します。
 
 ## qualityコマンド
 

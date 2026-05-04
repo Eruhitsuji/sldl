@@ -1,6 +1,6 @@
 # SLDL Template Reference（日本語）
 
-同梱template manifestから生成したテンプレート一覧です。v1.0.8では、template referenceのdrift checkに加えて、schema-template診断と代表的な失敗例のexpect_failure検査を強化しています。
+同梱template manifestから生成したテンプレート一覧です。v1.0.9では、template referenceのdrift checkに加えて、診断コードリファレンスもrelease checkで差分確認できます。
 
 | Name | Document type | Language | Schema | Role |
 |---|---|---|---|---|

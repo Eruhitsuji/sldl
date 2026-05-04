@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.8 stable bilingual release check with schema-template diagnostics hardening.",
-  "version": "1.0.8",
+  "description": "SLDL v1.0.9 stable bilingual release check with generated diagnostics reference drift checks.",
+  "version": "1.0.9",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -86,7 +86,14 @@
     "docs/ja/v1_0_8_release_notes.md",
     "examples/template_manifest_bad_missing_schema.json",
     "examples/template_manifest_bad_wrong_config_type.json",
-    "examples/template_manifest_bad_missing_template.json"
+    "examples/template_manifest_bad_missing_template.json",
+    "docs/v1_0_9_release_notes.md",
+    "docs/ja/v1_0_9_release_notes.md",
+    "docs/diagnostics_reference.md",
+    "docs/ja/diagnostics_reference.md",
+    "docs/diagnostics_reference.json",
+    "sldl_compiler/diagnostic_reference.py",
+    "tests/test_diagnostics_reference.py"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -118,7 +125,8 @@
     "templates/template_manifest.json",
     "examples/template_schema_binding_failure_project.json",
     "templates/manifest.json",
-    "docs/generated_template_reference.json"
+    "docs/generated_template_reference.json",
+    "docs/diagnostics_reference.json"
   ],
   "commands": [
     {
@@ -207,6 +215,82 @@
         "json",
         "--check",
         "docs/generated_template_reference.json"
+      ]
+    },
+    {
+      "name": "diagnostics-list",
+      "args": [
+        "diagnostics",
+        "list"
+      ]
+    },
+    {
+      "name": "diagnostics-list-json",
+      "args": [
+        "diagnostics",
+        "list",
+        "--json"
+      ]
+    },
+    {
+      "name": "diagnostics-docs-markdown",
+      "args": [
+        "diagnostics",
+        "docs",
+        "--format",
+        "markdown"
+      ]
+    },
+    {
+      "name": "diagnostics-docs-json",
+      "args": [
+        "diagnostics",
+        "docs",
+        "--format",
+        "json"
+      ]
+    },
+    {
+      "name": "diagnostics-docs-markdown-check",
+      "args": [
+        "diagnostics",
+        "docs",
+        "--format",
+        "markdown",
+        "--check",
+        "docs/diagnostics_reference.md"
+      ]
+    },
+    {
+      "name": "diagnostics-docs-markdown-ja-check",
+      "args": [
+        "diagnostics",
+        "docs",
+        "--format",
+        "markdown",
+        "--language",
+        "ja",
+        "--check",
+        "docs/ja/diagnostics_reference.md"
+      ]
+    },
+    {
+      "name": "diagnostics-docs-json-check",
+      "args": [
+        "diagnostics",
+        "docs",
+        "--format",
+        "json",
+        "--check",
+        "docs/diagnostics_reference.json"
+      ]
+    },
+    {
+      "name": "config-explain-diagnostics-reference",
+      "args": [
+        "config",
+        "explain",
+        "sldl.diagnostics_reference"
       ]
     },
     {
@@ -429,6 +513,7 @@
   "compile_paths": [
     "sldl_compiler",
     "tests/test_v1_ready_workflow.py",
-    "tests/test_template_schema_binding.py"
+    "tests/test_template_schema_binding.py",
+    "tests/test_diagnostics_reference.py"
   ]
 }

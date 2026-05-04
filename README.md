@@ -1,8 +1,8 @@
-# SLDL v1.0.8 Python Compiler
+# SLDL v1.0.9 Python Compiler
 
-SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, and release-quality checks.
+SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, diagnostics, and release-quality checks.
 
-v1.0.8 is a schema-template diagnostics hardening update on top of the v1.0.7 template-first documentation baseline. The core compiler behavior remains compatible with v1.0.7, while template/schema failure cases now produce clearer, release-checkable diagnostics.
+v1.0.9 adds a generated diagnostics reference on top of the v1.0.8 schema-template diagnostics hardening baseline. The core compiler behavior remains compatible with v1.0.8, while diagnostic codes can now be listed, regenerated as Markdown/JSON, and drift-checked by the release gate.
 
 ## Quick Start: template-first workflow
 
@@ -51,13 +51,22 @@ python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --
 python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
 ```
 
-## What v1.0.8 emphasizes
+## Inspect diagnostics
 
-- Clear diagnostics for missing schema files, wrong schema `config_type`, and missing template files.
-- Explicit warnings when a bound template schema is overridden with `--allow-schema-override`.
-- Release-checkable negative examples for schema/template binding failures.
-- Continued template-first onboarding: `template project` → `project check` → `project build`.
-- Continued generated-reference consistency checks and build-manifest SHA-256 validation.
+```bash
+python3 -S -m sldl_compiler.cli diagnostics list
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
+python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
+```
+
+## What v1.0.9 emphasizes
+
+- Generated diagnostics reference for all `E_*` and `W_*` codes found in compiler sources.
+- English/Japanese Markdown diagnostics references plus a machine-readable JSON reference.
+- Release-checkable diagnostics-reference drift checks.
+- Links from user-facing docs to the diagnostics reference.
+- Continued schema-template diagnostics, template-reference drift checks, and build-manifest SHA-256 validation.
 
 ## Important directories
 
@@ -68,7 +77,7 @@ python3 -S -m sldl_compiler.cli template docs --format json --check docs/generat
 | `examples/` | Official SLDL documents and JSON configuration files |
 | `templates/` | Schema-bound SLDL templates and template manifests |
 | `sldl_compiler/` | Python compiler package |
-| `tests/` | Release workflow and template-binding tests |
+| `tests/` | Release workflow, template-binding, and diagnostics-reference tests |
 
 ## Non-template workflow
 
