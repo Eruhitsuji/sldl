@@ -46,7 +46,7 @@ v1.0.6では、`templates/template_manifest.json` を正式manifest、`templates
 
 ## `sldl.diagnostics_reference`
 
-v1.0.10のrelease checkで使用する、生成済み診断コードリファレンスです。
+v1.0.11のrelease checkで使用する、生成済み診断コードリファレンスです。
 
 主なキー:
 
@@ -59,7 +59,7 @@ v1.0.10のrelease checkで使用する、生成済み診断コードリファレ
 
 ## `sldl.reference_index`
 
-生成済みリファレンス文書のパス、種別、SHA-256を記録する索引です。v1.0.10のrelease checkでdrift checkされます。
+生成済みリファレンス文書のパス、種別、SHA-256を記録する索引です。v1.0.11のrelease checkでdrift checkされます。
 
 重要キー:
 
@@ -69,7 +69,7 @@ v1.0.10のrelease checkで使用する、生成済み診断コードリファレ
 
 ## `sldl.cli_help_reference`
 
-実装済みCLI parserから生成されるCLI helpの静的リファレンスです。v1.0.10のrelease checkでdrift checkされます。
+実装済みCLI parserから生成されるCLI helpの静的リファレンスです。v1.0.11のrelease checkでdrift checkされます。
 
 重要キー:
 
@@ -77,3 +77,15 @@ v1.0.10のrelease checkで使用する、生成済み診断コードリファレ
 - `language`
 - `command_count`
 - `commands`
+
+## `sldl.release_report`
+
+release品質確認ワークフロー用の生成済みリリースレポートです。`sldl.release_manifest` をもとに、ドキュメント確認とCIで扱いやすい安定したサマリーを記録します。
+
+重要なキー:
+
+- `summary`: 正規化後の検査合計、成功数、失敗数。
+- `category_summary`: release checkカテゴリごとの件数。
+- `diagnostic_codes`: 診断コードごとの件数。
+- `failed_checks`: 失敗した検査名と診断。
+- `ci_summary`: 機械処理しやすい成功/失敗ステータス。

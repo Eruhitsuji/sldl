@@ -2,8 +2,8 @@
 
 CLIの `--help` 出力を静的ドキュメントとしてまとめたリファレンスです。ヘルプ本文はCLI実装から生成されます。
 
-- version: `1.0.10`
-- commands: `44`
+- version: `1.0.11`
+- commands: `45`
 
 ## `sldlc`
 
@@ -12,7 +12,7 @@ Command: sldlc
 Usage: sldlc <command>
 
 Description:
-SLDL v1.0.10 compiler
+SLDL v1.0.11 compiler
 
 Subcommands:
   bib
@@ -136,7 +136,7 @@ Arguments:
 
 Options:
   -h, --help - show this help message and exit
-  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.
+  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.
   --warnings-as-errors
   --no-path-check - do not warn when referenced files do not exist
   --json
@@ -419,6 +419,7 @@ Usage: quality <command>
 Subcommands:
   manifest
   release
+  report
   snapshot
   snapshot-check
 
@@ -452,6 +453,23 @@ Options:
   --manifest MANIFEST - write an sldl.release_manifest JSON
   --warnings-as-errors
   --json
+```
+
+## `quality report`
+
+```text
+Command: quality report
+Usage: quality report <input> [options]
+
+Arguments:
+  input - input sldl.release_manifest JSON
+
+Options:
+  -h, --help - show this help message and exit
+  --format FORMAT - Choices: markdown, json.
+  --language LANGUAGE - Choices: en, ja.
+  -o, --output OUTPUT
+  --check CHECK - compare generated report with an existing file
 ```
 
 ## `quality snapshot`

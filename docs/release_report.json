@@ -1,0 +1,83 @@
+{
+  "config_type": "sldl.release_report",
+  "description": "Generated SLDL release report",
+  "version": "1.0.11",
+  "language": "en",
+  "source_manifest": "build/release_manifest.json",
+  "target": "examples/release_check.json",
+  "base_dir": "/mnt/data/sldl_v1_0_11_work",
+  "python": "python3",
+  "summary": {
+    "total": 190,
+    "passed": 190,
+    "failed": 0
+  },
+  "category_summary": [
+    {
+      "category": "build-manifest-check",
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "category": "command",
+      "total": 56,
+      "passed": 56,
+      "failed": 0
+    },
+    {
+      "category": "config-check",
+      "total": 16,
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "category": "forbidden-paths",
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "category": "required-file",
+      "total": 107,
+      "passed": 107,
+      "failed": 0
+    },
+    {
+      "category": "snapshot-check",
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "category": "syntax-check",
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "category": "target-config",
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  ],
+  "diagnostic_codes": [
+    {
+      "code": "W_CONFIG_PATH_MISSING",
+      "level": "warning",
+      "count": 12
+    },
+    {
+      "code": "W_TEMPLATE_MANIFEST_LEGACY",
+      "level": "warning",
+      "count": 1
+    }
+  ],
+  "failed_checks": [],
+  "ci_summary": {
+    "status": "passed",
+    "exit_code": 0,
+    "machine_readable": true
+  }
+}

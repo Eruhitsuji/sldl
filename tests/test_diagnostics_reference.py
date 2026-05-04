@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata_v109():
-    assert __version__=="1.0.10"
+    assert __version__=="1.0.11"
 
 
 def test_diagnostics_reference_contains_schema_template_codes():
@@ -45,6 +45,6 @@ def test_diagnostics_docs_json_output_is_valid_config(tmp_path):
     assert main(["diagnostics", "docs", "--format", "json", "-o", str(out)])==0
     data=json.loads(out.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.diagnostics_reference"
-    assert data["version"]=="1.0.10"
+    assert data["version"]=="1.0.11"
     diagnostics=check_config_file(out)
     assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]

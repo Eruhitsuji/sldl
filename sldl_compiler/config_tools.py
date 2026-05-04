@@ -80,6 +80,12 @@ SUPPORTED_CONFIG_TYPES={
         "required": ["config_type", "checks", "summary"],
         "important": ["version", "target", "base_dir", "python", "checks", "summary"],
     },
+    "sldl.release_report": {
+        "title": "SLDL generated release report",
+        "description": "Summarize a release quality manifest as stable Markdown/JSON documentation for humans and CI.",
+        "required": ["config_type", "summary", "category_summary", "ci_summary"],
+        "important": ["version", "source_manifest", "summary", "category_summary", "diagnostic_codes", "failed_checks", "ci_summary"],
+    },
     "sldl.snapshot_manifest": {
         "title": "SLDL golden file snapshot manifest",
         "description": "Record SHA-256 hashes and sizes for golden files used in regression checks.",
@@ -125,6 +131,8 @@ def detect_config_type(data: dict[str, Any]) -> tuple[str | None, Diagnostic | N
         inferred="sldl.schema"
     elif("engine" in data or "dvi_to_pdf" in data or "steps" in data or "cleanup" in data):
         inferred="sldl.latex_build"
+    elif("category_summary" in data and "ci_summary" in data):
+        inferred="sldl.release_report"
     elif("checks" in data and "summary" in data):
         inferred="sldl.release_manifest"
     elif("files" in data and any(isinstance(item, dict) and "sha256" in item for item in data.get("files", []) if isinstance(data.get("files"), list))):
@@ -189,6 +197,8 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
         diagnostics.extend(_check_release_check_config(data, base_dir, check_paths))
     elif(config_type=="sldl.release_manifest"):
         diagnostics.extend(_check_release_manifest(data))
+    elif(config_type=="sldl.release_report"):
+        diagnostics.extend(_check_release_report(data))
     elif(config_type=="sldl.snapshot_manifest"):
         diagnostics.extend(_check_snapshot_manifest(data, base_dir, check_paths))
     return diagnostics
@@ -241,6 +251,10 @@ def config_summary(path: str | Path) -> dict[str, Any]:
         checks=data.get("checks") if(isinstance(data.get("checks"), list)) else []
         summary["checks"]=len(checks)
         summary["failed"]=(data.get("summary") or {}).get("failed") if(isinstance(data.get("summary"), dict)) else None
+    elif(config_type=="sldl.release_report"):
+        report_summary=data.get("summary") if(isinstance(data.get("summary"), dict)) else {}
+        summary["checks"]=report_summary.get("total")
+        summary["failed"]=report_summary.get("failed")
     elif(config_type=="sldl.snapshot_manifest"):
         files=data.get("files") if(isinstance(data.get("files"), list)) else []
         summary["files"]=len(files)
@@ -381,7 +395,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "templates": [
                 {
                     "name": "sample",
@@ -408,7 +422,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.diagnostics_reference",
             "description": "Generated SLDL diagnostics code reference.",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "language": "en",
             "counts": {"total": 0, "errors": 0, "warnings": 0},
             "codes": []
@@ -417,7 +431,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.cli_help_reference",
             "description": "Generated SLDL CLI help reference.",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "language": "en",
             "command_count": 0,
             "commands": []
@@ -426,7 +440,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.reference_index",
             "description": "Generated SLDL reference index.",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "language": "en",
             "references": []
         }
@@ -458,6 +472,19 @@ def init_config_data(config_type: str) -> dict[str, Any]:
             "checks": [],
             "summary": {"total": 0, "passed": 0, "failed": 0},
             "elapsed_sec": 0.0
+        }
+    if(config_type=="sldl.release_report"):
+        return {
+            "config_type": "sldl.release_report",
+            "description": "Generated SLDL release report.",
+            "version": "1.0.11",
+            "language": "en",
+            "source_manifest": "build/release_manifest.json",
+            "summary": {"total": 0, "passed": 0, "failed": 0},
+            "category_summary": [],
+            "diagnostic_codes": [],
+            "failed_checks": [],
+            "ci_summary": {"status": "passed", "exit_code": 0, "machine_readable": True}
         }
     if(config_type=="sldl.snapshot_manifest"):
         return {
@@ -667,7 +694,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.10"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.11"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -1138,6 +1165,29 @@ def _check_release_manifest(data: dict[str, Any]) -> list[Diagnostic]:
     summary=data.get("summary")
     if(not isinstance(summary, dict)):
         diagnostics.append(Diagnostic("error", "E_RELEASE_MANIFEST_SUMMARY", "summary must be an object"))
+    return diagnostics
+
+
+def _check_release_report(data: dict[str, Any]) -> list[Diagnostic]:
+    diagnostics=[]
+    summary=data.get("summary")
+    if(not isinstance(summary, dict)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_SUMMARY", "summary must be an object"))
+    else:
+        for key in ["total", "passed", "failed"]:
+            if(key in summary and not isinstance(summary.get(key), int)):
+                diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_SUMMARY_VALUE", f"summary.{key} must be an integer"))
+    if(not isinstance(data.get("category_summary"), list)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_CATEGORIES", "category_summary must be a list"))
+    if(not isinstance(data.get("diagnostic_codes", []), list)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_CODES", "diagnostic_codes must be a list"))
+    if(not isinstance(data.get("failed_checks", []), list)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_FAILED", "failed_checks must be a list"))
+    ci_summary=data.get("ci_summary")
+    if(not isinstance(ci_summary, dict)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_CI", "ci_summary must be an object"))
+    elif("exit_code" in ci_summary and not isinstance(ci_summary.get("exit_code"), int)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_EXIT_CODE", "ci_summary.exit_code must be an integer"))
     return diagnostics
 
 

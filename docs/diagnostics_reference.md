@@ -2,14 +2,14 @@
 
 This file is generated from diagnostic codes found in the `sldl_compiler` source tree.
 
-- version: `1.0.10`
-- total: `270`
-- errors: `224`
+- version: `1.0.11`
+- total: `277`
+- errors: `231`
 - warnings: `46`
 
 ## How to use this reference
 
-When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.10, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.
+When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.11, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.
 
 ## Codes
 
@@ -143,6 +143,13 @@ When an error or warning appears, look up its `Code`, then use `Category` and `F
 | E_RELEASE_MANIFEST_CHECKS | error | Release check | Error related to Release check: Release Manifest Checks. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
 | E_RELEASE_MANIFEST_OK | error | Release check | Error related to Release check: Release Manifest Ok. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
 | E_RELEASE_MANIFEST_SUMMARY | error | Release check | Error related to Release check: Release Manifest Summary. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CATEGORIES | error | Release check | Error related to Release check: Release Report Categories. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CI | error | Release check | Error related to Release check: Release Report Ci. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CODES | error | Release check | Error related to Release check: Release Report Codes. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_EXIT_CODE | error | Release check | Error related to Release check: Release Report Exit Code. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_FAILED | error | Release check | Error related to Release check: Release Report Failed. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_SUMMARY | error | Release check | Error related to Release check: Release Report Summary. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_SUMMARY_VALUE | error | Release check | Error related to Release check: Release Report Summary Value. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |
 | E_RELEASE_REQUIRED_FILE | error | Release check | Error related to Release check: Release Required File. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/quality.py |
 | E_RELEASE_REQUIRED_FILES | error | Release check | Error related to Release check: Release Required Files. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/quality.py |
 | E_RELEASE_SNAPSHOT | error | Release check | Error related to Release check: Release Snapshot. | Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry. | sldl_compiler/config_tools.py |

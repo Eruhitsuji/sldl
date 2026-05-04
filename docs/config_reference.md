@@ -98,7 +98,7 @@ v1.0.6 keeps `templates/template_manifest.json` as the canonical manifest and `t
 
 ## `sldl.diagnostics_reference`
 
-Records the generated diagnostics-code reference used by v1.0.10 release checks.
+Records the generated diagnostics-code reference used by v1.0.11 release checks.
 
 Important keys:
 
@@ -111,7 +111,7 @@ Canonical example: `docs/diagnostics_reference.json`.
 
 ## `sldl.reference_index`
 
-Records paths, kinds, and SHA-256 hashes for generated static reference documents. It is drift-checked by the v1.0.10 release gate.
+Records paths, kinds, and SHA-256 hashes for generated static reference documents. It is drift-checked by the v1.0.11 release gate.
 
 Important keys:
 
@@ -121,7 +121,7 @@ Important keys:
 
 ## `sldl.cli_help_reference`
 
-Records static CLI help generated from the implemented argument parser. It is drift-checked by the v1.0.10 release gate.
+Records static CLI help generated from the implemented argument parser. It is drift-checked by the v1.0.11 release gate.
 
 Important keys:
 
@@ -129,3 +129,15 @@ Important keys:
 - `language`
 - `command_count`
 - `commands`
+
+## `sldl.release_report`
+
+Generated release report for the release-quality workflow. It summarizes an `sldl.release_manifest` with stable fields for documentation and CI.
+
+Important keys:
+
+- `summary`: total, passed, and failed check counts after normalization.
+- `category_summary`: counts grouped by release-check category.
+- `diagnostic_codes`: diagnostics grouped by code.
+- `failed_checks`: failed check names and diagnostics.
+- `ci_summary`: machine-readable pass/fail status.

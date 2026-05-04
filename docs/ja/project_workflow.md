@@ -1,6 +1,6 @@
 # Project workflow
 
-再現可能な出力生成は `project build` で行います。v1.0.10では、新規資料の入口として `template project` を推奨します。これはSLDL本文とschema-bound project JSONを同時に生成できるためです。
+再現可能な出力生成は `project build` で行います。v1.0.11では、新規資料の入口として `template project` を推奨します。これはSLDL本文とschema-bound project JSONを同時に生成できるためです。
 
 ## template-bound project flow
 

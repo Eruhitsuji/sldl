@@ -1,13 +1,13 @@
 {
   "config_type": "sldl.diagnostics_reference",
   "description": "Generated SLDL diagnostics code reference",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "language": "en",
   "generator": "sldl_compiler.diagnostic_reference",
   "source_root": "sldl_compiler",
   "counts": {
-    "total": 270,
-    "errors": 224,
+    "total": 277,
+    "errors": 231,
     "warnings": 46
   },
   "codes": [
@@ -1419,6 +1419,83 @@
       "category": "Release check",
       "title": "Release Manifest Summary",
       "meaning": "Error related to Release check: Release Manifest Summary.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_CATEGORIES",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Categories",
+      "meaning": "Error related to Release check: Release Report Categories.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_CI",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Ci",
+      "meaning": "Error related to Release check: Release Report Ci.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_CODES",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Codes",
+      "meaning": "Error related to Release check: Release Report Codes.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_EXIT_CODE",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Exit Code",
+      "meaning": "Error related to Release check: Release Report Exit Code.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_FAILED",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Failed",
+      "meaning": "Error related to Release check: Release Report Failed.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_SUMMARY",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Summary",
+      "meaning": "Error related to Release check: Release Report Summary.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_REPORT_SUMMARY_VALUE",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Report Summary Value",
+      "meaning": "Error related to Release check: Release Report Summary Value.",
       "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
       "sources": [
         "sldl_compiler/config_tools.py"

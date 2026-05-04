@@ -1,15 +1,15 @@
 {
   "config_type": "sldl.cli_help_reference",
   "description": "Generated SLDL CLI help reference",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "language": "en",
-  "command_count": 44,
+  "command_count": 45,
   "commands": [
     {
       "command": "sldlc",
       "path": [],
       "usage": "sldlc <command>",
-      "description": "SLDL v1.0.10 compiler",
+      "description": "SLDL v1.0.11 compiler",
       "subcommands": [
         {
           "name": "bib",
@@ -79,7 +79,7 @@
           "help": "show this help message and exit"
         }
       ],
-      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.10 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
+      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.11 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
     },
     {
       "command": "bib",
@@ -285,7 +285,7 @@
         },
         {
           "names": "--type TYPE",
-          "help": "expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference."
+          "help": "expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference."
         },
         {
           "names": "--warnings-as-errors",
@@ -300,7 +300,7 @@
           "help": ""
         }
       ],
-      "help": "Command: config check\nUsage: config check <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.\n  --warnings-as-errors\n  --no-path-check - do not warn when referenced files do not exist\n  --json\n"
+      "help": "Command: config check\nUsage: config check <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.\n  --warnings-as-errors\n  --no-path-check - do not warn when referenced files do not exist\n  --json\n"
     },
     {
       "command": "config explain",
@@ -919,6 +919,10 @@
           "help": ""
         },
         {
+          "name": "report",
+          "help": ""
+        },
+        {
           "name": "snapshot",
           "help": ""
         },
@@ -934,7 +938,7 @@
           "help": "show this help message and exit"
         }
       ],
-      "help": "Command: quality\nUsage: quality <command>\n\nSubcommands:\n  manifest\n  release\n  snapshot\n  snapshot-check\n\nOptions:\n  -h, --help - show this help message and exit\n"
+      "help": "Command: quality\nUsage: quality <command>\n\nSubcommands:\n  manifest\n  release\n  report\n  snapshot\n  snapshot-check\n\nOptions:\n  -h, --help - show this help message and exit\n"
     },
     {
       "command": "quality manifest",
@@ -996,6 +1000,45 @@
         }
       ],
       "help": "Command: quality release\nUsage: quality release [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --targets TARGETS - sldl.release_check JSON target file\n  --manifest MANIFEST - write an sldl.release_manifest JSON\n  --warnings-as-errors\n  --json\n"
+    },
+    {
+      "command": "quality report",
+      "path": [
+        "quality",
+        "report"
+      ],
+      "usage": "quality report <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": "input sldl.release_manifest JSON"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: markdown, json."
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--check CHECK",
+          "help": "compare generated report with an existing file"
+        }
+      ],
+      "help": "Command: quality report\nUsage: quality report <input> [options]\n\nArguments:\n  input - input sldl.release_manifest JSON\n\nOptions:\n  -h, --help - show this help message and exit\n  --format FORMAT - Choices: markdown, json.\n  --language LANGUAGE - Choices: en, ja.\n  -o, --output OUTPUT\n  --check CHECK - compare generated report with an existing file\n"
     },
     {
       "command": "quality snapshot",

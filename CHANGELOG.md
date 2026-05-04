@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.11 - generated release report
+
+- Added `quality report` to render release manifests as Markdown or JSON.
+- Added English/Japanese static release report documents and machine-readable JSON.
+- Added `sldl.release_report` config validation.
+- Extended release checks to drift-check generated release reports.
+- Linked release reports from the generated reference index.
+
 ## 1.0.10 - generated reference index and CLI help reference
 
 - Added `reference index` for generated Markdown/JSON reference indexes.

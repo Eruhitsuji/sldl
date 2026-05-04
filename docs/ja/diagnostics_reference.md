@@ -2,14 +2,14 @@
 
 このファイルは `sldl_compiler` のソースから生成した診断コード一覧です。
 
-- version: `1.0.10`
-- total: `270`
-- errors: `224`
+- version: `1.0.11`
+- total: `277`
+- errors: `231`
 - warnings: `46`
 
 ## 使い方
 
-エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.10では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
+エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.11では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
 
 ## Codes
 
@@ -143,6 +143,13 @@
 | E_RELEASE_MANIFEST_CHECKS | error | Release check | Release checkに関するエラー: Release Manifest Checks。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_MANIFEST_OK | error | Release check | Release checkに関するエラー: Release Manifest Ok。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_MANIFEST_SUMMARY | error | Release check | Release checkに関するエラー: Release Manifest Summary。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CATEGORIES | error | Release check | Release checkに関するエラー: Release Report Categories。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CI | error | Release check | Release checkに関するエラー: Release Report Ci。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_CODES | error | Release check | Release checkに関するエラー: Release Report Codes。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_EXIT_CODE | error | Release check | Release checkに関するエラー: Release Report Exit Code。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_FAILED | error | Release check | Release checkに関するエラー: Release Report Failed。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_SUMMARY | error | Release check | Release checkに関するエラー: Release Report Summary。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REPORT_SUMMARY_VALUE | error | Release check | Release checkに関するエラー: Release Report Summary Value。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_REQUIRED_FILE | error | Release check | Release checkに関するエラー: Release Required File。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_REQUIRED_FILES | error | Release check | Release checkに関するエラー: Release Required Files。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_SNAPSHOT | error | Release check | Release checkに関するエラー: Release Snapshot。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |

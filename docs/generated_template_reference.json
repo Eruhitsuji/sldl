@@ -1,6 +1,6 @@
 {
   "config_type": "sldl.template_reference",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "language": "en",
   "source_manifest": "templates/template_manifest.json",
   "source_manifest_sha256": "213ad3c7412549f7e04172b926067ce3ffdcb7d47dc1881908c88cccf05dd05b",

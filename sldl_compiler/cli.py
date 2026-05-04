@@ -25,6 +25,7 @@ from .semantic import install_schema_semantics, check_semantics
 from .bibtex_importer import attach_bibtex_references, parse_bibtex, bibtex_to_sldl_fragment, reference_id_from_bibkey
 from .config_tools import SUPPORTED_CONFIG_TYPES, check_config_file, config_summary, explain_config_file, explain_config_type, init_config_data
 from .quality import check_snapshot, make_snapshot, run_release_check, validate_build_manifest
+from .release_report import build_release_report, render_release_report_json, render_release_report_markdown
 from .diagnostics import Diagnostic
 from .diagnostic_reference import build_diagnostics_reference, render_diagnostics_reference_json, render_diagnostics_reference_markdown
 from .reference_docs import (
@@ -476,7 +477,7 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
     if(fmt=="json"):
         payload={
             "config_type":"sldl.template_reference",
-            "version":"1.0.10",
+            "version":"1.0.11",
             "language":language,
             "source_manifest": source_manifest or None,
             "source_manifest_sha256": source_manifest_sha256,
@@ -484,9 +485,9 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
         }
         return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.10では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.11では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.10, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.11, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -573,6 +574,13 @@ def _cli_help_reference_output(fmt: str, language: str = "en") -> str:
     if(fmt=="json"):
         return render_cli_help_reference_json(reference)
     return render_cli_help_reference_markdown(reference, language)
+
+
+def _release_report_output(input_path: str, fmt: str, language: str = "en") -> str:
+    report=build_release_report(input_path, language)
+    if(fmt=="json"):
+        return render_release_report_json(report)
+    return render_release_report_markdown(report, language)
 
 
 def command_reference(args) -> int:
@@ -771,8 +779,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.10 project generated from template: {tmpl.name}",
-        "version": "1.0.10",
+        "description": f"SLDL v1.0.11 project generated from template: {tmpl.name}",
+        "version": "1.0.11",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -1223,6 +1231,13 @@ def command_quality(args) -> int:
             print("FAILED: warnings treated as errors")
             return 1
         return 0
+    if(args.quality_command=="report"):
+        try:
+            output=_release_report_output(args.input, args.format, getattr(args, "language", "en"))
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        return _reference_check_or_write(output, args, "RELEASE REPORT")
     if(args.quality_command=="release"):
         target=args.targets or "examples/release_check.json"
         exit_code,manifest=run_release_check(target, args.manifest, args.warnings_as_errors)
@@ -1247,7 +1262,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.10 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.11 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -1367,6 +1382,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_quality_snapshot_check.add_argument("--warnings-as-errors", action="store_true")
     p_quality_snapshot_check.add_argument("--json", action="store_true")
     p_quality_snapshot_check.set_defaults(func=command_quality)
+    p_quality_report=quality_sub.add_parser("report", help="generate a Markdown or JSON report from an sldl.release_manifest")
+    p_quality_report.add_argument("input", help="input sldl.release_manifest JSON")
+    p_quality_report.add_argument("--format", choices=["markdown", "json"], default="markdown")
+    p_quality_report.add_argument("--language", choices=["en", "ja"], default="en")
+    p_quality_report.add_argument("-o", "--output")
+    p_quality_report.add_argument("--check", help="compare generated report with an existing file")
+    p_quality_report.set_defaults(func=command_quality)
     p_quality_release=quality_sub.add_parser("release", help="run release quality checks declared by a release-check JSON")
     p_quality_release.add_argument("--targets", required=True, help="sldl.release_check JSON target file")
     p_quality_release.add_argument("--manifest", help="write an sldl.release_manifest JSON")

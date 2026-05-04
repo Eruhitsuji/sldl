@@ -1,6 +1,6 @@
 # コマンドリファレンス
 
-このページはv1.0.10のtemplate-first workflowと診断コードリファレンスに合わせた主要コマンド一覧です。
+このページはv1.0.11のtemplate-first workflowと診断コードリファレンスに合わせた主要コマンド一覧です。
 
 ## 推奨ワークフロー
 
@@ -127,3 +127,14 @@ python3 -S -m sldl_compiler.cli reference cli-help --format markdown --check doc
 python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language ja --check docs/ja/cli_help_reference.md
 python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
 ```
+
+## リリースレポート関連コマンド
+
+```bash
+python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format markdown
+python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format markdown --language ja --check docs/ja/release_report.md
+python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format json --check docs/release_report.json
+python3 -S -m sldl_compiler.cli config explain sldl.release_report
+```
+
+`quality report` は `sldl.release_manifest` を、確認しやすいMarkdownまたは機械処理しやすいJSONとして出力します。循環的な差分を避けるため、レポート自身の検査コマンドは集計から除外されます。

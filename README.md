@@ -1,8 +1,8 @@
-# SLDL v1.0.10 Python Compiler
+# SLDL v1.0.11 Python Compiler
 
 SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, diagnostics, and release-quality checks.
 
-v1.0.10 adds a generated reference index and static CLI help reference on top of the v1.0.9 diagnostics reference baseline. Template references, diagnostics references, CLI help references, and their machine-readable JSON files can now be regenerated and drift-checked by the release gate.
+v1.0.11 adds generated release reports on top of the v1.0.10 reference index baseline. Template references, diagnostics references, CLI help references, release reports, and their machine-readable JSON files can now be regenerated and drift-checked by the release gate.
 
 ## Quick Start: template-first workflow
 
@@ -32,6 +32,13 @@ python3 -m pytest -q
 python3 -S -m sldl_compiler.cli quality release \
   --targets examples/release_check.json \
   --manifest build/release_manifest.json
+```
+
+Generate or check the static release report:
+
+```bash
+python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format markdown --check docs/release_report.md
+python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format json --check docs/release_report.json
 ```
 
 ## Inspect templates
@@ -71,7 +78,7 @@ python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language 
 python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
 ```
 
-## What v1.0.10 emphasizes
+## What v1.0.11 emphasizes
 
 - Generated reference index for static generated references.
 - Static CLI help reference generated from the implemented argument parser.
