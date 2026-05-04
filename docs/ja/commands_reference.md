@@ -1,6 +1,6 @@
 # コマンドリファレンス
 
-このページはv1.0.9のtemplate-first workflowと診断コードリファレンスに合わせた主要コマンド一覧です。
+このページはv1.0.10のtemplate-first workflowと診断コードリファレンスに合わせた主要コマンド一覧です。
 
 ## 推奨ワークフロー
 
@@ -116,3 +116,14 @@ python3 -S -m sldl_compiler.cli quality snapshot-check examples/golden_snapshot.
 ```
 
 Template由来の出力では、`quality manifest` がtemplate名、source path、manifest role、template source/schema/export config/LaTeX build configなどのSHA-256を検査します。
+
+## Generated reference commands
+
+```bash
+python3 -S -m sldl_compiler.cli reference index --format markdown --check docs/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format markdown --language ja --check docs/ja/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format json --check docs/reference_index.json
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --check docs/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language ja --check docs/ja/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
+```

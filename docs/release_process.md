@@ -40,3 +40,7 @@ python3 -S -m sldl_compiler.cli quality manifest build/release_manifest.json
 ## 7. Final v1.x step
 
 For v1.0.0 and later releases, update version strings, release notes, generated references, snapshots, and release-check manifests before packaging.
+
+## v1.0.10 generated references
+
+Before packaging, regenerate and check `template docs`, `diagnostics docs`, `reference index`, and `reference cli-help` outputs. The release gate includes drift checks for these generated files.

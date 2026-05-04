@@ -1,6 +1,6 @@
 # Commands reference
 
-This reference is synchronized with the v1.0.9 template-first workflow with generated diagnostics references.
+This reference is synchronized with the v1.0.10 template-first workflow with generated diagnostics references.
 
 ## Recommended workflow commands
 
@@ -128,4 +128,15 @@ For template-generated outputs, `quality manifest` verifies template name, sourc
 
 ```bash
 python3 -S -m sldl_compiler.cli grammar
+```
+
+## Generated reference commands
+
+```bash
+python3 -S -m sldl_compiler.cli reference index --format markdown --check docs/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format markdown --language ja --check docs/ja/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format json --check docs/reference_index.json
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --check docs/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language ja --check docs/ja/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
 ```

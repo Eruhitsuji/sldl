@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.9 stable bilingual release check with generated diagnostics reference drift checks.",
-  "version": "1.0.9",
+  "description": "SLDL v1.0.10 release quality check target",
+  "version": "1.0.10",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -93,7 +93,17 @@
     "docs/ja/diagnostics_reference.md",
     "docs/diagnostics_reference.json",
     "sldl_compiler/diagnostic_reference.py",
-    "tests/test_diagnostics_reference.py"
+    "tests/test_diagnostics_reference.py",
+    "docs/v1_0_10_release_notes.md",
+    "docs/ja/v1_0_10_release_notes.md",
+    "docs/reference_index.md",
+    "docs/ja/reference_index.md",
+    "docs/reference_index.json",
+    "docs/cli_help_reference.md",
+    "docs/ja/cli_help_reference.md",
+    "docs/cli_help_reference.json",
+    "sldl_compiler/reference_docs.py",
+    "tests/test_reference_docs.py"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -126,7 +136,9 @@
     "examples/template_schema_binding_failure_project.json",
     "templates/manifest.json",
     "docs/generated_template_reference.json",
-    "docs/diagnostics_reference.json"
+    "docs/diagnostics_reference.json",
+    "docs/reference_index.json",
+    "docs/cli_help_reference.json"
   ],
   "commands": [
     {
@@ -291,6 +303,128 @@
         "config",
         "explain",
         "sldl.diagnostics_reference"
+      ]
+    },
+    {
+      "name": "reference-index-markdown",
+      "args": [
+        "reference",
+        "index",
+        "--format",
+        "markdown"
+      ]
+    },
+    {
+      "name": "reference-index-json",
+      "args": [
+        "reference",
+        "index",
+        "--format",
+        "json"
+      ]
+    },
+    {
+      "name": "reference-index-markdown-check",
+      "args": [
+        "reference",
+        "index",
+        "--format",
+        "markdown",
+        "--check",
+        "docs/reference_index.md"
+      ]
+    },
+    {
+      "name": "reference-index-markdown-ja-check",
+      "args": [
+        "reference",
+        "index",
+        "--format",
+        "markdown",
+        "--language",
+        "ja",
+        "--check",
+        "docs/ja/reference_index.md"
+      ]
+    },
+    {
+      "name": "reference-index-json-check",
+      "args": [
+        "reference",
+        "index",
+        "--format",
+        "json",
+        "--check",
+        "docs/reference_index.json"
+      ]
+    },
+    {
+      "name": "reference-cli-help-markdown",
+      "args": [
+        "reference",
+        "cli-help",
+        "--format",
+        "markdown"
+      ]
+    },
+    {
+      "name": "reference-cli-help-json",
+      "args": [
+        "reference",
+        "cli-help",
+        "--format",
+        "json"
+      ]
+    },
+    {
+      "name": "reference-cli-help-markdown-check",
+      "args": [
+        "reference",
+        "cli-help",
+        "--format",
+        "markdown",
+        "--check",
+        "docs/cli_help_reference.md"
+      ]
+    },
+    {
+      "name": "reference-cli-help-markdown-ja-check",
+      "args": [
+        "reference",
+        "cli-help",
+        "--format",
+        "markdown",
+        "--language",
+        "ja",
+        "--check",
+        "docs/ja/cli_help_reference.md"
+      ]
+    },
+    {
+      "name": "reference-cli-help-json-check",
+      "args": [
+        "reference",
+        "cli-help",
+        "--format",
+        "json",
+        "--check",
+        "docs/cli_help_reference.json"
+      ]
+    },
+    {
+      "name": "config-explain-reference-index",
+      "args": [
+        "config",
+        "explain",
+        "sldl.reference_index"
+      ]
+    },
+    {
+      "name": "config-explain-cli-help-reference",
+      "args": [
+        "config",
+        "explain",
+        "sldl.cli_help_reference"
       ]
     },
     {
@@ -514,6 +648,7 @@
     "sldl_compiler",
     "tests/test_v1_ready_workflow.py",
     "tests/test_template_schema_binding.py",
-    "tests/test_diagnostics_reference.py"
+    "tests/test_diagnostics_reference.py",
+    "tests/test_reference_docs.py"
   ]
 }

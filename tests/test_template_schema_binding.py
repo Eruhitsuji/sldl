@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata_v109():
-    assert __version__=="1.0.9"
+    assert __version__=="1.0.10"
 
 
 def test_template_manifest_is_schema_bound():
@@ -68,7 +68,7 @@ def test_template_project_inherits_manifest_defaults(tmp_path):
         "--build-dir", str(tmp_path/"build"),
     ])==0
     project=json.loads(project_path.read_text(encoding="utf-8"))
-    assert project["version"]=="1.0.9"
+    assert project["version"]=="1.0.10"
     assert project["schemas"]
     assert project["export_config"].endswith("examples/export_labels_en.json")
     assert project["latex_build_config"].endswith("examples/latex_build_platex_dvipdfmx_dry_run.json")

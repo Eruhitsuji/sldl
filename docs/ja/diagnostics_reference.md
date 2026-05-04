@@ -1,0 +1,287 @@
+# SLDL 診断コードリファレンス
+
+このファイルは `sldl_compiler` のソースから生成した診断コード一覧です。
+
+- version: `1.0.10`
+- total: `270`
+- errors: `224`
+- warnings: `46`
+
+## 使い方
+
+エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.10では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
+
+## Codes
+
+| Code | Level | Category | Meaning | Fix | Sources |
+|---|---|---|---|---|---|
+| E_BIBTEX_FILE | error | BibTeX | BibTeXに関するエラー: Bibtex File。 | BibTeXソース、重複キー、無視されたテキストを確認してから再インポートしてください。 | sldl_compiler/bibtex_importer.py |
+| E_BIBTEX_PARSE | error | BibTeX | BibTeXに関するエラー: Bibtex Parse。 | BibTeXソース、重複キー、無視されたテキストを確認してから再インポートしてください。 | sldl_compiler/bibtex_importer.py |
+| E_BUILD_MANIFEST_DOCUMENT | error | Build manifest | Build manifestに関するエラー: Build Manifest Document。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/config_tools.py |
+| E_BUILD_MANIFEST_DOCUMENTS | error | Build manifest | Build manifestに関するエラー: Build Manifest Documents。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/config_tools.py |
+| E_BUILD_MANIFEST_DOCUMENT_ERRORS | error | Build manifest | Build manifestに関するエラー: Build Manifest Document Errors。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_OUTPUTS | error | Build manifest | Build manifestに関するエラー: Build Manifest Outputs。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/config_tools.py |
+| E_BUILD_MANIFEST_OUTPUT_ERROR | error | Build manifest | Build manifestに関するエラー: Build Manifest Output Error。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE | error | Build manifest | Build manifestに関するエラー: Build Manifest Template。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/config_tools.py |
+| E_BUILD_MANIFEST_TEMPLATE_CANONICAL | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Canonical。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_DOCUMENT_TYPE | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Document Type。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_ENTRY | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Entry。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_FIELD | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Field。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/config_tools.py |
+| E_BUILD_MANIFEST_TEMPLATE_HASH | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Hash。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_HASH_MISMATCH | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Hash Mismatch。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_HASH_MISSING | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Hash Missing。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_MANIFEST | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Manifest。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_MANIFEST_MISMATCH | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Manifest Mismatch。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_MANIFEST_READ | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Manifest Read。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_MANIFEST_ROLE | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Manifest Role。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_NAME | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Name。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_PATH | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Path。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_BUILD_MANIFEST_TEMPLATE_ROLE | error | Build manifest | Build manifestに関するエラー: Build Manifest Template Role。 | project build manifestを再生成し、template metadata、hash、出力、文書診断を確認してください。 | sldl_compiler/quality.py |
+| E_CLI_HELP_REFERENCE_COMMAND | error | General | Generalに関するエラー: Cli Help Reference Command。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_COMMANDS | error | General | Generalに関するエラー: Cli Help Reference Commands。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_COUNT | error | General | Generalに関するエラー: Cli Help Reference Count。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_DUPLICATE | error | General | Generalに関するエラー: Cli Help Reference Duplicate。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_FIELD | error | General | Generalに関するエラー: Cli Help Reference Field。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_LANGUAGE | error | General | Generalに関するエラー: Cli Help Reference Language。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CLI_HELP_REFERENCE_PATH | error | General | Generalに関するエラー: Cli Help Reference Path。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_FILE_READ | error | Config | Configに関するエラー: Config File Read。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_JSON | error | Config | Configに関するエラー: Config Json。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_PATH_REQUIRED | error | Config | Configに関するエラー: Config Path Required。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_PATH_TYPE | error | Config | Configに関するエラー: Config Path Type。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_ROOT | error | Config | Configに関するエラー: Config Root。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_TYPE_MISMATCH | error | Config | Configに関するエラー: Config Type Mismatch。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_TYPE_MISSING | error | Config | Configに関するエラー: Config Type Missing。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_CONFIG_TYPE_UNKNOWN | error | Config | Configに関するエラー: Config Type Unknown。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_CODE | error | General | Generalに関するエラー: Diagnostics Reference Code。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_CODES | error | General | Generalに関するエラー: Diagnostics Reference Codes。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_COUNTS | error | General | Generalに関するエラー: Diagnostics Reference Counts。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_DUPLICATE | error | General | Generalに関するエラー: Diagnostics Reference Duplicate。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_FIELD | error | General | Generalに関するエラー: Diagnostics Reference Field。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_LANGUAGE | error | General | Generalに関するエラー: Diagnostics Reference Language。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_LEVEL | error | General | Generalに関するエラー: Diagnostics Reference Level。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DIAGNOSTICS_REFERENCE_SOURCES | error | General | Generalに関するエラー: Diagnostics Reference Sources。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_DUPLICATE_ID | error | General | Generalに関するエラー: Duplicate Id。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/resolver.py |
+| E_EXPORT_LABELS_HTML_LANG | error | Export labels | Export labelsに関するエラー: Export Labels Html Lang。 | export label JSONを確認し、label値が文字列になっているか確認してください。 | sldl_compiler/config_tools.py |
+| E_EXPORT_LABELS_LABELS | error | Export labels | Export labelsに関するエラー: Export Labels Labels。 | export label JSONを確認し、label値が文字列になっているか確認してください。 | sldl_compiler/config_tools.py |
+| E_EXPORT_LABELS_VALUE | error | Export labels | Export labelsに関するエラー: Export Labels Value。 | export label JSONを確認し、label値が文字列になっているか確認してください。 | sldl_compiler/config_tools.py |
+| E_FUNCTION_ARG_TYPE | error | Function | Functionに関するエラー: Function Arg Type。 | 関数名、引数数、引数型、schemaで定義した関数シグネチャを確認してください。 | sldl_compiler/semantic.py |
+| E_FUNCTION_ARITY | error | Function | Functionに関するエラー: Function Arity。 | 関数名、引数数、引数型、schemaで定義した関数シグネチャを確認してください。 | sldl_compiler/semantic.py |
+| E_INVALID_CHART_REF | error | Document validation | Document validationに関するエラー: Invalid Chart Ref。 | 報告位置付近のSLDLブロック、必須フィールド、表の行、chart参照、日付を確認してください。 | sldl_compiler/checker.py |
+| E_INVALID_DATE | error | Document validation | Document validationに関するエラー: Invalid Date。 | 報告位置付近のSLDLブロック、必須フィールド、表の行、chart参照、日付を確認してください。 | sldl_compiler/checker.py |
+| E_INVALID_FLOW_EDGE | error | Document validation | Document validationに関するエラー: Invalid Flow Edge。 | 報告位置付近のSLDLブロック、必須フィールド、表の行、chart参照、日付を確認してください。 | sldl_compiler/checker.py |
+| E_INVALID_TABLE_ROW | error | Document validation | Document validationに関するエラー: Invalid Table Row。 | 報告位置付近のSLDLブロック、必須フィールド、表の行、chart参照、日付を確認してください。 | sldl_compiler/checker.py |
+| E_LATEX_BUILD_ARGS | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Args。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_BOOL | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Bool。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_CLEANUP | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Cleanup。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_CLEANUP_BOOL | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Cleanup Bool。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_CLEANUP_LIST | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Cleanup List。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_COMMAND | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Command。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_DVI | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Dvi。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_ENGINE | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Engine。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_PASSES | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Passes。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_REPEAT | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Repeat。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_STEP | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Step。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_BUILD_STEPS | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Build Steps。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_OPTIONS | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Options。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LATEX_OPTION_BOOL | error | LaTeX build/config | LaTeX build/configに関するエラー: Latex Option Bool。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| E_LOGIC_ACCEPTED_CONTRADICTION | error | Logic | Logicに関するエラー: Logic Accepted Contradiction。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_CONFIDENCE_RANGE | error | Logic | Logicに関するエラー: Logic Confidence Range。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_COUNTERARGUMENT_WITHOUT_TARGET | error | Logic | Logicに関するエラー: Logic Counterargument Without Target。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_EVIDENCE_WITHOUT_SOURCE | error | Logic | Logicに関するエラー: Logic Evidence Without Source。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_INVALID_TARGET_KIND | error | Logic | Logicに関するエラー: Logic Invalid Target Kind。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_REJECTED_SUPPORT | error | Logic | Logicに関するエラー: Logic Rejected Support。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_SUPPORT_CYCLE | error | Logic | Logicに関するエラー: Logic Support Cycle。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_UNDEFINED_ENDPOINT | error | Logic | Logicに関するエラー: Logic Undefined Endpoint。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_UNDEFINED_REFERENCE | error | Logic | Logicに関するエラー: Logic Undefined Reference。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_UNGROUNDED_CLAIM | error | Logic | Logicに関するエラー: Logic Ungrounded Claim。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_UNGROUNDED_CONCLUSION | error | Logic | Logicに関するエラー: Logic Ungrounded Conclusion。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_LOGIC_UNGROUNDED_COUNTERARGUMENT | error | Logic | Logicに関するエラー: Logic Ungrounded Counterargument。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| E_MISSING_REQUIRED_FIELD | error | General | Generalに関するエラー: Missing Required Field。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/checker.py |
+| E_OBJECT_FIELD_TYPE | error | Object/schema | Object/schemaに関するエラー: Object Field Type。 | object fieldをschemaで定義したobject classと許可field typeに照合してください。 | sldl_compiler/schemas.py |
+| E_OBJECT_FORBIDDEN_FIELD | error | Object/schema | Object/schemaに関するエラー: Object Forbidden Field。 | object fieldをschemaで定義したobject classと許可field typeに照合してください。 | sldl_compiler/schemas.py |
+| E_OBJECT_MISSING_REQUIRED_FIELD | error | Object/schema | Object/schemaに関するエラー: Object Missing Required Field。 | object fieldをschemaで定義したobject classと許可field typeに照合してください。 | sldl_compiler/schemas.py |
+| E_PROJECT_DOCUMENT | error | Project | Projectに関するエラー: Project Document。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_DOCUMENTS | error | Project | Projectに関するエラー: Project Documents。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_DOCUMENT_TYPE_MISMATCH | error | Project | Projectに関するエラー: Project Document Type Mismatch。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/cli.py |
+| E_PROJECT_INPUT | error | Project | Projectに関するエラー: Project Input。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_OUTPUT | error | Project | Projectに関するエラー: Project Output。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_OUTPUTS | error | Project | Projectに関するエラー: Project Outputs。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_OUTPUT_FORMAT | error | Project | Projectに関するエラー: Project Output Format。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_OUTPUT_PATH | error | Project | Projectに関するエラー: Project Output Path。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_SCHEMA | error | Project | Projectに関するエラー: Project Schema。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_SCHEMAS | error | Project | Projectに関するエラー: Project Schemas。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_PROJECT_TOC_BOOL | error | Project | Projectに関するエラー: Project Toc Bool。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_CONFIG_TYPE | error | General | Generalに関するエラー: Reference Index Config Type。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_DUPLICATE | error | General | Generalに関するエラー: Reference Index Duplicate。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_FIELD | error | General | Generalに関するエラー: Reference Index Field。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_HASH_MISMATCH | error | General | Generalに関するエラー: Reference Index Hash Mismatch。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_LANGUAGE | error | General | Generalに関するエラー: Reference Index Language。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_MISSING | error | General | Generalに関するエラー: Reference Index Missing。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_PATH | error | General | Generalに関するエラー: Reference Index Path。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_REFERENCE | error | General | Generalに関するエラー: Reference Index Reference。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_REFERENCES | error | General | Generalに関するエラー: Reference Index References。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_REFERENCE_INDEX_SHA256 | error | General | Generalに関するエラー: Reference Index Sha256。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_BASE_DIR | error | Release check | Release checkに関するエラー: Release Base Dir。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_COMMAND | error | Release check | Release checkに関するエラー: Release Command。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_RELEASE_COMMANDS | error | Release check | Release checkに関するエラー: Release Commands。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_RELEASE_COMMAND_ARGS | error | Release check | Release checkに関するエラー: Release Command Args。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_RELEASE_COMMAND_EXCEPTION | error | Release check | Release checkに関するエラー: Release Command Exception。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_COMMAND_EXPECT_FAILURE | error | Release check | Release checkに関するエラー: Release Command Expect Failure。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_COMMAND_FAILED | error | Release check | Release checkに関するエラー: Release Command Failed。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_COMMAND_UNEXPECTED_SUCCESS | error | Release check | Release checkに関するエラー: Release Command Unexpected Success。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_COMPILEALL | error | Release check | Release checkに関するエラー: Release Compileall。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_RELEASE_COMPILE_PATH | error | Release check | Release checkに関するエラー: Release Compile Path。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_CONFIG_TYPE | error | Release check | Release checkに関するエラー: Release Config Type。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FILE_MISSING | error | Release check | Release checkに関するエラー: Release File Missing。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FILE_READ | error | Release check | Release checkに関するエラー: Release File Read。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FORBIDDEN_GLOBS | error | Release check | Release checkに関するエラー: Release Forbidden Globs。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FORBIDDEN_GLOB_MATCH | error | Release check | Release checkに関するエラー: Release Forbidden Glob Match。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FORBIDDEN_PATHS | error | Release check | Release checkに関するエラー: Release Forbidden Paths。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_FORBIDDEN_PATH_EXISTS | error | Release check | Release checkに関するエラー: Release Forbidden Path Exists。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_LIST | error | Release check | Release checkに関するエラー: Release List。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_RELEASE_MANIFEST_CHECK | error | Release check | Release checkに関するエラー: Release Manifest Check。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_MANIFEST_CHECKS | error | Release check | Release checkに関するエラー: Release Manifest Checks。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_MANIFEST_OK | error | Release check | Release checkに関するエラー: Release Manifest Ok。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_MANIFEST_SUMMARY | error | Release check | Release checkに関するエラー: Release Manifest Summary。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_REQUIRED_FILE | error | Release check | Release checkに関するエラー: Release Required File。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_REQUIRED_FILES | error | Release check | Release checkに関するエラー: Release Required Files。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_SNAPSHOT | error | Release check | Release checkに関するエラー: Release Snapshot。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_SYNTAX | error | Release check | Release checkに関するエラー: Release Syntax。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_SCHEMA_CONFIG_TYPE | error | Schema | Schemaに関するエラー: Schema Config Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py |
+| E_SCHEMA_DOCUMENT_TYPE | error | Schema | Schemaに関するエラー: Schema Document Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_DOCUMENT_TYPES | error | Schema | Schemaに関するエラー: Schema Document Types。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_ENUM | error | Schema | Schemaに関するエラー: Schema Enum。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_ENUM_ITEM | error | Schema | Schemaに関するエラー: Schema Enum Item。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_ENUM_TYPES | error | Schema | Schemaに関するエラー: Schema Enum Types。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_FIELD_TYPE | error | Schema | Schemaに関するエラー: Schema Field Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_FILE_MISSING | error | Schema | Schemaに関するエラー: Schema File Missing。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py |
+| E_SCHEMA_FILE_READ | error | Schema | Schemaに関するエラー: Schema File Read。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py, sldl_compiler/schema_tools.py |
+| E_SCHEMA_FORBIDDEN_FIELD | error | Schema | Schemaに関するエラー: Schema Forbidden Field。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_FORBIDDEN_NODE | error | Schema | Schemaに関するエラー: Schema Forbidden Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_FORBIDDEN_TOP_LEVEL_NODE | error | Schema | Schemaに関するエラー: Schema Forbidden Top Level Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_FUNCTION_PARAMS | error | Schema | Schemaに関するエラー: Schema Function Params。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_FUNCTION_RETURN | error | Schema | Schemaに関するエラー: Schema Function Return。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_FUNCTION_SIGNATURE | error | Schema | Schemaに関するエラー: Schema Function Signature。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_FUNCTION_SIGNATURES | error | Schema | Schemaに関するエラー: Schema Function Signatures。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_JSON | error | Schema | Schemaに関するエラー: Schema Json。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py, sldl_compiler/schema_tools.py |
+| E_SCHEMA_LIST | error | Schema | Schemaに関するエラー: Schema List。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_LIST_ITEM | error | Schema | Schemaに関するエラー: Schema List Item。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_COUNTS | error | Schema | Schemaに関するエラー: Schema Node Counts。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_COUNT_BOUND | error | Schema | Schemaに関するエラー: Schema Node Count Bound。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_COUNT_RANGE | error | Schema | Schemaに関するエラー: Schema Node Count Range。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_COUNT_RULE | error | Schema | Schemaに関するエラー: Schema Node Count Rule。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_FIELD_TYPE | error | Schema | Schemaに関するエラー: Schema Node Field Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_FIELD_TYPES | error | Schema | Schemaに関するエラー: Schema Node Field Types。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_RULE | error | Schema | Schemaに関するエラー: Schema Node Rule。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_RULES | error | Schema | Schemaに関するエラー: Schema Node Rules。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_NODE_RULE_FIELDS | error | Schema | Schemaに関するエラー: Schema Node Rule Fields。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_OBJECT_CLASS | error | Schema | Schemaに関するエラー: Schema Object Class。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_OBJECT_CLASSES | error | Schema | Schemaに関するエラー: Schema Object Classes。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_OBJECT_CLASS_FIELDS | error | Schema | Schemaに関するエラー: Schema Object Class Fields。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_RELATION_RULE | error | Schema | Schemaに関するエラー: Schema Relation Rule。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_RELATION_RULES | error | Schema | Schemaに関するエラー: Schema Relation Rules。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_RELATION_TARGET | error | Schema | Schemaに関するエラー: Schema Relation Target。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_REQUIRED_META | error | Schema | Schemaに関するエラー: Schema Required Meta。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_REQUIRED_NODE | error | Schema | Schemaに関するエラー: Schema Required Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_REQUIRED_SECTION | error | Schema | Schemaに関するエラー: Schema Required Section。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_REQUIRED_TOP_LEVEL_NODE | error | Schema | Schemaに関するエラー: Schema Required Top Level Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_ROOT | error | Schema | Schemaに関するエラー: Schema Root。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py, sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_FORBIDDEN_NODE | error | Schema | Schemaに関するエラー: Schema Section Forbidden Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| E_SCHEMA_SECTION_RULE | error | Schema | Schemaに関するエラー: Schema Section Rule。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_RULES | error | Schema | Schemaに関するエラー: Schema Section Rules。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_RULE_BOUND | error | Schema | Schemaに関するエラー: Schema Section Rule Bound。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_RULE_RANGE | error | Schema | Schemaに関するエラー: Schema Section Rule Range。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_SPEC | error | Schema | Schemaに関するエラー: Schema Section Spec。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_SECTION_SPEC_LIST | error | Schema | Schemaに関するエラー: Schema Section Spec List。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TEMPLATE | error | Schema | Schemaに関するエラー: Schema Template。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TEMPLATE_DIR | error | Schema | Schemaに関するエラー: Schema Template Dir。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TEMPLATE_FILE | error | Schema | Schemaに関するエラー: Schema Template File。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TEMPLATE_NAME | error | Schema | Schemaに関するエラー: Schema Template Name。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TEMPLATE_STRICT | error | Schema | Schemaに関するエラー: Schema Template Strict。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TYPE_ALIAS | error | Schema | Schemaに関するエラー: Schema Type Alias。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TYPE_ALIASES | error | Schema | Schemaに関するエラー: Schema Type Aliases。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SCHEMA_TYPE_NAME | error | Schema | Schemaに関するエラー: Schema Type Name。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| E_SNAPSHOT_BYTES | error | Snapshot | Snapshotに関するエラー: Snapshot Bytes。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_SNAPSHOT_FILE | error | Snapshot | Snapshotに関するエラー: Snapshot File。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_SNAPSHOT_FILES | error | Snapshot | Snapshotに関するエラー: Snapshot Files。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_SNAPSHOT_HASH | error | Snapshot | Snapshotに関するエラー: Snapshot Hash。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/quality.py |
+| E_SNAPSHOT_MISSING | error | Snapshot | Snapshotに関するエラー: Snapshot Missing。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/quality.py |
+| E_SNAPSHOT_PATH | error | Snapshot | Snapshotに関するエラー: Snapshot Path。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
+| E_SNAPSHOT_SHA256 | error | Snapshot | Snapshotに関するエラー: Snapshot Sha256。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/config_tools.py |
+| E_SNAPSHOT_TYPE | error | Snapshot | Snapshotに関するエラー: Snapshot Type。 | 生成ファイルの変更が意図したものか確認したうえでgolden snapshotを再生成または更新してください。 | sldl_compiler/quality.py |
+| E_SYNTAX | error | Syntax | Syntaxに関するエラー: Syntax。 | 報告されたtoken、delimiter、quote、block境界付近のSLDL構文を修正してください。 | sldl_compiler/lexer.py, sldl_compiler/parser.py |
+| E_TEMPLATE_DOCUMENT_TYPE_MISMATCH | error | Template | Templateに関するエラー: Template Document Type Mismatch。 | 選択したtemplate名、template path、schema override policy、生成文書のdocument typeを確認してください。 | sldl_compiler/cli.py |
+| E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE | error | Template manifest | Template manifestに関するエラー: Template Manifest Bound Config Type。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_CANONICAL | error | Template manifest | Template manifestに関するエラー: Template Manifest Canonical。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_COMPATIBILITY | error | Template manifest | Template manifestに関するエラー: Template Manifest Compatibility。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_DUPLICATE | error | Template manifest | Template manifestに関するエラー: Template Manifest Duplicate。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_EXPORT_CONFIG_MISSING | error | Template manifest | Template manifestに関するエラー: Template Manifest Export Config Missing。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_FIELD | error | Template manifest | Template manifestに関するエラー: Template Manifest Field。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_LATEX_CONFIG_MISSING | error | Template manifest | Template manifestに関するエラー: Template Manifest Latex Config Missing。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_PATH_MISSING | error | Template manifest | Template manifestに関するエラー: Template Manifest Path Missing。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_ROLE | error | Template manifest | Template manifestに関するエラー: Template Manifest Role。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_SCHEMA_MISSING | error | Template manifest | Template manifestに関するエラー: Template Manifest Schema Missing。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_STRICT_SCHEMA | error | Template manifest | Template manifestに関するエラー: Template Manifest Strict Schema。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_TEMPLATE | error | Template manifest | Template manifestに関するエラー: Template Manifest Template。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_TEMPLATES | error | Template manifest | Template manifestに関するエラー: Template Manifest Templates。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_MANIFEST_TEMPLATE_FILE_MISSING | error | Template manifest | Template manifestに関するエラー: Template Manifest Template File Missing。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_DUPLICATE | error | Template reference | Template referenceに関するエラー: Template Reference Duplicate。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_FIELD | error | Template reference | Template referenceに関するエラー: Template Reference Field。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_MANIFEST_MISMATCH | error | Template reference | Template referenceに関するエラー: Template Reference Manifest Mismatch。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_NAME | error | Template reference | Template referenceに関するエラー: Template Reference Name。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_SOURCE_HASH | error | Template reference | Template referenceに関するエラー: Template Reference Source Hash。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_SOURCE_HASH_MISMATCH | error | Template reference | Template referenceに関するエラー: Template Reference Source Hash Mismatch。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_SOURCE_MANIFEST | error | Template reference | Template referenceに関するエラー: Template Reference Source Manifest。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_SOURCE_MISSING | error | Template reference | Template referenceに関するエラー: Template Reference Source Missing。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_TEMPLATE | error | Template reference | Template referenceに関するエラー: Template Reference Template。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_REFERENCE_TEMPLATES | error | Template reference | Template referenceに関するエラー: Template Reference Templates。 | canonical manifestからtemplate referenceを再生成し、drift checkを再実行してください。 | sldl_compiler/config_tools.py |
+| E_TEMPLATE_SCHEMA_DOCUMENT_TYPE | error | Template/schema binding | Template/schema bindingに関するエラー: Template Schema Document Type。 | template本文のdocument type、manifestのdocument_type、schemaのdocument_typesを一致させてください。 | sldl_compiler/config_tools.py |
+| E_TYPE_MISMATCH | error | Type system | Type systemに関するエラー: Type Mismatch。 | 報告されたfieldまたはfunction call付近で、期待型と実際のSLDL値型を確認してください。 | sldl_compiler/schemas.py |
+| E_UNDEFINED_CITE_KEY | error | Reference resolution | Reference resolutionに関するエラー: Undefined Cite Key。 | id、cite key、reference target、未使用または未定義参照を確認してください。 | sldl_compiler/resolver.py |
+| E_UNDEFINED_REFERENCE | error | Reference resolution | Reference resolutionに関するエラー: Undefined Reference。 | id、cite key、reference target、未使用または未定義参照を確認してください。 | sldl_compiler/resolver.py |
+| W_BIBTEX_DUPLICATE_REFERENCE | warning | BibTeX | BibTeXに関する警告: Bibtex Duplicate Reference。 | BibTeXソース、重複キー、無視されたテキストを確認してから再インポートしてください。 | sldl_compiler/bibtex_importer.py |
+| W_BIBTEX_IGNORED_TEXT | warning | BibTeX | BibTeXに関する警告: Bibtex Ignored Text。 | BibTeXソース、重複キー、無視されたテキストを確認してから再インポートしてください。 | sldl_compiler/bibtex_importer.py |
+| W_CLAIM_WITHOUT_EVIDENCE | warning | General | Generalに関する警告: Claim Without Evidence。 | 報告メッセージ、source location、関連設定ファイルを確認してください。 | sldl_compiler/checker.py |
+| W_CONFIG_DESCRIPTION_TYPE | warning | Config | Configに関する警告: Config Description Type。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| W_CONFIG_PATH_MISSING | warning | Config | Configに関する警告: Config Path Missing。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| W_CONFIG_TYPE_MISSING | warning | Config | Configに関する警告: Config Type Missing。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| W_CONFIG_TYPE_NON_STRING | warning | Config | Configに関する警告: Config Type Non String。 | JSON設定のconfig_type、必須キー、値の型、参照パスを確認してください。 | sldl_compiler/config_tools.py |
+| W_EXPORT_LABELS_VALUE | warning | Export labels | Export labelsに関する警告: Export Labels Value。 | export label JSONを確認し、label値が文字列になっているか確認してください。 | sldl_compiler/config_tools.py |
+| W_LATEX_OPTION_UNKNOWN | warning | LaTeX build/config | LaTeX build/configに関する警告: Latex Option Unknown。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| W_LATEX_OPTION_VALUE | warning | LaTeX build/config | LaTeX build/configに関する警告: Latex Option Value。 | LaTeX build JSON、コマンドステップ、engine設定、LaTeX option値を確認してください。 | sldl_compiler/config_tools.py |
+| W_LOGIC_ACCEPTED_CONTRADICTION | warning | Logic | Logicに関する警告: Logic Accepted Contradiction。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_CONFIDENCE_RANGE | warning | Logic | Logicに関する警告: Logic Confidence Range。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_COUNTERARGUMENT_WITHOUT_TARGET | warning | Logic | Logicに関する警告: Logic Counterargument Without Target。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_EVIDENCE_WITHOUT_SOURCE | warning | Logic | Logicに関する警告: Logic Evidence Without Source。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_LINK_MISSING | warning | Logic | Logicに関する警告: Logic Link Missing。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/schemas.py |
+| W_LOGIC_REJECTED_SUPPORT | warning | Logic | Logicに関する警告: Logic Rejected Support。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_SUPPORT_CYCLE | warning | Logic | Logicに関する警告: Logic Support Cycle。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_UNGROUNDED_CLAIM | warning | Logic | Logicに関する警告: Logic Ungrounded Claim。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_UNGROUNDED_CONCLUSION | warning | Logic | Logicに関する警告: Logic Ungrounded Conclusion。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_LOGIC_UNGROUNDED_COUNTERARGUMENT | warning | Logic | Logicに関する警告: Logic Ungrounded Counterargument。 | claim/evidence/reason/conclusionのリンク、logic endpoint、source reference、cycle、support polarityを確認してください。 | sldl_compiler/logic.py |
+| W_MISSING_CAPTION | warning | Document validation | Document validationに関する警告: Missing Caption。 | 報告位置付近のSLDLブロック、必須フィールド、表の行、chart参照、日付を確認してください。 | sldl_compiler/checker.py |
+| W_OBJECT_MISSING_FIELD | warning | Object/schema | Object/schemaに関する警告: Object Missing Field。 | object fieldをschemaで定義したobject classと許可field typeに照合してください。 | sldl_compiler/schemas.py |
+| W_PROJECT_CITATION_STYLE | warning | Project | Projectに関する警告: Project Citation Style。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| W_PROJECT_MERMAID_MODE | warning | Project | Projectに関する警告: Project Mermaid Mode。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| W_RELEASE_PATH_MISSING | warning | Release check | Release checkに関する警告: Release Path Missing。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| W_RELEASE_SNAPSHOT_MISSING | warning | Release check | Release checkに関する警告: Release Snapshot Missing。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| W_SCHEMA_ORDER_WITHOUT_ORDER | warning | Schema | Schemaに関する警告: Schema Order Without Order。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_RECOMMENDED_FIELD | warning | Schema | Schemaに関する警告: Schema Recommended Field。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_RECOMMENDED_META | warning | Schema | Schemaに関する警告: Schema Recommended Meta。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_RECOMMENDED_NODE | warning | Schema | Schemaに関する警告: Schema Recommended Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_RECOMMENDED_SECTION | warning | Schema | Schemaに関する警告: Schema Recommended Section。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_RECOMMENDED_TOP_LEVEL_NODE | warning | Schema | Schemaに関する警告: Schema Recommended Top Level Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_SECTION_RECOMMENDED_NODE | warning | Schema | Schemaに関する警告: Schema Section Recommended Node。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schemas.py |
+| W_SCHEMA_SECTION_RULE_MATCH | warning | Schema | Schemaに関する警告: Schema Section Rule Match。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_SECTION_SPEC_MATCH | warning | Schema | Schemaに関する警告: Schema Section Spec Match。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_STRICT_WITHOUT_ALLOWED | warning | Schema | Schemaに関する警告: Schema Strict Without Allowed。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_UNKNOWN_POLICY | warning | Schema | Schemaに関する警告: Schema Unknown Policy。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_UNKNOWN_SEVERITY | warning | Schema | Schemaに関する警告: Schema Unknown Severity。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_SCHEMA_UNKNOWN_TOP_LEVEL_KEY | warning | Schema | Schemaに関する警告: Schema Unknown Top Level Key。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
+| W_TEMPLATE_MANIFEST_LEGACY | warning | Template manifest | Template manifestに関する警告: Template Manifest Legacy。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| W_TEMPLATE_MANIFEST_UNKNOWN_KEY | warning | Template manifest | Template manifestに関する警告: Template Manifest Unknown Key。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| W_TEMPLATE_MANIFEST_UNLISTED_TEMPLATE | warning | Template manifest | Template manifestに関する警告: Template Manifest Unlisted Template。 | templates/template_manifest.json、紐づけschema/export/LaTeX config path、document_type、template file pathを確認してください。 | sldl_compiler/config_tools.py |
+| W_UNKNOWN_DOCUMENT_TYPE | warning | Unknown item | Unknown itemに関する警告: Unknown Document Type。 | スペルと、参照した型・関数・objectがschemaで宣言されているか確認してください。 | sldl_compiler/schemas.py |
+| W_UNKNOWN_FUNCTION_CALL | warning | Unknown item | Unknown itemに関する警告: Unknown Function Call。 | スペルと、参照した型・関数・objectがschemaで宣言されているか確認してください。 | sldl_compiler/semantic.py |
+| W_UNKNOWN_OBJECT_TYPE | warning | Unknown item | Unknown itemに関する警告: Unknown Object Type。 | スペルと、参照した型・関数・objectがschemaで宣言されているか確認してください。 | sldl_compiler/schemas.py |
+| W_UNUSED_REFERENCE | warning | Reference resolution | Reference resolutionに関する警告: Unused Reference。 | id、cite key、reference target、未使用または未定義参照を確認してください。 | sldl_compiler/resolver.py |

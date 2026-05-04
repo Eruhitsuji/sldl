@@ -27,6 +27,14 @@ from .config_tools import SUPPORTED_CONFIG_TYPES, check_config_file, config_summ
 from .quality import check_snapshot, make_snapshot, run_release_check, validate_build_manifest
 from .diagnostics import Diagnostic
 from .diagnostic_reference import build_diagnostics_reference, render_diagnostics_reference_json, render_diagnostics_reference_markdown
+from .reference_docs import (
+    build_cli_help_reference,
+    build_reference_index,
+    render_cli_help_reference_json,
+    render_cli_help_reference_markdown,
+    render_reference_index_json,
+    render_reference_index_markdown,
+)
 
 try:
     from .schemas import load_schema_registry, check_with_schema
@@ -468,7 +476,7 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
     if(fmt=="json"):
         payload={
             "config_type":"sldl.template_reference",
-            "version":"1.0.9",
+            "version":"1.0.10",
             "language":language,
             "source_manifest": source_manifest or None,
             "source_manifest_sha256": source_manifest_sha256,
@@ -476,9 +484,9 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
         }
         return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.9では、template referenceのdrift checkに加えて、診断コードリファレンスもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.10では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.9, release checks keep the template-reference drift check and also drift-check the diagnostics code reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.10, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -529,6 +537,51 @@ def command_diagnostics(args) -> int:
         else:
             print(output, end="")
         return 0
+    return 2
+
+
+def _reference_check_or_write(output: str, args, label: str) -> int:
+    if(getattr(args, "check", None)):
+        target=Path(args.check)
+        if(not target.exists()):
+            print(f"{label} target does not exist: {target}", file=sys.stderr)
+            return 1
+        current=target.read_text(encoding="utf-8")
+        if(current!=output):
+            print(f"{label} OUT OF DATE: {target}", file=sys.stderr)
+            return 1
+        print(f"OK: {target} matches generated {label.lower()}")
+        return 0
+    if(getattr(args, "output", None)):
+        _write_text_file(Path(args.output), output)
+        print(f"Wrote: {args.output}")
+    else:
+        print(output, end="")
+    return 0
+
+
+def _reference_index_output(fmt: str, language: str = "en", root: str | None = None) -> str:
+    index=build_reference_index(root, language)
+    if(fmt=="json"):
+        return render_reference_index_json(index)
+    return render_reference_index_markdown(index, language)
+
+
+def _cli_help_reference_output(fmt: str, language: str = "en") -> str:
+    parser=build_arg_parser()
+    reference=build_cli_help_reference(parser, language)
+    if(fmt=="json"):
+        return render_cli_help_reference_json(reference)
+    return render_cli_help_reference_markdown(reference, language)
+
+
+def command_reference(args) -> int:
+    if(args.reference_command=="index"):
+        output=_reference_index_output(args.format, getattr(args, "language", "en"), getattr(args, "root", None))
+        return _reference_check_or_write(output, args, "REFERENCE INDEX")
+    if(args.reference_command=="cli-help"):
+        output=_cli_help_reference_output(args.format, getattr(args, "language", "en"))
+        return _reference_check_or_write(output, args, "CLI HELP REFERENCE")
     return 2
 
 def command_template(args) -> int:
@@ -718,8 +771,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.9 project generated from template: {tmpl.name}",
-        "version": "1.0.9",
+        "description": f"SLDL v1.0.10 project generated from template: {tmpl.name}",
+        "version": "1.0.10",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -1194,7 +1247,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.9 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.10 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -1245,6 +1298,9 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_diagnostics=sub.add_parser("diagnostics", help="list and generate SLDL diagnostics code references"); diagnostics_sub=p_diagnostics.add_subparsers(dest="diagnostics_command", required=True)
     p_diagnostics_list=diagnostics_sub.add_parser("list", help="list known diagnostics codes found in compiler sources"); p_diagnostics_list.add_argument("--root", help="project root used for source scanning"); p_diagnostics_list.add_argument("--language", choices=["en", "ja"], default="en"); p_diagnostics_list.add_argument("--json", action="store_true"); p_diagnostics_list.set_defaults(func=command_diagnostics)
     p_diagnostics_docs=diagnostics_sub.add_parser("docs", help="generate or check diagnostics reference documents"); p_diagnostics_docs.add_argument("--root", help="project root used for source scanning"); p_diagnostics_docs.add_argument("--format", choices=["markdown", "json"], default="markdown"); p_diagnostics_docs.add_argument("--language", choices=["en", "ja"], default="en"); p_diagnostics_docs.add_argument("--check", help="compare generated output with an existing static file and fail if it differs"); p_diagnostics_docs.add_argument("-o", "--output"); p_diagnostics_docs.set_defaults(func=command_diagnostics)
+    p_reference=sub.add_parser("reference", help="generate and check generated reference documents"); reference_sub=p_reference.add_subparsers(dest="reference_command", required=True)
+    p_reference_index=reference_sub.add_parser("index", help="generate or check the generated reference index"); p_reference_index.add_argument("--root", help="project root used for hashing referenced files"); p_reference_index.add_argument("--format", choices=["markdown", "json"], default="markdown"); p_reference_index.add_argument("--language", choices=["en", "ja"], default="en"); p_reference_index.add_argument("--check", help="compare generated output with an existing static file and fail if it differs"); p_reference_index.add_argument("-o", "--output"); p_reference_index.set_defaults(func=command_reference)
+    p_reference_help=reference_sub.add_parser("cli-help", help="generate or check the static CLI help reference"); p_reference_help.add_argument("--format", choices=["markdown", "json"], default="markdown"); p_reference_help.add_argument("--language", choices=["en", "ja"], default="en"); p_reference_help.add_argument("--check", help="compare generated output with an existing static file and fail if it differs"); p_reference_help.add_argument("-o", "--output"); p_reference_help.set_defaults(func=command_reference)
     p_template=sub.add_parser("template", help="work with file-based templates"); template_sub=p_template.add_subparsers(dest="template_command", required=True)
     p_template_list=template_sub.add_parser("list", help="list templates"); p_template_list.add_argument("--template-dir"); p_template_list.set_defaults(func=command_template)
     p_template_docs=template_sub.add_parser("docs", help="generate or check a template reference document from the manifest"); p_template_docs.add_argument("--template-dir"); p_template_docs.add_argument("--format", choices=["markdown", "json"], default="markdown"); p_template_docs.add_argument("--language", choices=["en", "ja"], default="en"); p_template_docs.add_argument("--check", help="compare generated output with an existing static file and fail if it differs"); p_template_docs.add_argument("-o", "--output"); p_template_docs.set_defaults(func=command_template)

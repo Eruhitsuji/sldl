@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.10 - generated reference index and CLI help reference
+
+- Added `reference index` for generated Markdown/JSON reference indexes.
+- Added `reference cli-help` for static Markdown/JSON CLI help references generated from the argparse implementation.
+- Added `sldl.reference_index` and `sldl.cli_help_reference` config validation.
+- Added English/Japanese reference index and CLI help reference documents.
+- Extended release checks to drift-check reference index and CLI help reference files.
+
 ## 1.0.9 - generated diagnostics reference
 
 - Added `diagnostics list` and `diagnostics docs` commands.

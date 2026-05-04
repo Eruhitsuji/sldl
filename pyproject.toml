@@ -1,7 +1,7 @@
 [project]
 name = "sldl-compiler"
-version = "1.0.9"
-description = "SLDL v1.0.9 stable bilingual release with generated diagnostics reference"
+version = "1.0.10"
+description = "SLDL v1.0.10 stable bilingual release with generated reference index and CLI help reference"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -11,3 +11,4 @@ sldlc = "sldl_compiler.cli:main"
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+addopts = ["-p", "no:ddtrace"]

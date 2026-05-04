@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 from sldl_compiler import __version__
@@ -12,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata():
-    assert __version__=="1.0.9"
+    assert __version__=="1.0.10"
 
 
 def test_curated_config_files_are_valid():
@@ -79,8 +81,21 @@ def test_forbidden_glob_rejects_legacy_files(tmp_path):
 
 
 def test_release_check_passes_after_project_build():
-    code,manifest=run_release_check(ROOT/"examples"/"release_check.json", ROOT/"build"/"test_release_manifest.json")
-    assert code==0
+    manifest_path=ROOT/"build"/"test_release_manifest.json"
+    proc=subprocess.run([
+        sys.executable,
+        "-S",
+        "-m",
+        "sldl_compiler.cli",
+        "quality",
+        "release",
+        "--targets",
+        str(ROOT/"examples"/"release_check.json"),
+        "--manifest",
+        str(manifest_path),
+    ], cwd=ROOT, text=True, capture_output=True, timeout=120)
+    assert proc.returncode==0, proc.stdout+proc.stderr
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
     assert manifest["summary"]["failed"]==0
 
 

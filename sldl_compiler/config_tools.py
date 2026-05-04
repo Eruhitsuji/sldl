@@ -56,6 +56,18 @@ SUPPORTED_CONFIG_TYPES={
         "required": ["config_type", "codes"],
         "important": ["version", "language", "counts", "codes"],
     },
+    "sldl.cli_help_reference": {
+        "title": "SLDL generated CLI help reference",
+        "description": "Record static CLI help generated from the implemented argument parser.",
+        "required": ["config_type", "commands"],
+        "important": ["version", "language", "command_count", "commands"],
+    },
+    "sldl.reference_index": {
+        "title": "SLDL generated reference index",
+        "description": "Record links and hashes for generated static reference documents.",
+        "required": ["config_type", "references"],
+        "important": ["version", "language", "references"],
+    },
     "sldl.release_check": {
         "title": "SLDL release check configuration",
         "description": "Declare files, configs, CLI commands, projects, and golden snapshots for release quality checks.",
@@ -123,6 +135,10 @@ def detect_config_type(data: dict[str, Any]) -> tuple[str | None, Diagnostic | N
         inferred="sldl.template_reference"
     elif("codes" in data and (data.get("config_type")=="sldl.diagnostics_reference" or any(isinstance(item, dict) and "code" in item for item in data.get("codes", []) if isinstance(data.get("codes"), list)))):
         inferred="sldl.diagnostics_reference"
+    elif("commands" in data and data.get("config_type")=="sldl.cli_help_reference"):
+        inferred="sldl.cli_help_reference"
+    elif("references" in data and data.get("config_type")=="sldl.reference_index"):
+        inferred="sldl.reference_index"
     elif("templates" in data):
         inferred="sldl.template_manifest"
     elif("labels" in data or "html_lang" in data):
@@ -163,6 +179,10 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
         diagnostics.extend(_check_template_reference(data, base_dir, check_paths))
     elif(config_type=="sldl.diagnostics_reference"):
         diagnostics.extend(_check_diagnostics_reference(data))
+    elif(config_type=="sldl.cli_help_reference"):
+        diagnostics.extend(_check_cli_help_reference(data))
+    elif(config_type=="sldl.reference_index"):
+        diagnostics.extend(_check_reference_index(data, base_dir, check_paths))
     elif(config_type=="sldl.build_manifest"):
         diagnostics.extend(_check_build_manifest(data))
     elif(config_type=="sldl.release_check"):
@@ -361,7 +381,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "templates": [
                 {
                     "name": "sample",
@@ -388,10 +408,27 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.diagnostics_reference",
             "description": "Generated SLDL diagnostics code reference.",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "language": "en",
             "counts": {"total": 0, "errors": 0, "warnings": 0},
             "codes": []
+        }
+    if(config_type=="sldl.cli_help_reference"):
+        return {
+            "config_type": "sldl.cli_help_reference",
+            "description": "Generated SLDL CLI help reference.",
+            "version": "1.0.10",
+            "language": "en",
+            "command_count": 0,
+            "commands": []
+        }
+    if(config_type=="sldl.reference_index"):
+        return {
+            "config_type": "sldl.reference_index",
+            "description": "Generated SLDL reference index.",
+            "version": "1.0.10",
+            "language": "en",
+            "references": []
         }
     if(config_type=="sldl.release_check"):
         return {
@@ -630,7 +667,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.9"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.10"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -943,6 +980,82 @@ def _check_diagnostics_reference(data: dict[str, Any]) -> list[Diagnostic]:
     if(isinstance(counts, dict)):
         if(counts.get("total")!=len(seen)):
             diagnostics.append(Diagnostic("error", "E_DIAGNOSTICS_REFERENCE_COUNTS", "counts.total must match the number of unique codes"))
+    return diagnostics
+
+
+def _check_cli_help_reference(data: dict[str, Any]) -> list[Diagnostic]:
+    diagnostics=[]
+    language=data.get("language")
+    if(language is not None and language not in {"en", "ja"}):
+        diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_LANGUAGE", "language must be en or ja"))
+    commands=data.get("commands")
+    if(not isinstance(commands, list)):
+        diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_COMMANDS", "commands must be a list"))
+        return diagnostics
+    if("command_count" in data and data.get("command_count")!=len(commands)):
+        diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_COUNT", "command_count must match the number of commands"))
+    seen=set()
+    for i,item in enumerate(commands):
+        loc=f"commands[{i}]"
+        if(not isinstance(item, dict)):
+            diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_COMMAND", f"{loc} must be an object"))
+            continue
+        command=item.get("command")
+        if(not isinstance(command, str) or not command):
+            diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_COMMAND", f"{loc}.command must be a non-empty string"))
+        elif(command in seen):
+            diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_DUPLICATE", f"duplicate CLI help command: {command}"))
+        else:
+            seen.add(command)
+        path=item.get("path")
+        if(not isinstance(path, list) or not all(isinstance(value, str) for value in path)):
+            diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_PATH", f"{loc}.path must be a list of strings"))
+        for key in ("usage", "description", "help"):
+            if(key in item and not isinstance(item.get(key), str)):
+                diagnostics.append(Diagnostic("error", "E_CLI_HELP_REFERENCE_FIELD", f"{loc}.{key} must be a string"))
+    return diagnostics
+
+
+def _check_reference_index(data: dict[str, Any], base_dir: Path, check_paths: bool) -> list[Diagnostic]:
+    diagnostics=[]
+    language=data.get("language")
+    if(language is not None and language not in {"en", "ja"}):
+        diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_LANGUAGE", "language must be en or ja"))
+    references=data.get("references")
+    if(not isinstance(references, list)):
+        diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_REFERENCES", "references must be a list"))
+        return diagnostics
+    seen=set()
+    for i,item in enumerate(references):
+        loc=f"references[{i}]"
+        if(not isinstance(item, dict)):
+            diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_REFERENCE", f"{loc} must be an object"))
+            continue
+        path_value=item.get("path")
+        if(not isinstance(path_value, str) or not path_value):
+            diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_PATH", f"{loc}.path must be a non-empty string"))
+            continue
+        if(path_value in seen):
+            diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_DUPLICATE", f"duplicate reference path: {path_value}"))
+        seen.add(path_value)
+        for key in ("title", "title_ja", "kind"):
+            if(key in item and not isinstance(item.get(key), str)):
+                diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_FIELD", f"{loc}.{key} must be a string"))
+        config_type=item.get("config_type")
+        if(config_type is not None and not isinstance(config_type, str)):
+            diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_CONFIG_TYPE", f"{loc}.config_type must be a string or null"))
+        hash_value=item.get("sha256")
+        if(hash_value is not None and (not isinstance(hash_value, str) or len(hash_value)!=64)):
+            diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_SHA256", f"{loc}.sha256 must be a SHA-256 hex string or null"))
+        if(check_paths):
+            ref_path=_resolve_reference_path(base_dir, path_value)
+            if(ref_path is None or not ref_path.exists()):
+                diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_MISSING", f"reference file does not exist: {path_value}"))
+            elif(isinstance(hash_value, str) and len(hash_value)==64):
+                import hashlib
+                digest=hashlib.sha256(ref_path.read_bytes()).hexdigest()
+                if(digest!=hash_value):
+                    diagnostics.append(Diagnostic("error", "E_REFERENCE_INDEX_HASH_MISMATCH", f"sha256 does not match reference file: {path_value}"))
     return diagnostics
 
 def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:

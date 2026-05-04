@@ -1,0 +1,98 @@
+{
+  "config_type": "sldl.reference_index",
+  "description": "Generated SLDL reference index",
+  "version": "1.0.10",
+  "language": "en",
+  "references": [
+    {
+      "path": "docs/generated_template_reference.md",
+      "title": "Template reference",
+      "title_ja": "テンプレートリファレンス",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 1838,
+      "sha256": "deceb9b0a0276cef185f6898527f1729b309fef91513addecfb93437889615f2"
+    },
+    {
+      "path": "docs/ja/generated_template_reference.md",
+      "title": "Template reference (Japanese)",
+      "title_ja": "テンプレートリファレンス（日本語）",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 1892,
+      "sha256": "c09e1b39e25dd945f80ee44cce49e9ab592227980779bb49994156688e2e666b"
+    },
+    {
+      "path": "docs/generated_template_reference.json",
+      "title": "Template reference JSON",
+      "title_ja": "テンプレートリファレンスJSON",
+      "kind": "json",
+      "config_type": "sldl.template_reference",
+      "exists": true,
+      "bytes": 7350,
+      "sha256": "721bea080f99526201e5c808fc6ad035249bf8f2e461f2f8a9165df36f1dceb1"
+    },
+    {
+      "path": "docs/diagnostics_reference.md",
+      "title": "Diagnostics reference",
+      "title_ja": "診断コードリファレンス",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 66964,
+      "sha256": "fa384a30e76f78d1f67c05f56080b26b91b57b7e3cbaececd2a4f623c0ec7eb8"
+    },
+    {
+      "path": "docs/ja/diagnostics_reference.md",
+      "title": "Diagnostics reference (Japanese)",
+      "title_ja": "診断コードリファレンス（日本語）",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 73485,
+      "sha256": "cd997e5b04c2540bde18d4dab2c1c6441b1881c8cbbda731c36af4877b9a1019"
+    },
+    {
+      "path": "docs/diagnostics_reference.json",
+      "title": "Diagnostics reference JSON",
+      "title_ja": "診断コードリファレンスJSON",
+      "kind": "json",
+      "config_type": "sldl.diagnostics_reference",
+      "exists": true,
+      "bytes": 112608,
+      "sha256": "666ee32b5d81fb3f40ed171a5934194020eb5ed050f657a5c46cf8f44c7cc943"
+    },
+    {
+      "path": "docs/cli_help_reference.md",
+      "title": "CLI help reference",
+      "title_ja": "CLI helpリファレンス",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 14690,
+      "sha256": "d9b9cc685eeeb15b4e126164df6a70d15bdcb255b33fdc1722bb2ba1060a90e1"
+    },
+    {
+      "path": "docs/ja/cli_help_reference.md",
+      "title": "CLI help reference (Japanese)",
+      "title_ja": "CLI helpリファレンス（日本語）",
+      "kind": "markdown",
+      "config_type": null,
+      "exists": true,
+      "bytes": 14741,
+      "sha256": "66e25252867d2a0516af5794462e72b904fb447de26dad68a03ad85edba6d53b"
+    },
+    {
+      "path": "docs/cli_help_reference.json",
+      "title": "CLI help reference JSON",
+      "title_ja": "CLI helpリファレンスJSON",
+      "kind": "json",
+      "config_type": "sldl.cli_help_reference",
+      "exists": true,
+      "bytes": 49920,
+      "sha256": "ea0e3c2e34bd0a4ae492b30cecdbdb0a5709d4f8edd06acabdb365e1cdcb2544"
+    }
+  ]
+}

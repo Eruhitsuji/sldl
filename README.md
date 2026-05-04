@@ -1,8 +1,8 @@
-# SLDL v1.0.9 Python Compiler
+# SLDL v1.0.10 Python Compiler
 
 SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, diagnostics, and release-quality checks.
 
-v1.0.9 adds a generated diagnostics reference on top of the v1.0.8 schema-template diagnostics hardening baseline. The core compiler behavior remains compatible with v1.0.8, while diagnostic codes can now be listed, regenerated as Markdown/JSON, and drift-checked by the release gate.
+v1.0.10 adds a generated reference index and static CLI help reference on top of the v1.0.9 diagnostics reference baseline. Template references, diagnostics references, CLI help references, and their machine-readable JSON files can now be regenerated and drift-checked by the release gate.
 
 ## Quick Start: template-first workflow
 
@@ -60,13 +60,24 @@ python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja
 python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
 ```
 
-## What v1.0.9 emphasizes
+## Inspect generated references
 
-- Generated diagnostics reference for all `E_*` and `W_*` codes found in compiler sources.
-- English/Japanese Markdown diagnostics references plus a machine-readable JSON reference.
-- Release-checkable diagnostics-reference drift checks.
-- Links from user-facing docs to the diagnostics reference.
-- Continued schema-template diagnostics, template-reference drift checks, and build-manifest SHA-256 validation.
+```bash
+python3 -S -m sldl_compiler.cli reference index --format markdown --check docs/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format markdown --language ja --check docs/ja/reference_index.md
+python3 -S -m sldl_compiler.cli reference index --format json --check docs/reference_index.json
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --check docs/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language ja --check docs/ja/cli_help_reference.md
+python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
+```
+
+## What v1.0.10 emphasizes
+
+- Generated reference index for static generated references.
+- Static CLI help reference generated from the implemented argument parser.
+- Release-checkable drift checks for template, diagnostics, reference-index, and CLI-help references.
+- Machine-readable config validation for `sldl.reference_index` and `sldl.cli_help_reference`.
+- Continued schema-template diagnostics, template-reference drift checks, diagnostics-reference drift checks, and build-manifest SHA-256 validation.
 
 ## Important directories
 
@@ -77,7 +88,7 @@ python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diag
 | `examples/` | Official SLDL documents and JSON configuration files |
 | `templates/` | Schema-bound SLDL templates and template manifests |
 | `sldl_compiler/` | Python compiler package |
-| `tests/` | Release workflow, template-binding, and diagnostics-reference tests |
+| `tests/` | Release workflow, template-binding, diagnostics-reference, and generated-reference tests |
 
 ## Non-template workflow
 

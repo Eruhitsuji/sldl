@@ -1,0 +1,1610 @@
+{
+  "config_type": "sldl.cli_help_reference",
+  "description": "Generated SLDL CLI help reference",
+  "version": "1.0.10",
+  "language": "en",
+  "command_count": 44,
+  "commands": [
+    {
+      "command": "sldlc",
+      "path": [],
+      "usage": "sldlc <command>",
+      "description": "SLDL v1.0.10 compiler",
+      "subcommands": [
+        {
+          "name": "bib",
+          "help": ""
+        },
+        {
+          "name": "build",
+          "help": ""
+        },
+        {
+          "name": "check",
+          "help": ""
+        },
+        {
+          "name": "config",
+          "help": ""
+        },
+        {
+          "name": "diagnostics",
+          "help": ""
+        },
+        {
+          "name": "export",
+          "help": ""
+        },
+        {
+          "name": "format",
+          "help": ""
+        },
+        {
+          "name": "grammar",
+          "help": ""
+        },
+        {
+          "name": "latex",
+          "help": ""
+        },
+        {
+          "name": "logic",
+          "help": ""
+        },
+        {
+          "name": "project",
+          "help": ""
+        },
+        {
+          "name": "quality",
+          "help": ""
+        },
+        {
+          "name": "reference",
+          "help": ""
+        },
+        {
+          "name": "schema",
+          "help": ""
+        },
+        {
+          "name": "template",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.10 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "bib",
+      "path": [
+        "bib"
+      ],
+      "usage": "bib <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "check",
+          "help": ""
+        },
+        {
+          "name": "import",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: bib\nUsage: bib <command>\n\nSubcommands:\n  check\n  import\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "bib check",
+      "path": [
+        "bib",
+        "check"
+      ],
+      "usage": "bib check <input>",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: bib check\nUsage: bib check <input>\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "bib import",
+      "path": [
+        "bib",
+        "import"
+      ],
+      "usage": "bib import <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: bib import\nUsage: bib import <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "build",
+      "path": [
+        "build"
+      ],
+      "usage": "build <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": ""
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: build\nUsage: build <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --schema SCHEMA\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "check",
+      "path": [
+        "check"
+      ],
+      "usage": "check <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": ""
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: check\nUsage: check <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  --schema SCHEMA\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "config",
+      "path": [
+        "config"
+      ],
+      "usage": "config <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "check",
+          "help": ""
+        },
+        {
+          "name": "explain",
+          "help": ""
+        },
+        {
+          "name": "init",
+          "help": ""
+        },
+        {
+          "name": "list",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: config\nUsage: config <command>\n\nSubcommands:\n  check\n  explain\n  init\n  list\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "config check",
+      "path": [
+        "config",
+        "check"
+      ],
+      "usage": "config check <files> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "files",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--type TYPE",
+          "help": "expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference."
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-path-check",
+          "help": "do not warn when referenced files do not exist"
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: config check\nUsage: config check <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.\n  --warnings-as-errors\n  --no-path-check - do not warn when referenced files do not exist\n  --json\n"
+    },
+    {
+      "command": "config explain",
+      "path": [
+        "config",
+        "explain"
+      ],
+      "usage": "config explain <target> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "target",
+          "help": "config_type value or JSON file path"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: config explain\nUsage: config explain <target> [options]\n\nArguments:\n  target - config_type value or JSON file path\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "config init",
+      "path": [
+        "config",
+        "init"
+      ],
+      "usage": "config init <type> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "type",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--force",
+          "help": ""
+        }
+      ],
+      "help": "Command: config init\nUsage: config init <type> [options]\n\nArguments:\n  type\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --force\n"
+    },
+    {
+      "command": "config list",
+      "path": [
+        "config",
+        "list"
+      ],
+      "usage": "config list [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: config list\nUsage: config list [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --json\n"
+    },
+    {
+      "command": "diagnostics",
+      "path": [
+        "diagnostics"
+      ],
+      "usage": "diagnostics <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "docs",
+          "help": ""
+        },
+        {
+          "name": "list",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: diagnostics\nUsage: diagnostics <command>\n\nSubcommands:\n  docs\n  list\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "diagnostics docs",
+      "path": [
+        "diagnostics",
+        "docs"
+      ],
+      "usage": "diagnostics docs [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--root ROOT",
+          "help": "project root used for source scanning"
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: markdown, json."
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "--check CHECK",
+          "help": "compare generated output with an existing static file and fail if it differs"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: diagnostics docs\nUsage: diagnostics docs [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --root ROOT - project root used for source scanning\n  --format FORMAT - Choices: markdown, json.\n  --language LANGUAGE - Choices: en, ja.\n  --check CHECK - compare generated output with an existing static file and fail if it differs\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "diagnostics list",
+      "path": [
+        "diagnostics",
+        "list"
+      ],
+      "usage": "diagnostics list [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--root ROOT",
+          "help": "project root used for source scanning"
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: diagnostics list\nUsage: diagnostics list [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --root ROOT - project root used for source scanning\n  --language LANGUAGE - Choices: en, ja.\n  --json\n"
+    },
+    {
+      "command": "export",
+      "path": [
+        "export"
+      ],
+      "usage": "export <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: json, markdown, html, latex, bibtex, mermaid, logic-markdown, logic-mermaid."
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": ""
+        },
+        {
+          "names": "--citation-style CITATION_STYLE",
+          "help": "citation/reference style for markdown/html export Choices: numeric, ieee, apa, author-year."
+        },
+        {
+          "names": "--export-config EXPORT_CONFIG",
+          "help": "JSON file for language-dependent export labels"
+        },
+        {
+          "names": "--latex-profile LATEX_PROFILE",
+          "help": "LaTeX profile, e.g. platex-jsarticle, platex-jreport, uplatex-jsarticle, lualatex-ltjsarticle"
+        },
+        {
+          "names": "--latex-class LATEX_CLASS",
+          "help": "Override LaTeX document class"
+        },
+        {
+          "names": "--latex-class-options LATEX_CLASS_OPTIONS",
+          "help": "Override LaTeX document class options"
+        },
+        {
+          "names": "--latex-geometry LATEX_GEOMETRY",
+          "help": "geometry package options, e.g. margin=25mm"
+        },
+        {
+          "names": "--latex-hyperref, --no-latex-hyperref ",
+          "help": "Enable or disable hyperref in LaTeX output"
+        },
+        {
+          "names": "--latex-sloppy, --no-latex-sloppy ",
+          "help": "Enable or disable overfull-box mitigation in LaTeX output"
+        },
+        {
+          "names": "--latex-table-font LATEX_TABLE_FONT",
+          "help": "Font size for generated longtable blocks Choices: none, normalsize, small, footnotesize, scriptsize."
+        },
+        {
+          "names": "--latex-top-level LATEX_TOP_LEVEL",
+          "help": "Render top-level SLDL sections as LaTeX sections or chapters Choices: section, chapter."
+        },
+        {
+          "names": "--latex-code-environment LATEX_CODE_ENVIRONMENT",
+          "help": "Environment used for CodeBlock, Chart, and Flowchart source blocks Choices: lstlisting, verbatim."
+        },
+        {
+          "names": "--latex-figure-width LATEX_FIGURE_WIDTH",
+          "help": "Default width for Figure includegraphics, e.g. 0.9\\linewidth"
+        },
+        {
+          "names": "--latex-code-font-size LATEX_CODE_FONT_SIZE",
+          "help": "Font size for generated lstlisting blocks Choices: none, normalsize, small, footnotesize, scriptsize."
+        },
+        {
+          "names": "--mermaid-mode MERMAID_MODE",
+          "help": "LaTeX rendering mode for Chart/Flowchart Mermaid diagrams Choices: code, placeholder, external-image."
+        },
+        {
+          "names": "--toc, --no-toc ",
+          "help": "Enable or disable a generated table of contents for supported export formats"
+        },
+        {
+          "names": "--logic-source-edge-direction LOGIC_SOURCE_EDGE_DIRECTION",
+          "help": "direction used when displaying source/cite edges in logic exports Choices: reference-to-evidence, evidence-to-reference."
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: export\nUsage: export <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  --format FORMAT - Choices: json, markdown, html, latex, bibtex, mermaid, logic-markdown, logic-mermaid.\n  -o, --output OUTPUT\n  --schema SCHEMA\n  --citation-style CITATION_STYLE - citation/reference style for markdown/html export Choices: numeric, ieee, apa, author-year.\n  --export-config EXPORT_CONFIG - JSON file for language-dependent export labels\n  --latex-profile LATEX_PROFILE - LaTeX profile, e.g. platex-jsarticle, platex-jreport, uplatex-jsarticle, lualatex-ltjsarticle\n  --latex-class LATEX_CLASS - Override LaTeX document class\n  --latex-class-options LATEX_CLASS_OPTIONS - Override LaTeX document class options\n  --latex-geometry LATEX_GEOMETRY - geometry package options, e.g. margin=25mm\n  --latex-hyperref, --no-latex-hyperref  - Enable or disable hyperref in LaTeX output\n  --latex-sloppy, --no-latex-sloppy  - Enable or disable overfull-box mitigation in LaTeX output\n  --latex-table-font LATEX_TABLE_FONT - Font size for generated longtable blocks Choices: none, normalsize, small, footnotesize, scriptsize.\n  --latex-top-level LATEX_TOP_LEVEL - Render top-level SLDL sections as LaTeX sections or chapters Choices: section, chapter.\n  --latex-code-environment LATEX_CODE_ENVIRONMENT - Environment used for CodeBlock, Chart, and Flowchart source blocks Choices: lstlisting, verbatim.\n  --latex-figure-width LATEX_FIGURE_WIDTH - Default width for Figure includegraphics, e.g. 0.9\\linewidth\n  --latex-code-font-size LATEX_CODE_FONT_SIZE - Font size for generated lstlisting blocks Choices: none, normalsize, small, footnotesize, scriptsize.\n  --mermaid-mode MERMAID_MODE - LaTeX rendering mode for Chart/Flowchart Mermaid diagrams Choices: code, placeholder, external-image.\n  --toc, --no-toc  - Enable or disable a generated table of contents for supported export formats\n  --logic-source-edge-direction LOGIC_SOURCE_EDGE_DIRECTION - direction used when displaying source/cite edges in logic exports Choices: reference-to-evidence, evidence-to-reference.\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "format",
+      "path": [
+        "format"
+      ],
+      "usage": "format <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--in-place",
+          "help": ""
+        },
+        {
+          "names": "--check",
+          "help": ""
+        },
+        {
+          "names": "--indent INDENT",
+          "help": ""
+        }
+      ],
+      "help": "Command: format\nUsage: format <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --in-place\n  --check\n  --indent INDENT\n"
+    },
+    {
+      "command": "grammar",
+      "path": [
+        "grammar"
+      ],
+      "usage": "grammar [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: grammar\nUsage: grammar [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "latex",
+      "path": [
+        "latex"
+      ],
+      "usage": "latex <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "build",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: latex\nUsage: latex <command>\n\nSubcommands:\n  build\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "latex build",
+      "path": [
+        "latex",
+        "build"
+      ],
+      "usage": "latex build <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": "input .tex file"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": "output PDF path"
+        },
+        {
+          "names": "--config CONFIG",
+          "help": "external JSON build configuration"
+        },
+        {
+          "names": "--dry-run",
+          "help": "print commands without executing them"
+        }
+      ],
+      "help": "Command: latex build\nUsage: latex build <input> [options]\n\nArguments:\n  input - input .tex file\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT - output PDF path\n  --config CONFIG - external JSON build configuration\n  --dry-run - print commands without executing them\n"
+    },
+    {
+      "command": "logic",
+      "path": [
+        "logic"
+      ],
+      "usage": "logic <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "graph",
+          "help": ""
+        },
+        {
+          "name": "report",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: logic\nUsage: logic <command>\n\nSubcommands:\n  graph\n  report\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "logic graph",
+      "path": [
+        "logic",
+        "graph"
+      ],
+      "usage": "logic graph <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": ""
+        },
+        {
+          "names": "--source-edge-direction SOURCE_EDGE_DIRECTION",
+          "help": "direction used when displaying source/cite edges Choices: reference-to-evidence, evidence-to-reference."
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: logic graph\nUsage: logic graph <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --schema SCHEMA\n  --source-edge-direction SOURCE_EDGE_DIRECTION - direction used when displaying source/cite edges Choices: reference-to-evidence, evidence-to-reference.\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "logic report",
+      "path": [
+        "logic",
+        "report"
+      ],
+      "usage": "logic report <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": ""
+        },
+        {
+          "names": "--source-edge-direction SOURCE_EDGE_DIRECTION",
+          "help": "direction used when displaying source/cite edges Choices: reference-to-evidence, evidence-to-reference."
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: logic report\nUsage: logic report <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --schema SCHEMA\n  --source-edge-direction SOURCE_EDGE_DIRECTION - direction used when displaying source/cite edges Choices: reference-to-evidence, evidence-to-reference.\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "project",
+      "path": [
+        "project"
+      ],
+      "usage": "project <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "build",
+          "help": ""
+        },
+        {
+          "name": "check",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: project\nUsage: project <command>\n\nSubcommands:\n  build\n  check\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "project build",
+      "path": [
+        "project",
+        "build"
+      ],
+      "usage": "project build <project> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "project",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--manifest MANIFEST",
+          "help": "override output manifest path"
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: project build\nUsage: project build <project> [options]\n\nArguments:\n  project\n\nOptions:\n  -h, --help - show this help message and exit\n  --manifest MANIFEST - override output manifest path\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "project check",
+      "path": [
+        "project",
+        "check"
+      ],
+      "usage": "project check <project> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "project",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--no-source-context",
+          "help": ""
+        }
+      ],
+      "help": "Command: project check\nUsage: project check <project> [options]\n\nArguments:\n  project\n\nOptions:\n  -h, --help - show this help message and exit\n  --warnings-as-errors\n  --no-source-context\n"
+    },
+    {
+      "command": "quality",
+      "path": [
+        "quality"
+      ],
+      "usage": "quality <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "manifest",
+          "help": ""
+        },
+        {
+          "name": "release",
+          "help": ""
+        },
+        {
+          "name": "snapshot",
+          "help": ""
+        },
+        {
+          "name": "snapshot-check",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: quality\nUsage: quality <command>\n\nSubcommands:\n  manifest\n  release\n  snapshot\n  snapshot-check\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "quality manifest",
+      "path": [
+        "quality",
+        "manifest"
+      ],
+      "usage": "quality manifest <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        }
+      ],
+      "help": "Command: quality manifest\nUsage: quality manifest <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  --warnings-as-errors\n"
+    },
+    {
+      "command": "quality release",
+      "path": [
+        "quality",
+        "release"
+      ],
+      "usage": "quality release [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--targets TARGETS",
+          "help": "sldl.release_check JSON target file"
+        },
+        {
+          "names": "--manifest MANIFEST",
+          "help": "write an sldl.release_manifest JSON"
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: quality release\nUsage: quality release [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --targets TARGETS - sldl.release_check JSON target file\n  --manifest MANIFEST - write an sldl.release_manifest JSON\n  --warnings-as-errors\n  --json\n"
+    },
+    {
+      "command": "quality snapshot",
+      "path": [
+        "quality",
+        "snapshot"
+      ],
+      "usage": "quality snapshot <files> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "files",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--base-dir BASE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--description DESCRIPTION",
+          "help": ""
+        }
+      ],
+      "help": "Command: quality snapshot\nUsage: quality snapshot <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --base-dir BASE_DIR\n  --description DESCRIPTION\n"
+    },
+    {
+      "command": "quality snapshot-check",
+      "path": [
+        "quality",
+        "snapshot-check"
+      ],
+      "usage": "quality snapshot-check <input> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "input",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--base-dir BASE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: quality snapshot-check\nUsage: quality snapshot-check <input> [options]\n\nArguments:\n  input\n\nOptions:\n  -h, --help - show this help message and exit\n  --base-dir BASE_DIR\n  --warnings-as-errors\n  --json\n"
+    },
+    {
+      "command": "reference",
+      "path": [
+        "reference"
+      ],
+      "usage": "reference <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "cli-help",
+          "help": ""
+        },
+        {
+          "name": "index",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: reference\nUsage: reference <command>\n\nSubcommands:\n  cli-help\n  index\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "reference cli-help",
+      "path": [
+        "reference",
+        "cli-help"
+      ],
+      "usage": "reference cli-help [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: markdown, json."
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "--check CHECK",
+          "help": "compare generated output with an existing static file and fail if it differs"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: reference cli-help\nUsage: reference cli-help [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --format FORMAT - Choices: markdown, json.\n  --language LANGUAGE - Choices: en, ja.\n  --check CHECK - compare generated output with an existing static file and fail if it differs\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "reference index",
+      "path": [
+        "reference",
+        "index"
+      ],
+      "usage": "reference index [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--root ROOT",
+          "help": "project root used for hashing referenced files"
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: markdown, json."
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "--check CHECK",
+          "help": "compare generated output with an existing static file and fail if it differs"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: reference index\nUsage: reference index [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --root ROOT - project root used for hashing referenced files\n  --format FORMAT - Choices: markdown, json.\n  --language LANGUAGE - Choices: en, ja.\n  --check CHECK - compare generated output with an existing static file and fail if it differs\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "schema",
+      "path": [
+        "schema"
+      ],
+      "usage": "schema <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "check",
+          "help": ""
+        },
+        {
+          "name": "explain",
+          "help": ""
+        },
+        {
+          "name": "list",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: schema\nUsage: schema <command>\n\nSubcommands:\n  check\n  explain\n  list\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "schema check",
+      "path": [
+        "schema",
+        "check"
+      ],
+      "usage": "schema check <schema_files> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "schema_files",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--warnings-as-errors",
+          "help": ""
+        }
+      ],
+      "help": "Command: schema check\nUsage: schema check <schema_files> [options]\n\nArguments:\n  schema_files\n\nOptions:\n  -h, --help - show this help message and exit\n  --warnings-as-errors\n"
+    },
+    {
+      "command": "schema explain",
+      "path": [
+        "schema",
+        "explain"
+      ],
+      "usage": "schema explain <schema_files> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "schema_files",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--document-type DOCUMENT_TYPE",
+          "help": ""
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: schema explain\nUsage: schema explain <schema_files> [options]\n\nArguments:\n  schema_files\n\nOptions:\n  -h, --help - show this help message and exit\n  --document-type DOCUMENT_TYPE\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "schema list",
+      "path": [
+        "schema",
+        "list"
+      ],
+      "usage": "schema list <schema_files> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "schema_files",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--json",
+          "help": ""
+        }
+      ],
+      "help": "Command: schema list\nUsage: schema list <schema_files> [options]\n\nArguments:\n  schema_files\n\nOptions:\n  -h, --help - show this help message and exit\n  --json\n"
+    },
+    {
+      "command": "template",
+      "path": [
+        "template"
+      ],
+      "usage": "template <command>",
+      "description": "",
+      "subcommands": [
+        {
+          "name": "check",
+          "help": ""
+        },
+        {
+          "name": "docs",
+          "help": ""
+        },
+        {
+          "name": "explain",
+          "help": ""
+        },
+        {
+          "name": "list",
+          "help": ""
+        },
+        {
+          "name": "new",
+          "help": ""
+        },
+        {
+          "name": "project",
+          "help": ""
+        }
+      ],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        }
+      ],
+      "help": "Command: template\nUsage: template <command>\n\nSubcommands:\n  check\n  docs\n  explain\n  list\n  new\n  project\n\nOptions:\n  -h, --help - show this help message and exit\n"
+    },
+    {
+      "command": "template check",
+      "path": [
+        "template",
+        "check"
+      ],
+      "usage": "template check <name> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "name",
+          "help": "template name"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": "schema override; requires --allow-schema-override when the template already binds a schema"
+        },
+        {
+          "names": "--strict-schema",
+          "help": "treat schema warnings as errors"
+        },
+        {
+          "names": "--allow-schema-override",
+          "help": "allow overriding the schema bound by the template manifest"
+        }
+      ],
+      "help": "Command: template check\nUsage: template check <name> [options]\n\nArguments:\n  name - template name\n\nOptions:\n  -h, --help - show this help message and exit\n  --template-dir TEMPLATE_DIR\n  --schema SCHEMA - schema override; requires --allow-schema-override when the template already binds a schema\n  --strict-schema - treat schema warnings as errors\n  --allow-schema-override - allow overriding the schema bound by the template manifest\n"
+    },
+    {
+      "command": "template docs",
+      "path": [
+        "template",
+        "docs"
+      ],
+      "usage": "template docs [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: markdown, json."
+        },
+        {
+          "names": "--language LANGUAGE",
+          "help": "Choices: en, ja."
+        },
+        {
+          "names": "--check CHECK",
+          "help": "compare generated output with an existing static file and fail if it differs"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        }
+      ],
+      "help": "Command: template docs\nUsage: template docs [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --template-dir TEMPLATE_DIR\n  --format FORMAT - Choices: markdown, json.\n  --language LANGUAGE - Choices: en, ja.\n  --check CHECK - compare generated output with an existing static file and fail if it differs\n  -o, --output OUTPUT\n"
+    },
+    {
+      "command": "template explain",
+      "path": [
+        "template",
+        "explain"
+      ],
+      "usage": "template explain <name> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "name",
+          "help": "template name"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--format FORMAT",
+          "help": "Choices: text, markdown, json."
+        },
+        {
+          "names": "--json",
+          "help": "deprecated alias for --format json"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": "write explanation to a file"
+        }
+      ],
+      "help": "Command: template explain\nUsage: template explain <name> [options]\n\nArguments:\n  name - template name\n\nOptions:\n  -h, --help - show this help message and exit\n  --template-dir TEMPLATE_DIR\n  --format FORMAT - Choices: text, markdown, json.\n  --json - deprecated alias for --format json\n  -o, --output OUTPUT - write explanation to a file\n"
+    },
+    {
+      "command": "template list",
+      "path": [
+        "template",
+        "list"
+      ],
+      "usage": "template list [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        }
+      ],
+      "help": "Command: template list\nUsage: template list [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --template-dir TEMPLATE_DIR\n"
+    },
+    {
+      "command": "template new",
+      "path": [
+        "template",
+        "new"
+      ],
+      "usage": "template new <name> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "name",
+          "help": ""
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": ""
+        },
+        {
+          "names": "--force",
+          "help": ""
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": "create from schema when name is omitted, or override a named template schema when allowed"
+        },
+        {
+          "names": "--document-type DOCUMENT_TYPE",
+          "help": "document_types.<TypeName> to use when a schema contains multiple document types"
+        },
+        {
+          "names": "--strict-schema",
+          "help": "treat schema warnings as errors during generation check"
+        },
+        {
+          "names": "--allow-schema-override",
+          "help": "allow overriding the schema bound by the template manifest"
+        }
+      ],
+      "help": "Command: template new\nUsage: template new <name> [options]\n\nArguments:\n  name\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT\n  --force\n  --template-dir TEMPLATE_DIR\n  --schema SCHEMA - create from schema when name is omitted, or override a named template schema when allowed\n  --document-type DOCUMENT_TYPE - document_types.<TypeName> to use when a schema contains multiple document types\n  --strict-schema - treat schema warnings as errors during generation check\n  --allow-schema-override - allow overriding the schema bound by the template manifest\n"
+    },
+    {
+      "command": "template project",
+      "path": [
+        "template",
+        "project"
+      ],
+      "usage": "template project <name> [options]",
+      "description": "",
+      "subcommands": [],
+      "arguments": [
+        {
+          "name": "name",
+          "help": "template name"
+        }
+      ],
+      "options": [
+        {
+          "names": "-h, --help",
+          "help": "show this help message and exit"
+        },
+        {
+          "names": "-o, --output OUTPUT",
+          "help": "project JSON output path"
+        },
+        {
+          "names": "--document-output DOCUMENT_OUTPUT",
+          "help": "SLDL document output path"
+        },
+        {
+          "names": "--force",
+          "help": ""
+        },
+        {
+          "names": "--template-dir TEMPLATE_DIR",
+          "help": ""
+        },
+        {
+          "names": "--schema SCHEMA",
+          "help": "schema JSON override; by default the template manifest binding is used"
+        },
+        {
+          "names": "--export-config EXPORT_CONFIG",
+          "help": "export label config override; by default the template manifest value is used"
+        },
+        {
+          "names": "--latex-build-config LATEX_BUILD_CONFIG",
+          "help": "LaTeX build config override; by default the template manifest value is used"
+        },
+        {
+          "names": "--strict-schema",
+          "help": "treat schema warnings as errors during generation check"
+        },
+        {
+          "names": "--allow-schema-override",
+          "help": "allow overriding the schema bound by the template manifest"
+        },
+        {
+          "names": "--build-dir BUILD_DIR",
+          "help": "generated output directory used inside the project JSON"
+        },
+        {
+          "names": "--formats FORMATS",
+          "help": "comma-separated output formats"
+        },
+        {
+          "names": "--citation-style CITATION_STYLE",
+          "help": ""
+        },
+        {
+          "names": "--toc, --no-toc ",
+          "help": ""
+        },
+        {
+          "names": "--latex-profile LATEX_PROFILE",
+          "help": ""
+        },
+        {
+          "names": "--latex-geometry LATEX_GEOMETRY",
+          "help": ""
+        },
+        {
+          "names": "--latex-top-level LATEX_TOP_LEVEL",
+          "help": "Choices: section, chapter."
+        },
+        {
+          "names": "--latex-code-font-size LATEX_CODE_FONT_SIZE",
+          "help": "Choices: none, normalsize, small, footnotesize, scriptsize."
+        },
+        {
+          "names": "--mermaid-mode MERMAID_MODE",
+          "help": "Choices: code, placeholder, external-image."
+        }
+      ],
+      "help": "Command: template project\nUsage: template project <name> [options]\n\nArguments:\n  name - template name\n\nOptions:\n  -h, --help - show this help message and exit\n  -o, --output OUTPUT - project JSON output path\n  --document-output DOCUMENT_OUTPUT - SLDL document output path\n  --force\n  --template-dir TEMPLATE_DIR\n  --schema SCHEMA - schema JSON override; by default the template manifest binding is used\n  --export-config EXPORT_CONFIG - export label config override; by default the template manifest value is used\n  --latex-build-config LATEX_BUILD_CONFIG - LaTeX build config override; by default the template manifest value is used\n  --strict-schema - treat schema warnings as errors during generation check\n  --allow-schema-override - allow overriding the schema bound by the template manifest\n  --build-dir BUILD_DIR - generated output directory used inside the project JSON\n  --formats FORMATS - comma-separated output formats\n  --citation-style CITATION_STYLE\n  --toc, --no-toc \n  --latex-profile LATEX_PROFILE\n  --latex-geometry LATEX_GEOMETRY\n  --latex-top-level LATEX_TOP_LEVEL - Choices: section, chapter.\n  --latex-code-font-size LATEX_CODE_FONT_SIZE - Choices: none, normalsize, small, footnotesize, scriptsize.\n  --mermaid-mode MERMAID_MODE - Choices: code, placeholder, external-image.\n"
+    }
+  ]
+}
