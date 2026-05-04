@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.schema",
-  "description": "SLDL v1.0.3 bilingual official schema with template-schema bindings.",
-  "schema_version": "1.0.3",
+  "description": "SLDL v1.0.5 bilingual official schema with template-schema bindings.",
+  "schema_version": "1.0.5",
   "document_types": {
     "ResearchReport": {
       "required_blocks": [

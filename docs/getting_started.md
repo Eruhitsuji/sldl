@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide shows the recommended v1.0.3 workflow. For new documents, start from a schema-bound template, generate a project JSON, then build all outputs through the project command.
+This guide shows the recommended v1.0.5 workflow. For new documents, start from a schema-bound template, generate a project JSON, then build all outputs through the project command.
 
 ## 1. Inspect a template
 
@@ -8,9 +8,10 @@ This guide shows the recommended v1.0.3 workflow. For new documents, start from 
 python3 -S -m sldl_compiler.cli template list
 python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
 python3 -S -m sldl_compiler.cli template check research_report_en
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
 ```
 
-`template explain` shows the template source file, document type, bound schema, export-label config, LaTeX build config, and strict-schema setting. In v1.0.3 it supports `text`, `markdown`, and `json` output formats.
+`template explain` shows the template source file, document type, bound schema, export-label config, LaTeX build config, and strict-schema setting. In v1.0.5 it supports `text`, `markdown`, and `json` output formats. `templates/template_manifest.json` is the canonical manifest; `templates/manifest.json` is kept only as a compatibility copy.
 
 ## 2. Generate a document and project file
 
@@ -55,3 +56,7 @@ python3 -S -m sldl_compiler.cli config check examples/project_official_examples.
 python3 -S -m sldl_compiler.cli project check examples/project_official_examples.json
 python3 -S -m sldl_compiler.cli project build examples/project_official_examples.json
 ```
+
+## Template manifest policy in v1.0.4
+
+Edit `templates/template_manifest.json` first. `templates/manifest.json` is a legacy compatibility copy for older workflows that still look for `manifest.json`. The release check validates both files and the build-manifest validator checks that template-generated project outputs record the canonical manifest path.

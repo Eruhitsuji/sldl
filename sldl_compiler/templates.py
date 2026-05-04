@@ -20,6 +20,7 @@ class Template:
     strict_schema: bool = False
     manifest_path: Path | None = None
     manifest_version: str | None = None
+    manifest_role: str | None = None
 
 
 def default_template_dir() -> Path:
@@ -45,6 +46,7 @@ def _load_manifest(template_dir: Path) -> tuple[dict[str, Any], Path]:
     if(manifest_path is None):
         return {
             "version": "adhoc",
+            "manifest_role": "adhoc",
             "templates": [
                 {
                     "name": p.stem,
@@ -54,7 +56,7 @@ def _load_manifest(template_dir: Path) -> tuple[dict[str, Any], Path]:
                 for p in sorted(template_dir.glob("*.sldl"))
             ],
         }, template_dir
-    return json.loads(manifest_path.read_text(encoding="utf-8")), manifest_path.parent
+    return json.loads(manifest_path.read_text(encoding="utf-8")), manifest_path
 
 
 
@@ -72,6 +74,7 @@ def _template_info_from_template(t: Template) -> dict[str, Any]:
         "strict_schema": t.strict_schema,
         "manifest_path": str(t.manifest_path) if(t.manifest_path is not None) else None,
         "manifest_version": t.manifest_version,
+        "manifest_role": t.manifest_role,
     }
 
 
@@ -93,6 +96,7 @@ def template_info_markdown(name: str, template_dir: str | Path | None = None) ->
         ("strict_schema", str(info.get("strict_schema"))),
         ("manifest_path", info.get("manifest_path") or "-"),
         ("manifest_version", info.get("manifest_version") or "-"),
+        ("manifest_role", info.get("manifest_role") or "-"),
     ]
     lines.append("| Field | Value |")
     lines.append("|---|---|")
@@ -137,7 +141,9 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
     if(not directory.exists()):
         raise FileNotFoundError(f"Template directory not found: {directory}")
 
-    manifest,manifest_base=_load_manifest(directory)
+    manifest,manifest_path=_load_manifest(directory)
+    manifest_base=manifest_path.parent if(manifest_path.is_file()) else manifest_path
+    manifest_role=manifest.get("manifest_role") if(isinstance(manifest.get("manifest_role"), str)) else ("canonical" if(manifest_path.name=="template_manifest.json") else "legacy_compatibility")
     result: dict[str, Template]={}
     for item in _iter_template_items(manifest):
         name=item.get("name")
@@ -160,8 +166,9 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
             default_export_config=_resolve_optional(manifest_base, item.get("default_export_config")),
             default_latex_build_config=_resolve_optional(manifest_base, item.get("default_latex_build_config")),
             strict_schema=bool(item.get("strict_schema", False)),
-            manifest_path=manifest_base/"template_manifest.json" if((manifest_base/"template_manifest.json").exists()) else (_manifest_path(directory)),
+            manifest_path=manifest_path if(manifest_path.is_file()) else (_manifest_path(directory)),
             manifest_version=manifest.get("version") if(isinstance(manifest.get("version"), str)) else None,
+            manifest_role=manifest_role,
         )
     return result
 
@@ -181,6 +188,7 @@ def list_templates(template_dir: str | Path | None = None) -> list[dict[str, Any
             "strict_schema": t.strict_schema,
             "manifest_path": str(t.manifest_path) if(t.manifest_path is not None) else "",
             "manifest_version": t.manifest_version or "",
+            "manifest_role": t.manifest_role or "",
         }
         for t in templates.values()
     ]
@@ -228,6 +236,7 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 strict_schema=strict_schema,
                 manifest_path=None,
                 manifest_version=None,
+                manifest_role=None,
             )
         if(template_file or inline_template):
             template_path=(path.parent/(template_file or inline_template)).resolve()
@@ -244,6 +253,7 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
                 strict_schema=strict_schema,
                 manifest_path=None,
                 manifest_version=None,
+                manifest_role=None,
             )
 
         template_name=candidate.get("template_name")

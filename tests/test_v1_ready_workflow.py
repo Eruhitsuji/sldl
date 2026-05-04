@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata():
-    assert __version__=="1.0.3"
+    assert __version__=="1.0.5"
 
 
 def test_curated_config_files_are_valid():

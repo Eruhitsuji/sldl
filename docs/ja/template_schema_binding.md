@@ -70,3 +70,13 @@ python3 -S -m sldl_compiler.cli project check \
 ## v1.0.3のmanifest互換性とexplain出力形式
 
 v1.0.3では、`templates/template_manifest.json` と `templates/manifest.json` の互換性検査を追加しました。また、`template explain` は `text`、`markdown`、`json` の出力形式に対応します。project buildでは、document entryにtemplate由来情報がある場合、build manifestにもtemplate情報を記録します。
+
+## v1.0.5の正式manifest方針
+
+`templates/template_manifest.json` が正式なmanifestです。`templates/manifest.json` は互換用コピーとして残しますが、主な編集対象にはしません。正式manifestを変更した後は、次のコマンドでtemplate referenceを再生成できます。
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
+```
+
+release checkではmanifest互換性に加えて、project build manifestに記録されたtemplate情報も検査します。

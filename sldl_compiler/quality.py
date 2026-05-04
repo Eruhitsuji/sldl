@@ -357,6 +357,13 @@ def _validate_build_manifest_file(path: Path) -> list[Diagnostic]:
     if(data is None):
         return diagnostics
     documents=data.get("documents")
+    project_dir=None
+    project_value=data.get("project")
+    if(isinstance(project_value, str) and project_value):
+        project_path=Path(project_value)
+        if(not project_path.is_absolute()):
+            project_path=(Path.cwd()/project_path).resolve()
+        project_dir=project_path.parent
     if(isinstance(documents, list)):
         for i,doc in enumerate(documents):
             if(not isinstance(doc, dict)):
@@ -364,6 +371,34 @@ def _validate_build_manifest_file(path: Path) -> list[Diagnostic]:
             counts=doc.get("diagnostic_counts", {})
             if(isinstance(counts, dict) and counts.get("errors", 0)):
                 diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_DOCUMENT_ERRORS", f"documents[{i}] has recorded errors"))
+            template=doc.get("template")
+            if(isinstance(template, dict) and any(template.get(k) for k in ("name", "source", "manifest"))):
+                if(not isinstance(template.get("name"), str) or not template.get("name")):
+                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_NAME", f"documents[{i}].template.name must be a non-empty string"))
+                manifest_ref=template.get("manifest")
+                source_ref=template.get("source")
+                if(not isinstance(manifest_ref, str) or not manifest_ref):
+                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_MANIFEST", f"documents[{i}].template.manifest must be recorded"))
+                elif(Path(manifest_ref).name!="template_manifest.json"):
+                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_CANONICAL", f"documents[{i}].template.manifest must point to template_manifest.json"))
+                role=template.get("manifest_role")
+                if(role not in {"canonical", "adhoc", None, ""}):
+                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_ROLE", f"documents[{i}].template.manifest_role must be canonical for bundled templates"))
+                if(project_dir is not None):
+                    for key,ref in (("source", source_ref), ("manifest", manifest_ref), ("schema", template.get("schema")), ("export_config", template.get("export_config")), ("latex_build_config", template.get("latex_build_config"))):
+                        if(isinstance(ref, str) and ref):
+                            ref_path=Path(ref)
+                            if(not ref_path.is_absolute()):
+                                ref_path=(project_dir/ref_path).resolve()
+                            if(not ref_path.exists()):
+                                diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_PATH", f"documents[{i}].template.{key} does not exist: {ref}"))
+                                continue
+                            expected_hash=template.get(f"{key}_sha256")
+                            if(expected_hash is not None):
+                                if(not isinstance(expected_hash, str) or len(expected_hash)!=64):
+                                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH", f"documents[{i}].template.{key}_sha256 must be a SHA-256 hex string"))
+                                elif(sha256_file(ref_path)!=expected_hash):
+                                    diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_HASH_MISMATCH", f"documents[{i}].template.{key}_sha256 does not match {ref}"))
             outputs=doc.get("outputs", [])
             if(isinstance(outputs, list)):
                 for j,out in enumerate(outputs):

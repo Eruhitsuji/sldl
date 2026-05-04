@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.project",
-  "description": "Negative example for v1.0.3: project metadata intentionally expects ResearchReport while the input declares ProjectOverview.",
-  "version": "1.0.3",
+  "description": "Negative example for v1.0.5: project metadata intentionally expects ResearchReport while the input declares ProjectOverview.",
+  "version": "1.0.5",
   "schemas": ["sldl_schema.json"],
   "documents": [
     {

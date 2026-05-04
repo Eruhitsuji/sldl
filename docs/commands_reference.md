@@ -81,7 +81,7 @@ python3 -S -m sldl_compiler.cli template project research_report_en \
   --document-output examples/my_report.sldl
 ```
 
-## Template explain output modes (v1.0.3)
+## Template explain output modes
 
 ```bash
 python3 -S -m sldl_compiler.cli template explain research_report_en --format text
@@ -90,3 +90,22 @@ python3 -S -m sldl_compiler.cli template explain research_report_en --format jso
 ```
 
 The `--json` flag remains as a compatibility alias for `--format json`.
+
+## Template reference generation (v1.0.5)
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json
+```
+
+`template docs` reads the active template manifest and emits a generated reference. In bundled releases, `templates/template_manifest.json` is canonical and `templates/manifest.json` is a legacy compatibility copy.
+
+## Template reference drift check (v1.0.5)
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --check docs/ja/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
+```
+
+These commands regenerate the template reference in memory and fail when the checked static file is stale.

@@ -44,6 +44,12 @@ SUPPORTED_CONFIG_TYPES={
         "required": ["config_type", "documents"],
         "important": ["project", "version", "documents"],
     },
+    "sldl.template_reference": {
+        "title": "SLDL generated template reference",
+        "description": "Record template reference data generated from a template manifest.",
+        "required": ["config_type", "templates"],
+        "important": ["version", "language", "templates"],
+    },
     "sldl.release_check": {
         "title": "SLDL release check configuration",
         "description": "Declare files, configs, CLI commands, projects, and golden snapshots for release quality checks.",
@@ -107,6 +113,8 @@ def detect_config_type(data: dict[str, Any]) -> tuple[str | None, Diagnostic | N
         inferred="sldl.snapshot_manifest"
     elif("project_files" in data or "build_project_files" in data or "golden_snapshot" in data):
         inferred="sldl.release_check"
+    elif("templates" in data and data.get("config_type")=="sldl.template_reference"):
+        inferred="sldl.template_reference"
     elif("templates" in data):
         inferred="sldl.template_manifest"
     elif("labels" in data or "html_lang" in data):
@@ -143,6 +151,8 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
         diagnostics.extend(_check_latex_build_config(data))
     elif(config_type=="sldl.template_manifest"):
         diagnostics.extend(_check_template_manifest(data, base_dir, check_paths, path))
+    elif(config_type=="sldl.template_reference"):
+        diagnostics.extend(_check_template_reference(data))
     elif(config_type=="sldl.build_manifest"):
         diagnostics.extend(_check_build_manifest(data))
     elif(config_type=="sldl.release_check"):
@@ -183,6 +193,9 @@ def config_summary(path: str | Path) -> dict[str, Any]:
         summary["dry_run"]=data.get("dry_run")
         summary["uses_steps"]=isinstance(data.get("steps"), list)
     elif(config_type=="sldl.template_manifest"):
+        templates=data.get("templates") if(isinstance(data.get("templates"), list)) else []
+        summary["templates"]=len(templates)
+    elif(config_type=="sldl.template_reference"):
         templates=data.get("templates") if(isinstance(data.get("templates"), list)) else []
         summary["templates"]=len(templates)
     elif(config_type=="sldl.build_manifest"):
@@ -335,7 +348,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "templates": [
                 {
                     "name": "sample",
@@ -591,6 +604,16 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(not isinstance(templates, list) or not templates):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_TEMPLATES", "templates must be a non-empty list or object"))
         return diagnostics
+    manifest_role=data.get("manifest_role")
+    if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
+    if(manifest_path is not None and manifest_path.name=="manifest.json"):
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.5"))
+        canonical_value=data.get("canonical_manifest")
+        if(canonical_value is not None and canonical_value!="template_manifest.json"):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
+    if(manifest_path is not None and manifest_path.name=="template_manifest.json" and manifest_role=="legacy_compatibility"):
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "template_manifest.json must not be marked as legacy_compatibility"))
     allowed_keys={
         "name", "description", "document_type", "language", "path", "template_file",
         "schema", "default_export_config", "default_latex_build_config", "strict_schema"
@@ -708,6 +731,31 @@ def _check_template_manifest_bound_file_types(item: dict[str, Any], base_dir: Pa
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_SCHEMA_DOCUMENT_TYPE", f"{loc}.document_type {document_type} is not defined by the bound schema"))
 
 
+def _check_template_reference(data: dict[str, Any]) -> list[Diagnostic]:
+    diagnostics=[]
+    templates=data.get("templates")
+    if(not isinstance(templates, list) or not templates):
+        diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_TEMPLATES", "templates must be a non-empty list"))
+        return diagnostics
+    seen=set()
+    for i,item in enumerate(templates):
+        loc=f"templates[{i}]"
+        if(not isinstance(item, dict)):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_TEMPLATE", f"{loc} must be an object"))
+            continue
+        name=item.get("name")
+        if(not isinstance(name, str) or not name):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_NAME", f"{loc}.name must be a non-empty string"))
+        elif(name in seen):
+            diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_DUPLICATE", f"duplicate template name: {name}"))
+        else:
+            seen.add(name)
+        for key in ("document_type", "language", "schema", "manifest_role"):
+            if(key in item and item.get(key) is not None and not isinstance(item.get(key), str)):
+                diagnostics.append(Diagnostic("error", "E_TEMPLATE_REFERENCE_FIELD", f"{loc}.{key} must be a string or null"))
+    return diagnostics
+
+
 def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:
     diagnostics=[]
     documents=data.get("documents")
@@ -725,7 +773,7 @@ def _check_build_manifest(data: dict[str, Any]) -> list[Diagnostic]:
             if(not isinstance(template, dict)):
                 diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE", f"documents[{i}].template must be an object or null"))
             else:
-                for key in ("name", "source", "manifest", "declared_document_type"):
+                for key in ("name", "source", "manifest", "manifest_role", "declared_document_type", "schema", "export_config", "latex_build_config", "source_sha256", "manifest_sha256", "schema_sha256", "export_config_sha256", "latex_build_config_sha256"):
                     if(key in template and template.get(key) is not None and not isinstance(template.get(key), str)):
                         diagnostics.append(Diagnostic("error", "E_BUILD_MANIFEST_TEMPLATE_FIELD", f"documents[{i}].template.{key} must be a string or null"))
     return diagnostics

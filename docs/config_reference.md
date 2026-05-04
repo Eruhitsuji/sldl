@@ -84,6 +84,14 @@ Canonical example: `examples/golden_snapshot.json`.
 
 When `strict_schema` is true, warnings found while checking a generated template are treated as errors by `template check`, `template new`, and `template project`.
 
-## `sldl.template_manifest` compatibility checks in v1.0.3
+## `sldl.template_manifest` compatibility checks
 
-v1.0.3 keeps `templates/template_manifest.json` as the canonical manifest and `templates/manifest.json` as a compatibility copy. Config checks verify that the two files declare the same template names, paths, document types, and schema bindings. The checker also warns when a `*.sldl` file in the template directory is not listed by the manifest.
+v1.0.5 keeps `templates/template_manifest.json` as the canonical manifest and `templates/manifest.json` as a legacy compatibility copy. Config checks verify that the two files declare the same template names, paths, document types, and schema bindings. The checker also warns when a `*.sldl` file in the template directory is not listed by the manifest.
+
+## Template manifest policy fields (v1.0.4)
+
+`sldl.template_manifest` may include `manifest_role` to distinguish the canonical bundled manifest from a legacy compatibility copy.
+
+- `canonical`: use this for `templates/template_manifest.json`.
+- `legacy_compatibility`: use this for `templates/manifest.json` when it is kept as a compatibility copy.
+- `canonical_manifest`: in the legacy copy, this should point to `template_manifest.json`.

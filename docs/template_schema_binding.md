@@ -70,3 +70,13 @@ python3 -S -m sldl_compiler.cli project check \
 ## v1.0.3 manifest compatibility and explain formats
 
 v1.0.3 adds compatibility validation between `templates/template_manifest.json` and `templates/manifest.json`. It also adds explicit `text`, `markdown`, and `json` output modes to `template explain`. Project builds preserve template metadata in the build manifest when a document entry contains template provenance fields.
+
+## v1.0.5 canonical manifest policy
+
+`templates/template_manifest.json` is the canonical manifest. `templates/manifest.json` is retained as a legacy compatibility copy and should not be treated as the primary edit target. Use the following command to regenerate the template reference after changing the canonical manifest:
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
+```
+
+The release check validates the manifest compatibility copy and also validates template metadata recorded in project build manifests.

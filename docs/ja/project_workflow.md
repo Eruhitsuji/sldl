@@ -14,3 +14,8 @@ python3 -S -m sldl_compiler.cli project build examples/project_official_examples
 ```bash
 python3 -S -m sldl_compiler.cli quality manifest build/official_examples/sldl_build_manifest.json
 ```
+
+
+## v1.0.5のtemplate情報
+
+`template project` で生成したprojectには、`template`、`template_source`、`template_manifest`、`template_manifest_role` が記録されます。`project build` では、これらが `sldl_build_manifest.json` に引き継がれます。release checkは、template由来の文書が正式な `templates/template_manifest.json` に追跡できるかを検査します。

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.project",
-  "description": "SLDL v1.0.3 project generated from template: research_report_en",
-  "version": "1.0.3",
+  "description": "SLDL v1.0.5 project generated from template: research_report_en",
+  "version": "1.0.5",
   "output_dir": "../build/template_schema_binding",
   "citation_style": "author-year",
   "toc": true,
@@ -21,6 +21,10 @@
       "template": "research_report_en",
       "template_source": "../templates/research_report_en.sldl",
       "template_manifest": "../templates/template_manifest.json",
+      "template_manifest_role": "canonical",
+      "template_schema": "sldl_schema.json",
+      "template_export_config": "export_labels_en.json",
+      "template_latex_build_config": "latex_build_platex_dvipdfmx_dry_run.json",
       "document_type": "ResearchReport",
       "outputs": [
         {

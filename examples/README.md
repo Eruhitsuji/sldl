@@ -1,6 +1,6 @@
 # SLDL official examples
 
-This directory contains the v1.0.3 official bilingual example set for v1.0 public release.
+This directory contains the v1.0.5 official bilingual example set for v1.0 public release.
 
 ## Source examples
 

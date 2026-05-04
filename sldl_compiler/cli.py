@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -338,12 +339,90 @@ def _check_template_content(tmpl, schema_path: str | None, strict_schema: bool) 
             pass
 
 
+
+def _template_reference_display_path(value: str) -> str:
+    if(not value):
+        return ""
+    path=Path(value)
+    if(path.is_absolute()):
+        try:
+            return os.path.relpath(path, Path.cwd())
+        except ValueError:
+            return str(path)
+    return value
+
+
+def _sha256_path(path: str | Path | None) -> str | None:
+    if(path is None):
+        return None
+    value=Path(path)
+    if(not value.exists() or not value.is_file()):
+        return None
+    digest=hashlib.sha256()
+    with value.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024*1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _template_docs_output(template_dir: str | None, fmt: str, language: str = "en") -> str:
+    items=list_templates(template_dir)
+    display_items=[]
+    for item in items:
+        copied=dict(item)
+        for key in ("source_path", "schema", "default_export_config", "default_latex_build_config", "manifest_path"):
+            if(key in copied):
+                copied[key]=_template_reference_display_path(str(copied.get(key) or ""))
+        display_items.append(copied)
+    if(fmt=="json"):
+        return json.dumps({"config_type":"sldl.template_reference", "version":"1.0.5", "language":language, "templates":display_items}, ensure_ascii=False, indent=2)+"\n"
+    if(language=="ja"):
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.5では、この出力と静的docsの一致をrelease checkで検査できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+    else:
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.5, release checks can verify that this generated output matches the static documentation file.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+    for item in display_items:
+        lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
+    lines.append("")
+    lines.append("## コマンド" if(language=="ja") else "## Commands")
+    lines.append("")
+    lines.append("```bash")
+    lines.append("python3 -S -m sldl_compiler.cli template list")
+    lines.append("python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown")
+    lines.append("python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md")
+    lines.append("python3 -S -m sldl_compiler.cli template project research_report_en --document-output examples/generated.sldl -o examples/generated_project.json --force")
+    lines.append("```")
+    return "\n".join(lines)+"\n"
+
 def command_template(args) -> int:
     if(args.template_command=="list"):
         for item in list_templates(args.template_dir):
             schema=item.get("schema", "")
             strict="strict" if(item.get("strict_schema")) else ""
-            print(f"{item['name']}\t{item['description']}\t{item['document_type']}\t{item['language']}\t{schema}\t{strict}")
+            role=item.get("manifest_role", "")
+            print(f"{item['name']}\t{item['description']}\t{item['document_type']}\t{item['language']}\t{schema}\t{strict}\t{role}")
+        return 0
+    if(args.template_command=="docs"):
+        try:
+            output=_template_docs_output(args.template_dir, args.format, getattr(args, "language", "en"))
+        except (KeyError, FileNotFoundError) as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        if(getattr(args, "check", None)):
+            target=Path(args.check)
+            if(not target.exists()):
+                print(f"Template reference target does not exist: {target}", file=sys.stderr)
+                return 1
+            current=target.read_text(encoding="utf-8")
+            if(current!=output):
+                print(f"TEMPLATE DOCS OUT OF DATE: {target}", file=sys.stderr)
+                return 1
+            print(f"OK: {target} matches generated template docs")
+            return 0
+        if(args.output):
+            _write_text_file(Path(args.output), output)
+            print(f"Wrote: {args.output}")
+        else:
+            print(output, end="")
         return 0
     if(args.template_command=="explain"):
         try:
@@ -368,6 +447,7 @@ def command_template(args) -> int:
                     f"strict_schema: {info['strict_schema']}",
                     f"manifest_path: {info['manifest_path'] or '-'}",
                     f"manifest_version: {info['manifest_version'] or '-'}",
+                    f"manifest_role: {info['manifest_role'] or '-'}",
                 ]
                 output="\n".join(lines)+"\n"
         except (KeyError, FileNotFoundError) as exc:
@@ -498,8 +578,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.3 project generated from template: {tmpl.name}",
-        "version": "1.0.3",
+        "description": f"SLDL v1.0.5 project generated from template: {tmpl.name}",
+        "version": "1.0.5",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -519,6 +599,10 @@ def _make_template_project_config(args, tmpl) -> dict:
                 "template": tmpl.name,
                 "template_source": _project_relative_ref(project_output, tmpl.source_path) if(tmpl.source_path is not None) else None,
                 "template_manifest": _project_relative_ref(project_output, tmpl.manifest_path) if(tmpl.manifest_path is not None) else None,
+                "template_manifest_role": tmpl.manifest_role,
+                "template_schema": _project_relative_ref(project_output, schema_path) if(schema_path) else None,
+                "template_export_config": _project_relative_ref(project_output, export_config_path) if(export_config_path) else None,
+                "template_latex_build_config": _project_relative_ref(project_output, latex_build_config_path) if(latex_build_config_path) else None,
                 "document_type": tmpl.document_type,
                 "outputs": outputs,
             }
@@ -664,8 +748,18 @@ def command_project(args) -> int:
                 "name": doc_cfg.get("template"),
                 "source": doc_cfg.get("template_source"),
                 "manifest": doc_cfg.get("template_manifest"),
+                "manifest_role": doc_cfg.get("template_manifest_role"),
                 "declared_document_type": expected_doc_type,
+                "schema": doc_cfg.get("template_schema") or (config.get("schemas", [None])[0] if(isinstance(config.get("schemas"), list) and config.get("schemas")) else config.get("schema")),
+                "export_config": doc_cfg.get("template_export_config") or config.get("export_config"),
+                "latex_build_config": doc_cfg.get("template_latex_build_config") or config.get("latex_build_config"),
             }
+            for key,path_value in (("source", template_meta.get("source")), ("manifest", template_meta.get("manifest")), ("schema", template_meta.get("schema")), ("export_config", template_meta.get("export_config")), ("latex_build_config", template_meta.get("latex_build_config"))):
+                if(isinstance(path_value, str) and path_value):
+                    resolved=_project_path(base_dir, path_value)
+                    digest=_sha256_path(resolved) if(resolved is not None) else None
+                    if(digest):
+                        template_meta[f"{key}_sha256"]=digest
         doc_result={
             "name": doc_cfg.get("name", input_path.stem),
             "input": str(input_path),
@@ -959,7 +1053,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.3 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.5 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -1009,6 +1103,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_format=sub.add_parser("format", help="format SLDL file"); p_format.add_argument("input"); p_format.add_argument("-o","--output"); p_format.add_argument("--in-place", action="store_true"); p_format.add_argument("--check", action="store_true"); p_format.add_argument("--indent", type=int, default=4); p_format.set_defaults(func=command_format)
     p_template=sub.add_parser("template", help="work with file-based templates"); template_sub=p_template.add_subparsers(dest="template_command", required=True)
     p_template_list=template_sub.add_parser("list", help="list templates"); p_template_list.add_argument("--template-dir"); p_template_list.set_defaults(func=command_template)
+    p_template_docs=template_sub.add_parser("docs", help="generate or check a template reference document from the manifest"); p_template_docs.add_argument("--template-dir"); p_template_docs.add_argument("--format", choices=["markdown", "json"], default="markdown"); p_template_docs.add_argument("--language", choices=["en", "ja"], default="en"); p_template_docs.add_argument("--check", help="compare generated output with an existing static file and fail if it differs"); p_template_docs.add_argument("-o", "--output"); p_template_docs.set_defaults(func=command_template)
     p_template_explain=template_sub.add_parser("explain", help="explain a template and its bound configuration files"); p_template_explain.add_argument("name", help="template name"); p_template_explain.add_argument("--template-dir"); p_template_explain.add_argument("--format", choices=["text", "markdown", "json"], default="text"); p_template_explain.add_argument("--json", action="store_true", help="deprecated alias for --format json"); p_template_explain.add_argument("-o", "--output", help="write explanation to a file"); p_template_explain.set_defaults(func=command_template)
     p_template_check=template_sub.add_parser("check", help="check a template against its bound schema"); p_template_check.add_argument("name", help="template name"); p_template_check.add_argument("--template-dir"); p_template_check.add_argument("--schema", help="schema override; requires --allow-schema-override when the template already binds a schema"); p_template_check.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors"); p_template_check.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_check.set_defaults(func=command_template)
     p_template_new=template_sub.add_parser("new", help="create a new file from a template"); p_template_new.add_argument("name", nargs="?"); p_template_new.add_argument("-o","--output"); p_template_new.add_argument("--force", action="store_true"); p_template_new.add_argument("--template-dir"); p_template_new.add_argument("--schema", help="create from schema when name is omitted, or override a named template schema when allowed"); p_template_new.add_argument("--document-type", help="document_types.<TypeName> to use when a schema contains multiple document types"); p_template_new.add_argument("--strict-schema", action="store_true", help="treat schema warnings as errors during generation check"); p_template_new.add_argument("--allow-schema-override", action="store_true", help="allow overriding the schema bound by the template manifest"); p_template_new.set_defaults(func=command_template)

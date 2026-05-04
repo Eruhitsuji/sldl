@@ -49,7 +49,7 @@ manifestに紐づいたschemaでテンプレートを検査します。
 python3 -S -m sldl_compiler.cli template check research_report_en
 ```
 
-## template explainの出力形式 (v1.0.3)
+## template explainの出力形式 (v1.0.5)
 
 ```bash
 python3 -S -m sldl_compiler.cli template explain research_report_en --format text
@@ -58,3 +58,22 @@ python3 -S -m sldl_compiler.cli template explain research_report_en --format jso
 ```
 
 `--json` は `--format json` の互換エイリアスとして残しています。
+
+## template reference generation (v1.0.5)
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json
+```
+
+`template docs` はtemplate manifestからテンプレート一覧ドキュメントを生成します。v1.0.5では `templates/template_manifest.json` が正式なmanifestです。
+
+## Template reference drift check (v1.0.5)
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --check docs/ja/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
+```
+
+これらのコマンドは、template referenceをメモリ上で再生成し、静的ファイルが古い場合に失敗します。

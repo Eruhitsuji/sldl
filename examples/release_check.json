@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.3 stable bilingual release check with template manifest compatibility and explain-format diagnostics.",
-  "version": "1.0.3",
+  "description": "SLDL v1.0.5 stable bilingual release check with template reference drift checks and build-manifest template hash traceability.",
+  "version": "1.0.5",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -68,7 +68,16 @@
     "docs/ja/v1_0_2_release_notes.md",
     "examples/template_schema_binding_failure_project.json",
     "docs/v1_0_3_release_notes.md",
-    "docs/ja/v1_0_3_release_notes.md"
+    "docs/ja/v1_0_3_release_notes.md",
+    "docs/v1_0_4_release_notes.md",
+    "docs/ja/v1_0_4_release_notes.md",
+    "docs/template_manifest_migration.md",
+    "docs/ja/template_manifest_migration.md",
+    "docs/generated_template_reference.md",
+    "docs/ja/generated_template_reference.md",
+    "docs/v1_0_5_release_notes.md",
+    "docs/ja/v1_0_5_release_notes.md",
+    "docs/generated_template_reference.json"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -99,7 +108,8 @@
     "examples/golden_snapshot.json",
     "templates/template_manifest.json",
     "examples/template_schema_binding_failure_project.json",
-    "templates/manifest.json"
+    "templates/manifest.json",
+    "docs/generated_template_reference.json"
   ],
   "commands": [
     {
@@ -135,6 +145,59 @@
         "research_report_en",
         "--format",
         "json"
+      ]
+    },
+    {
+      "name": "template-docs-markdown",
+      "args": [
+        "template",
+        "docs",
+        "--format",
+        "markdown"
+      ]
+    },
+    {
+      "name": "template-docs-json",
+      "args": [
+        "template",
+        "docs",
+        "--format",
+        "json"
+      ]
+    },
+    {
+      "name": "template-docs-markdown-check",
+      "args": [
+        "template",
+        "docs",
+        "--format",
+        "markdown",
+        "--check",
+        "docs/generated_template_reference.md"
+      ]
+    },
+    {
+      "name": "template-docs-markdown-ja-check",
+      "args": [
+        "template",
+        "docs",
+        "--format",
+        "markdown",
+        "--language",
+        "ja",
+        "--check",
+        "docs/ja/generated_template_reference.md"
+      ]
+    },
+    {
+      "name": "template-docs-json-check",
+      "args": [
+        "template",
+        "docs",
+        "--format",
+        "json",
+        "--check",
+        "docs/generated_template_reference.json"
       ]
     },
     {

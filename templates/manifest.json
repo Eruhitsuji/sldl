@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.template_manifest",
-  "description": "Bundled SLDL v1.0.3 template manifest with schema binding, diagnostics, and manifest compatibility defaults.",
-  "version": "1.0.3",
+  "description": "Legacy compatibility copy of the SLDL v1.0.5 template manifest. The canonical file is template_manifest.json.",
+  "version": "1.0.5",
   "templates": [
     {
       "name": "paper",
@@ -135,5 +135,7 @@
       "default_latex_build_config": "../examples/latex_build_platex_dvipdfmx_dry_run.json",
       "strict_schema": true
     }
-  ]
+  ],
+  "manifest_role": "legacy_compatibility",
+  "canonical_manifest": "template_manifest.json"
 }

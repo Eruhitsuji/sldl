@@ -2,7 +2,7 @@
 
 SLDL (Structured Logical Document Language) is a document source format for research reports, technical documents, and specifications. It keeps the document body, logical support relations, schemas, output settings, and release checks in a repeatable workflow.
 
-English documentation is the primary reference for the v1.0.3 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
+English documentation is the primary reference for the v1.0.5 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
 
 ## Start here
 
@@ -10,7 +10,7 @@ English documentation is the primary reference for the v1.0.3 public release. Ja
 2. Build the official bilingual examples with `examples/project_official_examples.json`.
 3. Check the language syntax in `docs/sldl_language_reference.md`.
 4. Check JSON configuration in `docs/config_reference.md`.
-5. Check schema-bound templates with `docs/template_schema_binding.md`.
+5. Check schema-bound templates with `docs/template_schema_binding.md`, `docs/generated_template_reference.md`, and `docs/generated_template_reference.json`.
 6. Run release checks using `docs/release_process.md`.
 
 ## Official examples
@@ -36,8 +36,13 @@ The official example set is under `examples/`:
 - `compatibility_policy.md`: v1.x compatibility surface.
 - `v1_0_release_notes.md`: v1.0.0 release notes.
 - `v1_0_1_release_notes.md`: v1.0.1 release notes.
+- `v1_0_5_release_notes.md`: v1.0.5 release notes.
+- `v1_0_4_release_notes.md`: v1.0.4 release notes.
 - `v1_0_3_release_notes.md`: v1.0.3 release notes.
 - `v1_0_2_release_notes.md`: v1.0.2 release notes.
 - `known_limitations.md`: known limitations.
-- `template_schema_binding.md`: v1.0.3 template-schema binding workflow, manifest compatibility, and diagnostics.
+- `template_schema_binding.md`: template-schema binding workflow, manifest compatibility, and diagnostics.
+- `template_manifest_migration.md`: v1.0.4 canonical manifest migration guide.
+- `generated_template_reference.md`: generated template reference.
+- `generated_template_reference.json`: generated machine-readable template reference.
 - `release_process.md`: release checklist.

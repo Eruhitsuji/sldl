@@ -32,6 +32,14 @@ SLDLの設定JSONは `config_type` を持つJSONオブジェクトです。
 
 `strict_schema` が true の場合、`template check`、`template new`、`template project` で生成物を検査するときに、警告も失敗として扱います。
 
-## v1.0.3の`sldl.template_manifest`互換性検査
+## `sldl.template_manifest`互換性検査
 
-v1.0.3では、`templates/template_manifest.json` を正規manifest、`templates/manifest.json` を互換用コピーとして扱います。config checkでは、両者が同じtemplate名、path、document type、schema bindingを宣言しているか確認します。また、templateディレクトリ内の未登録 `*.sldl` ファイルを警告します。
+v1.0.5では、`templates/template_manifest.json` を正式manifest、`templates/manifest.json` を互換用コピーとして扱います。config checkでは、両者が同じtemplate名、path、document type、schema bindingを宣言しているか確認します。また、templateディレクトリ内の未登録 `*.sldl` ファイルを警告します。
+
+## Template manifest policy fields (v1.0.4)
+
+`sldl.template_manifest` では、正式manifestと互換用コピーを区別するために `manifest_role` を利用できます。
+
+- `canonical`: `templates/template_manifest.json` に使用します。
+- `legacy_compatibility`: 互換用コピーである `templates/manifest.json` に使用します。
+- `canonical_manifest`: 互換用コピーでは `template_manifest.json` を指すようにします。

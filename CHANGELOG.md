@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.5 - generated template reference consistency update
+
+- Added `template docs --check <path>` for release-checkable drift detection between generated template references and static documentation files.
+- Added `template docs --language en|ja` so English and Japanese generated template references are produced by the same command.
+- Added `docs/generated_template_reference.json` as a machine-readable generated template reference.
+- Strengthened project build manifests with template source/schema/export/LaTeX config SHA-256 metadata.
+- Strengthened `quality manifest` checks so recorded template hashes are validated against the referenced files.
+- Updated release checks to verify generated English, Japanese, and JSON template references.
+
+## 1.0.4 - canonical template manifest policy update
+
+- Formalized `templates/template_manifest.json` as the canonical template manifest.
+- Kept `templates/manifest.json` as a legacy compatibility copy with explicit `manifest_role` and `canonical_manifest` metadata.
+- Added `template docs --format markdown|json` to regenerate a template reference from the manifest.
+- Added generated template reference documentation under `docs/`.
+- Strengthened build-manifest validation so template-generated documents must record canonical template manifest metadata.
+- Updated project workflow and commands documentation for the v1.0.4 template policy.
+
 ## 1.0.3 - template manifest compatibility update
 
 - Added `template explain <name> --format markdown|json|text` while keeping `--json` as a compatibility alias.
