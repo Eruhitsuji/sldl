@@ -1,17 +1,16 @@
 # Getting Started
 
-This guide shows the recommended v1.0.6 workflow. For new documents, start from a schema-bound template, generate a project JSON, then build all outputs through the project command.
+This guide shows the recommended v1.0.8 workflow. Start from a schema-bound template, generate a project JSON, build outputs through the project command, and verify the build manifest.
 
-## 1. Inspect a template
+## 1. Inspect available templates
 
 ```bash
 python3 -S -m sldl_compiler.cli template list
 python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
 python3 -S -m sldl_compiler.cli template check research_report_en
-python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
 ```
 
-`template explain` shows the template source file, document type, bound schema, export-label config, LaTeX build config, and strict-schema setting. In v1.0.6 it supports `text`, `markdown`, and `json` output formats. `templates/template_manifest.json` is the canonical manifest; `templates/manifest.json` is kept only as a compatibility copy.
+`template explain` shows the source template file, document type, bound schema, default export-label config, default LaTeX build config, strict-schema setting, and manifest role. Use `--format json` when another tool should consume the binding metadata.
 
 ## 2. Generate a document and project file
 
@@ -24,9 +23,9 @@ python3 -S -m sldl_compiler.cli template project research_report_en \
   --force
 ```
 
-The generated project inherits the template's bound schema and default export/LaTeX settings. The document entry also records template metadata so the later build manifest can preserve the source template information.
+The generated project inherits the template's schema, export config, and LaTeX build config from `templates/template_manifest.json`. The document entry also records template metadata so the build manifest can preserve provenance.
 
-## 3. Check and build
+## 3. Check and build the project
 
 ```bash
 python3 -S -m sldl_compiler.cli project check examples/my_report_project.json
@@ -34,9 +33,19 @@ python3 -S -m sldl_compiler.cli project build examples/my_report_project.json
 python3 -S -m sldl_compiler.cli quality manifest build/my_report/sldl_build_manifest.json
 ```
 
-The project command checks the actual SLDL document type against the project metadata. If the project says `ResearchReport` but the file declares another document type, the check fails.
+`project check` verifies that the project metadata and the SLDL document declaration agree on the document type. `quality manifest` verifies build-manifest structure and, for template-generated documents, template metadata and hashes.
 
-## 4. Run the release quality gate
+## 4. Keep template reference docs synchronized
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --check docs/ja/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
+```
+
+These commands regenerate the reference in memory and fail if the committed static files have drifted from the canonical manifest.
+
+## 5. Run the release quality gate
 
 ```bash
 python3 -m pytest -q
@@ -45,7 +54,7 @@ python3 -S -m sldl_compiler.cli quality release \
   --manifest build/release_manifest.json
 ```
 
-The release check verifies required documentation, config files, template manifest compatibility, intentional negative examples, project builds, build manifests, and golden snapshots.
+The release check verifies required documentation, config files, template manifest compatibility, intentional negative examples, project builds, build manifests, generated template references, and golden snapshots.
 
 ## Non-template workflow
 
@@ -57,6 +66,6 @@ python3 -S -m sldl_compiler.cli project check examples/project_official_examples
 python3 -S -m sldl_compiler.cli project build examples/project_official_examples.json
 ```
 
-## Template manifest policy in v1.0.4
+## Template manifest policy
 
-Edit `templates/template_manifest.json` first. `templates/manifest.json` is a legacy compatibility copy for older workflows that still look for `manifest.json`. The release check validates both files and the build-manifest validator checks that template-generated project outputs record the canonical manifest path.
+Edit `templates/template_manifest.json` first. `templates/manifest.json` is a legacy compatibility copy for older workflows that still look for `manifest.json`. Release checks validate both files, the generated reference docs, and the template metadata recorded in build manifests.

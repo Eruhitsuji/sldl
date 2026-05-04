@@ -1,5 +1,22 @@
 # Commands reference
 
+This reference is synchronized with the v1.0.8 template-first workflow.
+
+## Recommended workflow commands
+
+```bash
+python3 -S -m sldl_compiler.cli template project research_report_en \
+  --document-output examples/my_report.sldl \
+  -o examples/my_report_project.json \
+  --formats markdown,html,latex,pdf \
+  --build-dir ../build/my_report \
+  --force
+
+python3 -S -m sldl_compiler.cli project check examples/my_report_project.json
+python3 -S -m sldl_compiler.cli project build examples/my_report_project.json
+python3 -S -m sldl_compiler.cli quality manifest build/my_report/sldl_build_manifest.json
+```
+
 ## Document commands
 
 ```bash
@@ -15,12 +32,15 @@ python3 -S -m sldl_compiler.cli project check examples/project_official_examples
 python3 -S -m sldl_compiler.cli project build examples/project_official_examples.json
 ```
 
+`project check` validates project JSON structure and also checks document-type agreement between project metadata and SLDL source files. `project build` writes requested outputs and a `sldl_build_manifest.json` file.
+
 ## Config commands
 
 ```bash
 python3 -S -m sldl_compiler.cli config list
 python3 -S -m sldl_compiler.cli config check examples/project_official_examples.json
 python3 -S -m sldl_compiler.cli config explain sldl.project
+python3 -S -m sldl_compiler.cli config explain sldl.template_manifest
 python3 -S -m sldl_compiler.cli config init sldl.project -o project.json
 ```
 
@@ -31,12 +51,51 @@ python3 -S -m sldl_compiler.cli schema check examples/sldl_schema.json
 python3 -S -m sldl_compiler.cli schema list examples/sldl_schema.json
 ```
 
-## Template commands
+## Template inspection commands
 
 ```bash
 python3 -S -m sldl_compiler.cli template list
-python3 -S -m sldl_compiler.cli template project paper_en   --document-output examples/generated_from_template.sldl   -o examples/generated_project.json   --schema examples/sldl_schema.json   --force
+python3 -S -m sldl_compiler.cli template explain research_report_en
+python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
+python3 -S -m sldl_compiler.cli template explain research_report_en --format json
+python3 -S -m sldl_compiler.cli template check research_report_en
 ```
+
+`template explain` supports `text`, `markdown`, and `json`. The `--json` flag remains as a compatibility alias for `--format json`.
+
+## Template generation commands
+
+Generate only an SLDL document:
+
+```bash
+python3 -S -m sldl_compiler.cli template new research_report_en \
+  -o examples/my_report.sldl
+```
+
+Generate both an SLDL document and a project JSON with schema/export/LaTeX defaults inherited from the canonical template manifest:
+
+```bash
+python3 -S -m sldl_compiler.cli template project research_report_en \
+  --document-output examples/my_report.sldl \
+  -o examples/my_report_project.json \
+  --formats markdown,html,latex,pdf \
+  --build-dir ../build/my_report \
+  --force
+```
+
+## Template reference generation and drift checks
+
+```bash
+python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format markdown --language ja -o docs/ja/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json -o docs/generated_template_reference.json
+
+python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --check docs/ja/generated_template_reference.md
+python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
+```
+
+`template docs --check` regenerates the reference in memory and fails if the static file is stale.
 
 ## Quality commands
 
@@ -46,66 +105,10 @@ python3 -S -m sldl_compiler.cli quality manifest build/official_examples/sldl_bu
 python3 -S -m sldl_compiler.cli quality snapshot-check examples/golden_snapshot.json --base-dir .
 ```
 
+For template-generated outputs, `quality manifest` verifies template name, source path, manifest role, and SHA-256 hashes for the template source, template manifest, schema, export config, and LaTeX build config.
+
 ## Grammar command
 
 ```bash
 python3 -S -m sldl_compiler.cli grammar
 ```
-
-## Template-schema binding commands (v1.0.2)
-
-Inspect a bundled template binding:
-
-```bash
-python3 -S -m sldl_compiler.cli template explain research_report_en
-```
-
-Check a bundled template against its manifest-bound schema:
-
-```bash
-python3 -S -m sldl_compiler.cli template check research_report_en
-```
-
-Generate a document from a template and immediately check it with the bound schema:
-
-```bash
-python3 -S -m sldl_compiler.cli template new research_report_en \
-  -o examples/my_report.sldl
-```
-
-Generate a document and a project JSON with schema/export/LaTeX defaults inherited from the template manifest:
-
-```bash
-python3 -S -m sldl_compiler.cli template project research_report_en \
-  -o examples/my_report_project.json \
-  --document-output examples/my_report.sldl
-```
-
-## Template explain output modes
-
-```bash
-python3 -S -m sldl_compiler.cli template explain research_report_en --format text
-python3 -S -m sldl_compiler.cli template explain research_report_en --format markdown
-python3 -S -m sldl_compiler.cli template explain research_report_en --format json
-```
-
-The `--json` flag remains as a compatibility alias for `--format json`.
-
-## Template reference generation (v1.0.6)
-
-```bash
-python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generated_template_reference.md
-python3 -S -m sldl_compiler.cli template docs --format json
-```
-
-`template docs` reads the active template manifest and emits a generated reference. In bundled releases, `templates/template_manifest.json` is canonical and `templates/manifest.json` is a legacy compatibility copy.
-
-## Template reference drift check (v1.0.6)
-
-```bash
-python3 -S -m sldl_compiler.cli template docs --format markdown --check docs/generated_template_reference.md
-python3 -S -m sldl_compiler.cli template docs --format markdown --language ja --check docs/ja/generated_template_reference.md
-python3 -S -m sldl_compiler.cli template docs --format json --check docs/generated_template_reference.json
-```
-
-These commands regenerate the template reference in memory and fail when the checked static file is stale.

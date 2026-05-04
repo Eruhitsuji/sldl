@@ -80,3 +80,20 @@ python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generate
 ```
 
 The release check validates the manifest compatibility copy and also validates template metadata recorded in project build manifests.
+
+## v1.0.8 diagnostics hardening
+
+v1.0.8 makes common binding failures explicit:
+
+- Missing schema files fail with `E_SCHEMA_FILE_MISSING` or `E_TEMPLATE_MANIFEST_SCHEMA_MISSING`.
+- Schema fields that point to non-schema configs fail with `E_SCHEMA_CONFIG_TYPE` or `E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE`.
+- Missing template files in a manifest fail with `E_TEMPLATE_MANIFEST_TEMPLATE_FILE_MISSING`.
+- Explicit schema overrides print a warning that includes the template name, bound schema, requested schema, document type, and strictness.
+
+The following intentional negative examples are kept for release-check coverage:
+
+```bash
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_missing_schema.json
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_wrong_config_type.json
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_missing_template.json
+```

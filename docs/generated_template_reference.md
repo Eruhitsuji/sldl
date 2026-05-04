@@ -1,6 +1,6 @@
 # SLDL Template Reference
 
-Generated from the bundled template manifest. In v1.0.6, release checks verify that this generated output matches the static documentation file and the canonical template manifest metadata.
+Generated from the bundled template manifest. In v1.0.8, release checks keep the drift check and add stricter schema-template diagnostic coverage for representative failure cases.
 
 | Name | Document type | Language | Schema | Role |
 |---|---|---|---|---|

@@ -1,6 +1,22 @@
 # Changelog
 
-## 1.0.6 - template/build manifest consistency hardening
+## 1.0.8 - schema-template diagnostics hardening
+
+- Added explicit diagnostics for missing schema files and schema config-type mismatches.
+- Strengthened template manifest validation for missing template files, missing bound schemas, and bound config-type mismatches.
+- Improved template/project document-type mismatch messages with expected type, actual type, schema path, and recovery hints.
+- Added a visible warning for explicit schema overrides with `--allow-schema-override`.
+- Added negative examples and release-check `expect_failure` commands for representative schema-template failure modes.
+
+## 1.0.7 - template-first documentation workflow update
+
+- Reorganized README Quick Start around `template project` followed by `project check` and `project build`.
+- Expanded English and Japanese getting-started guides for template-bound project creation, build manifest validation, and generated template reference checks.
+- Rewrote English and Japanese commands references to include `template explain`, `template check`, `template docs --check`, and template-bound project commands.
+- Updated project workflow documentation to explain template metadata and SHA-256 provenance in build manifests.
+- Added release checks and tests that keep documentation-oriented workflow examples present and synchronized.
+
+## 1.0.7 - template/build manifest consistency hardening
 
 - Require template-related SHA-256 metadata in build manifest validation.
 - Validate build manifest template metadata against the referenced canonical template manifest entry.

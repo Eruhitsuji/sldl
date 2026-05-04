@@ -348,7 +348,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "templates": [
                 {
                     "name": "sample",
@@ -608,7 +608,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.6"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.8"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -634,7 +634,14 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
         if(not isinstance(path_value, str) or not path_value):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.path must be a non-empty string"))
         elif(check_paths):
-            _warn_missing_path(base_dir/path_value, diagnostics, f"{loc}.path")
+            _error_missing_reference_path(
+                base_dir/path_value,
+                diagnostics,
+                f"{loc}.path",
+                "E_TEMPLATE_MANIFEST_TEMPLATE_FILE_MISSING",
+                f"Template manifest entry {loc} references a template file that does not exist: {base_dir/path_value}. "
+                "Fix the path/template_file field or add the missing .sldl file."
+            )
         name=item.get("name")
         if(isinstance(name, str)):
             if(name in seen):
@@ -647,7 +654,19 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
             if(not isinstance(value, str) or not value):
                 diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_FIELD", f"{loc}.{key} must be a non-empty string"))
             elif(check_paths):
-                _warn_missing_path(base_dir/value, diagnostics, f"{loc}.{key}")
+                code={
+                    "schema":"E_TEMPLATE_MANIFEST_SCHEMA_MISSING",
+                    "default_export_config":"E_TEMPLATE_MANIFEST_EXPORT_CONFIG_MISSING",
+                    "default_latex_build_config":"E_TEMPLATE_MANIFEST_LATEX_CONFIG_MISSING",
+                }.get(key, "E_TEMPLATE_MANIFEST_PATH_MISSING")
+                _error_missing_reference_path(
+                    base_dir/value,
+                    diagnostics,
+                    f"{loc}.{key}",
+                    code,
+                    f"Template manifest entry {loc}.{key} references a missing file: {base_dir/value}. "
+                    f"Fix {key}, add the file, or remove the binding if it is intentionally absent."
+                )
         if("strict_schema" in item and not isinstance(item.get("strict_schema"), bool)):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_STRICT_SCHEMA", f"{loc}.strict_schema must be a boolean"))
         if(check_paths):
@@ -659,9 +678,10 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
                 path_value=item.get("path", item.get("template_file"))
                 if(isinstance(path_value, str) and path_value):
                     listed_paths.add((base_dir/path_value).resolve())
-        for sldl_path in sorted(base_dir.glob("*.sldl")):
-            if(sldl_path.resolve() not in listed_paths):
-                diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_UNLISTED_TEMPLATE", f"template file is not listed in manifest: {sldl_path.name}"))
+        if(manifest_role!="adhoc"):
+            for sldl_path in sorted(base_dir.glob("*.sldl")):
+                if(sldl_path.resolve() not in listed_paths):
+                    diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_UNLISTED_TEMPLATE", f"template file is not listed in manifest: {sldl_path.name}"))
         if(manifest_path is not None):
             sibling_name="manifest.json" if(manifest_path.name=="template_manifest.json") else "template_manifest.json"
             sibling=manifest_path.parent/sibling_name
@@ -721,14 +741,25 @@ def _check_template_manifest_bound_file_types(item: dict[str, Any], base_dir: Pa
         if(inferred_diag and inferred_diag.level=="error"):
             diagnostics.append(Diagnostic("error", inferred_diag.code, f"{loc}.{key}: {inferred_diag.message}"))
         if(config_type!=expected_type):
-            diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE", f"{loc}.{key} must reference {expected_type}, got {config_type or '-'}"))
+            diagnostics.append(Diagnostic(
+                "error",
+                "E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE",
+                f"{loc}.{key} must reference config_type {expected_type}, but {path} declares {config_type or '-'}. "
+                f"Use a {expected_type} JSON file for this field or fix the manifest binding."
+            ))
+            continue
         loaded[key]=data
     schema_data=loaded.get("schema")
     document_type=item.get("document_type")
     if(schema_data is not None and isinstance(document_type, str) and document_type):
         document_types=schema_data.get("document_types")
         if(not isinstance(document_types, dict) or document_type not in document_types):
-            diagnostics.append(Diagnostic("error", "E_TEMPLATE_SCHEMA_DOCUMENT_TYPE", f"{loc}.document_type {document_type} is not defined by the bound schema"))
+            diagnostics.append(Diagnostic(
+                "error",
+                "E_TEMPLATE_SCHEMA_DOCUMENT_TYPE",
+                f"{loc}.document_type {document_type} is not defined by the bound schema. "
+                "Update document_type, choose a matching schema, or add the document type to document_types in the schema."
+            ))
 
 
 def _check_template_reference(data: dict[str, Any], base_dir: Path, check_paths: bool) -> list[Diagnostic]:
@@ -981,6 +1012,11 @@ def _check_mermaid_mode(data: dict[str, Any], diagnostics: list[Diagnostic], pre
 def _warn_missing_path(path: Path, diagnostics: list[Diagnostic], label: str) -> None:
     if(not path.exists()):
         diagnostics.append(Diagnostic("warning", "W_CONFIG_PATH_MISSING", f"Referenced path for {label} does not exist: {path}"))
+
+
+def _error_missing_reference_path(path: Path, diagnostics: list[Diagnostic], label: str, code: str, message: str | None = None) -> None:
+    if(not path.exists()):
+        diagnostics.append(Diagnostic("error", code, message or f"Referenced path for {label} does not exist: {path}"))
 
 
 def _is_string_list(value: Any) -> bool:

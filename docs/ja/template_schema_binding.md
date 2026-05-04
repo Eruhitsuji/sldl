@@ -80,3 +80,20 @@ python3 -S -m sldl_compiler.cli template docs --format markdown -o docs/generate
 ```
 
 release checkではmanifest互換性に加えて、project build manifestに記録されたtemplate情報も検査します。
+
+## v1.0.8の診断強化
+
+v1.0.8では、よくある紐づけ失敗を明示的に表示します。
+
+- schema fileが存在しない場合は、`E_SCHEMA_FILE_MISSING` または `E_TEMPLATE_MANIFEST_SCHEMA_MISSING` で失敗します。
+- schema欄がschema以外のconfigを指している場合は、`E_SCHEMA_CONFIG_TYPE` または `E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE` で失敗します。
+- manifest内のtemplate fileが存在しない場合は、`E_TEMPLATE_MANIFEST_TEMPLATE_FILE_MISSING` で失敗します。
+- `--allow-schema-override` で明示的にschemaを上書きした場合、template名、bound schema、requested schema、document type、strictnessを含む警告を表示します。
+
+release check用に、次の意図的な失敗例を保持しています。
+
+```bash
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_missing_schema.json
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_wrong_config_type.json
+python3 -S -m sldl_compiler.cli config check examples/template_manifest_bad_missing_template.json
+```

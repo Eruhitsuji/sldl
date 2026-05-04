@@ -1,0 +1,19 @@
+{
+  "config_type": "sldl.template_manifest",
+  "description": "Negative example for v1.0.8: the manifest references a missing template file.",
+  "version": "1.0.8",
+  "templates": [
+    {
+      "name": "bad_missing_template",
+      "description": "Missing template file example",
+      "document_type": "ResearchReport",
+      "language": "en-US",
+      "path": "missing_template.sldl",
+      "schema": "sldl_schema.json",
+      "default_export_config": "export_labels_en.json",
+      "default_latex_build_config": "latex_build_platex_dvipdfmx_dry_run.json",
+      "strict_schema": true
+    }
+  ],
+  "manifest_role": "adhoc"
+}

@@ -154,7 +154,10 @@ def load_templates(template_dir: str | Path | None = None) -> dict[str, Template
             continue
         source_path=(manifest_base/rel_path).resolve()
         if(not source_path.exists()):
-            raise FileNotFoundError(f"Template file not found: {source_path}")
+            raise FileNotFoundError(
+                f"Template file not found: template={name}; manifest={manifest_path}; declared_path={rel_path}; resolved_path={source_path}. "
+                "Fix templates/template_manifest.json or add the missing template file."
+            )
         result[name]=Template(
             name=name,
             description=item.get("description", name),
@@ -204,7 +207,12 @@ def get_template(name: str, template_dir: str | Path | None = None) -> Template:
 
 def get_template_from_schema(schema_path: str | Path, document_type: str | None=None) -> Template:
     path=Path(schema_path)
+    if(not path.exists()):
+        raise FileNotFoundError(f"Schema file not found: {path}. Provide a valid --schema path before deriving a template from schema metadata.")
     schema=json.loads(path.read_text(encoding="utf-8"))
+    config_type=schema.get("config_type") if(isinstance(schema, dict)) else None
+    if(config_type is not None and config_type!="sldl.schema"):
+        raise ValueError(f"Schema template source must use config_type sldl.schema, but {path} declares {config_type!r}.")
 
     candidates=[]
     if(document_type):
@@ -241,7 +249,10 @@ def get_template_from_schema(schema_path: str | Path, document_type: str | None=
         if(template_file or inline_template):
             template_path=(path.parent/(template_file or inline_template)).resolve()
             if(not template_path.exists()):
-                raise FileNotFoundError(f"Template file declared by schema was not found: {template_path}")
+                raise FileNotFoundError(
+                    f"Template file declared by schema was not found: schema={path}; document_type={candidate.get('document_type') or '-'}; "
+                    f"declared_template_file={template_file or inline_template}; resolved_path={template_path}."
+                )
             return Template(
                 name=candidate.get("name", template_path.stem),
                 description=candidate.get("description", candidate.get("name", template_path.stem)),

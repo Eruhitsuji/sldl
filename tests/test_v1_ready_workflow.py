@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata():
-    assert __version__=="1.0.6"
+    assert __version__=="1.0.8"
 
 
 def test_curated_config_files_are_valid():
@@ -82,3 +82,35 @@ def test_release_check_passes_after_project_build():
     code,manifest=run_release_check(ROOT/"examples"/"release_check.json", ROOT/"build"/"test_release_manifest.json")
     assert code==0
     assert manifest["summary"]["failed"]==0
+
+
+def test_v108_readme_and_getting_started_are_template_first():
+    readme=(ROOT/"README.md").read_text(encoding="utf-8")
+    getting_started=(ROOT/"docs"/"getting_started.md").read_text(encoding="utf-8")
+    ja_getting_started=(ROOT/"docs"/"ja"/"getting_started.md").read_text(encoding="utf-8")
+    for text in [readme, getting_started, ja_getting_started]:
+        assert "template project research_report_en" in text
+        assert "project check examples/my_report_project.json" in text
+        assert "project build examples/my_report_project.json" in text
+        assert "quality manifest build/my_report/sldl_build_manifest.json" in text
+
+
+def test_v108_commands_reference_documents_template_docs_checks():
+    commands=(ROOT/"docs"/"commands_reference.md").read_text(encoding="utf-8")
+    ja_commands=(ROOT/"docs"/"ja"/"commands_reference.md").read_text(encoding="utf-8")
+    for text in [commands, ja_commands]:
+        assert "template explain research_report_en --format markdown" in text
+        assert "template explain research_report_en --format json" in text
+        assert "template docs --format markdown --check docs/generated_template_reference.md" in text
+        assert "template docs --format markdown --language ja --check docs/ja/generated_template_reference.md" in text
+        assert "template docs --format json --check docs/generated_template_reference.json" in text
+
+
+def test_v108_project_workflow_and_examples_document_template_provenance():
+    project_workflow=(ROOT/"docs"/"project_workflow.md").read_text(encoding="utf-8")
+    ja_project_workflow=(ROOT/"docs"/"ja"/"project_workflow.md").read_text(encoding="utf-8")
+    examples_readme=(ROOT/"examples"/"README.md").read_text(encoding="utf-8")
+    for text in [project_workflow, ja_project_workflow, examples_readme]:
+        assert "template_schema_binding_project.json" in text
+        assert "template metadata" in text or "template metadata" in text.lower() or "template情報" in text
+        assert "SHA-256" in text

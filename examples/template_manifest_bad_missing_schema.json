@@ -1,0 +1,19 @@
+{
+  "config_type": "sldl.template_manifest",
+  "description": "Negative example for v1.0.8: the template exists, but the bound schema path is missing.",
+  "version": "1.0.8",
+  "templates": [
+    {
+      "name": "bad_missing_schema",
+      "description": "Template with a missing schema binding",
+      "document_type": "ResearchReport",
+      "language": "en-US",
+      "path": "../templates/research_report_en.sldl",
+      "schema": "missing_schema.json",
+      "default_export_config": "export_labels_en.json",
+      "default_latex_build_config": "latex_build_platex_dvipdfmx_dry_run.json",
+      "strict_schema": true
+    }
+  ],
+  "manifest_role": "adhoc"
+}

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.6 stable bilingual release check with strict template reference and build-manifest template metadata consistency checks.",
-  "version": "1.0.6",
+  "description": "SLDL v1.0.8 stable bilingual release check with schema-template diagnostics hardening.",
+  "version": "1.0.8",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -79,7 +79,14 @@
     "docs/ja/v1_0_5_release_notes.md",
     "docs/generated_template_reference.json",
     "docs/v1_0_6_release_notes.md",
-    "docs/ja/v1_0_6_release_notes.md"
+    "docs/ja/v1_0_6_release_notes.md",
+    "docs/v1_0_7_release_notes.md",
+    "docs/ja/v1_0_7_release_notes.md",
+    "docs/v1_0_8_release_notes.md",
+    "docs/ja/v1_0_8_release_notes.md",
+    "examples/template_manifest_bad_missing_schema.json",
+    "examples/template_manifest_bad_wrong_config_type.json",
+    "examples/template_manifest_bad_missing_template.json"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -212,6 +219,53 @@
       "expect_failure": true
     },
     {
+      "name": "check-missing-schema-diagnostic-negative-example",
+      "args": [
+        "check",
+        "examples/research_report_en.sldl",
+        "--schema",
+        "examples/missing_schema.json"
+      ],
+      "expect_failure": true
+    },
+    {
+      "name": "check-wrong-schema-config-type-negative-example",
+      "args": [
+        "check",
+        "examples/research_report_en.sldl",
+        "--schema",
+        "examples/export_labels_en.json"
+      ],
+      "expect_failure": true
+    },
+    {
+      "name": "config-check-template-manifest-missing-schema-negative-example",
+      "args": [
+        "config",
+        "check",
+        "examples/template_manifest_bad_missing_schema.json"
+      ],
+      "expect_failure": true
+    },
+    {
+      "name": "config-check-template-manifest-wrong-config-type-negative-example",
+      "args": [
+        "config",
+        "check",
+        "examples/template_manifest_bad_wrong_config_type.json"
+      ],
+      "expect_failure": true
+    },
+    {
+      "name": "config-check-template-manifest-missing-template-negative-example",
+      "args": [
+        "config",
+        "check",
+        "examples/template_manifest_bad_missing_template.json"
+      ],
+      "expect_failure": true
+    },
+    {
       "name": "schema-check",
       "args": [
         "schema",
@@ -339,6 +393,22 @@
         "markdown,html,latex,pdf",
         "--build-dir",
         "../build/template_schema_binding"
+      ]
+    },
+    {
+      "name": "template-check-help",
+      "args": [
+        "template",
+        "check",
+        "--help"
+      ]
+    },
+    {
+      "name": "template-docs-help",
+      "args": [
+        "template",
+        "docs",
+        "--help"
       ]
     }
   ],

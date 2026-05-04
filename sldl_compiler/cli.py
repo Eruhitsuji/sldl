@@ -48,6 +48,9 @@ def load_and_analyze(path: Path, schema_path: str | list[str] | None = None):
     if(schema_path):
         schema_paths=[schema_path] if(isinstance(schema_path, str)) else list(schema_path)
     if(check_with_schema is not None and load_schema_registry is not None):
+        if(schema_paths and _append_schema_input_diagnostics(doc, schema_paths)):
+            run_logic_checks(doc, None)
+            return doc, source
         registry=load_schema_registry([Path(p) for p in schema_paths])
         if(schema_paths):
             doc.schema_info={
@@ -78,6 +81,65 @@ def has_errors(doc, warnings_as_errors: bool = False) -> bool:
     if(warnings_as_errors and any(d.level=="warning" for d in doc.diagnostics)):
         return True
     return False
+
+
+def _append_schema_input_diagnostics(doc, schema_paths: list[str]) -> bool:
+    has_schema_error=False
+    for raw_path in schema_paths:
+        path=Path(raw_path)
+        if(not path.exists()):
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_SCHEMA_FILE_MISSING",
+                f"Schema file does not exist: {path}. Check the --schema argument, project schemas entry, or template manifest schema binding.",
+                doc.line,
+                doc.column,
+            ))
+            has_schema_error=True
+            continue
+        try:
+            data=json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_SCHEMA_JSON",
+                f"Invalid JSON in schema file: {path}: {exc.msg}",
+                exc.lineno,
+                exc.colno,
+            ))
+            has_schema_error=True
+            continue
+        except OSError as exc:
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_SCHEMA_FILE_READ",
+                f"Cannot read schema file: {path} ({exc})",
+                doc.line,
+                doc.column,
+            ))
+            has_schema_error=True
+            continue
+        if(not isinstance(data, dict)):
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_SCHEMA_ROOT",
+                f"Schema file root must be a JSON object: {path}",
+                doc.line,
+                doc.column,
+            ))
+            has_schema_error=True
+            continue
+        config_type=data.get("config_type")
+        if(config_type is not None and config_type!="sldl.schema"):
+            doc.diagnostics.append(Diagnostic(
+                "error",
+                "E_SCHEMA_CONFIG_TYPE",
+                f"Schema path must reference config_type sldl.schema, but {path} declares {config_type!r}. Use a schema JSON file or fix the template/project binding.",
+                doc.line,
+                doc.column,
+            ))
+            has_schema_error=True
+    return has_schema_error
 
 
 def print_warning_policy_note(doc, warnings_as_errors: bool) -> None:
@@ -290,22 +352,40 @@ def _schema_for_template(args, tmpl) -> str | None:
     if(override and tmpl.schema and not getattr(args, "allow_schema_override", False) and not _paths_equivalent(override, tmpl.schema)):
         raise ValueError(
             "Schema override is not allowed for this template. "
-            f"Template '{tmpl.name}' is bound to {tmpl.schema}. "
-            "Use --allow-schema-override to override it explicitly."
+            f"template={tmpl.name}; bound_schema={tmpl.schema}; requested_schema={override}; "
+            f"document_type={tmpl.document_type or '-'}; strict_schema={tmpl.strict_schema}. "
+            "Use --allow-schema-override to override it explicitly, or remove --schema to use the manifest-bound schema."
         )
     return override or tmpl.schema
+
+
+def _schema_override_active(args, tmpl) -> bool:
+    override=getattr(args, "schema", None)
+    return bool(override and tmpl.schema and getattr(args, "allow_schema_override", False) and not _paths_equivalent(override, tmpl.schema))
+
+
+def _print_schema_override_warning(args, tmpl) -> None:
+    if(_schema_override_active(args, tmpl)):
+        print(
+            "WARNING: schema override enabled; "
+            f"template={tmpl.name}; bound_schema={tmpl.schema}; requested_schema={getattr(args, 'schema', None)}; "
+            f"document_type={tmpl.document_type or '-'}; strict_schema={_strict_for_template(args, tmpl)}",
+            file=sys.stderr,
+        )
 
 
 def _strict_for_template(args, tmpl) -> bool:
     return bool(getattr(args, "strict_schema", False) or getattr(tmpl, "strict_schema", False))
 
 
-def _append_document_type_mismatch(doc, expected_type: str | None, context: str) -> None:
+def _append_document_type_mismatch(doc, expected_type: str | None, context: str, schema_path: str | None = None) -> None:
     if(expected_type and doc.type_name and doc.type_name!=expected_type):
+        schema_part=f"; schema={schema_path}" if(schema_path) else ""
         doc.diagnostics.append(Diagnostic(
             "error",
             "E_TEMPLATE_DOCUMENT_TYPE_MISMATCH",
-            f"{context} expects document_type {expected_type}, but the document declares {doc.type_name}"
+            f"{context}: document_type mismatch; manifest/project expects {expected_type}, but the SLDL document declares {doc.type_name}{schema_part}. "
+            "Fix the document header, choose a matching template, or update the manifest/project document_type binding."
         ))
 
 
@@ -314,7 +394,7 @@ def _check_template_path(path: Path, schema_path: str | None, strict_schema: boo
         print(f"OK: {label} (no schema bound)")
         return True
     doc,source=load_and_analyze(path, schema_path)
-    _append_document_type_mismatch(doc, expected_document_type, f"Template {label}")
+    _append_document_type_mismatch(doc, expected_document_type, f"Template {label}", schema_path)
     if(doc.diagnostics):
         print_diagnostics(doc, source, path, True)
     print_warning_policy_note(doc, strict_schema)
@@ -387,7 +467,7 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
     if(fmt=="json"):
         payload={
             "config_type":"sldl.template_reference",
-            "version":"1.0.6",
+            "version":"1.0.8",
             "language":language,
             "source_manifest": source_manifest or None,
             "source_manifest_sha256": source_manifest_sha256,
@@ -395,9 +475,9 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
         }
         return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.6では、この出力と静的docsの一致、および正式template manifestとのmetadata一致をrelease checkで検査できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.8では、template referenceのdrift checkに加えて、schema-template診断と代表的な失敗例のexpect_failure検査を強化しています。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.6, release checks verify that this generated output matches the static documentation file and the canonical template manifest metadata.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.8, release checks keep the drift check and add stricter schema-template diagnostic coverage for representative failure cases.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -481,6 +561,7 @@ def command_template(args) -> int:
         try:
             tmpl=get_template(args.name, args.template_dir)
             schema_path=_schema_for_template(args, tmpl)
+            _print_schema_override_warning(args, tmpl)
             strict_schema=_strict_for_template(args, tmpl)
         except (KeyError, FileNotFoundError, ValueError) as exc:
             print(str(exc), file=sys.stderr)
@@ -497,6 +578,7 @@ def command_template(args) -> int:
                     return 2
                 tmpl=get_template(args.name, args.template_dir)
                 schema_path=_schema_for_template(args, tmpl)
+                _print_schema_override_warning(args, tmpl)
             strict_schema=_strict_for_template(args, tmpl)
         except (KeyError, FileNotFoundError, ValueError) as exc:
             print(str(exc), file=sys.stderr)
@@ -596,8 +678,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.6 project generated from template: {tmpl.name}",
-        "version": "1.0.6",
+        "description": f"SLDL v1.0.8 project generated from template: {tmpl.name}",
+        "version": "1.0.8",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -648,6 +730,7 @@ def command_template_project(args) -> int:
     try:
         tmpl=get_template(args.name, args.template_dir)
         schema_path=_schema_for_template(args, tmpl)
+        _print_schema_override_warning(args, tmpl)
         strict_schema=_strict_for_template(args, tmpl)
         config=_make_template_project_config(args, tmpl)
     except (KeyError, FileNotFoundError, ValueError) as exc:
@@ -1071,7 +1154,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.6 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.8 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
