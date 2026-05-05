@@ -409,7 +409,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "templates": [
                 {
                     "name": "sample",
@@ -436,7 +436,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.diagnostics_reference",
             "description": "Generated SLDL diagnostics code reference.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "language": "en",
             "counts": {"total": 0, "errors": 0, "warnings": 0},
             "codes": []
@@ -445,7 +445,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.cli_help_reference",
             "description": "Generated SLDL CLI help reference.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "language": "en",
             "command_count": 0,
             "commands": []
@@ -454,7 +454,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.reference_index",
             "description": "Generated SLDL reference index.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "language": "en",
             "references": []
         }
@@ -491,7 +491,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.release_report",
             "description": "Generated SLDL release report.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "language": "en",
             "source_manifest": "build/release_manifest.json",
             "summary": {"total": 0, "passed": 0, "failed": 0, "warning_count": 0, "error_count": 0},
@@ -506,7 +506,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.release_summary",
             "description": "Machine-readable SLDL release summary for CI.",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "target": "examples/release_check.json",
             "summary": {"total": 0, "passed": 0, "failed": 0, "warning_count": 0, "error_count": 0},
             "category_summary": [],
@@ -724,7 +724,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.13"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.14"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))

@@ -17,6 +17,10 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Prepare build directory
+        run: |
+          mkdir -p build
+
       - name: Run release gate
         run: |
           python -S -m sldl_compiler.cli quality release \

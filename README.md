@@ -1,8 +1,8 @@
-# SLDL v1.0.12 Python Compiler
+# SLDL v1.0.14 Python Compiler
 
 SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, diagnostics, and release-quality checks.
 
-v1.0.12 adds CI-ready release summaries on top of the v1.0.11 generated release report baseline. Template references, diagnostics references, CLI help references, release reports, release summaries, and their machine-readable JSON files can now be regenerated and drift-checked by the release gate.
+v1.0.14 adds repository-ready CI workflow integration on top of the v1.0.12 release-summary baseline. The bundled GitHub Actions workflows run pytest and the full `quality release` gate, then preserve `build/release_manifest.json` and `docs/release_summary.json` as CI artifacts.
 
 ## Quick Start: template-first workflow
 
@@ -31,7 +31,8 @@ Run the full release gate:
 python3 -m pytest -q
 python3 -S -m sldl_compiler.cli quality release \
   --targets examples/release_check.json \
-  --manifest build/release_manifest.json
+  --manifest build/release_manifest.json \
+  --summary-json docs/release_summary.json
 ```
 
 Generate or check the static release report:
@@ -78,24 +79,29 @@ python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language 
 python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
 ```
 
-## What v1.0.12 emphasizes
+## What v1.0.14 emphasizes
 
-- Generated reference index for static generated references.
-- Static CLI help reference generated from the implemented argument parser.
-- Release-checkable drift checks for template, diagnostics, reference-index, and CLI-help references.
-- Machine-readable config validation for `sldl.reference_index` and `sldl.cli_help_reference`.
-- Continued schema-template diagnostics, template-reference drift checks, diagnostics-reference drift checks, and build-manifest SHA-256 validation.
+- GitHub Actions workflow files for pytest and release checks.
+- CI artifact generation for `build/release_manifest.json` and `docs/release_summary.json`.
+- Bilingual CI workflow documentation.
+- A strict release-summary smoke check using `--fail-on-warning`.
+- Continued schema-template diagnostics, generated-reference drift checks, release-report checks, release-summary checks, and build-manifest SHA-256 validation.
 
 ## Important directories
 
 | Path | Purpose |
 |---|---|
+| `.github/workflows/` | GitHub Actions workflows for tests and release checks |
 | `docs/` | English-first static Markdown documentation |
 | `docs/ja/` | Japanese companion documentation |
 | `examples/` | Official SLDL documents and JSON configuration files |
 | `templates/` | Schema-bound SLDL templates and template manifests |
 | `sldl_compiler/` | Python compiler package |
 | `tests/` | Release workflow, template-binding, diagnostics-reference, and generated-reference tests |
+
+## CI workflow
+
+See `docs/ci_workflow.md` and `docs/ja/ci_workflow.md` for the bundled GitHub Actions setup.
 
 ## Non-template workflow
 

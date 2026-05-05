@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.14 - CI dependency hotfix
+
+- Added explicit pytest installation to the GitHub Actions test workflow.
+- Added a build-directory preparation step to the release-check workflow.
+- Updated pyproject metadata and CI documentation for GitHub-hosted runner compatibility.
+- Extended tests and release checks for CI workflow dependency setup.
+
+## 1.0.13 - CI workflow integration
+
+- Added GitHub Actions workflows for pytest and release checks.
+- Added bilingual CI workflow documentation.
+- Extended release checks to require CI workflow files and v1.0.13 release notes.
+- Added a strict release-summary smoke command with `--fail-on-warning`.
+- Updated release metadata and generated references for v1.0.13.
+
 ## 1.0.12 - CI-ready release summary
 
 - Added `quality release --summary-json <path>` for compact machine-readable CI summaries.

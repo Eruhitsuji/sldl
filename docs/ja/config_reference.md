@@ -46,7 +46,7 @@ v1.0.6では、`templates/template_manifest.json` を正式manifest、`templates
 
 ## `sldl.diagnostics_reference`
 
-v1.0.13のrelease checkで使用する、生成済み診断コードリファレンスです。
+v1.0.14のrelease checkで使用する、生成済み診断コードリファレンスです。
 
 主なキー:
 
@@ -59,7 +59,7 @@ v1.0.13のrelease checkで使用する、生成済み診断コードリファレ
 
 ## `sldl.reference_index`
 
-生成済みリファレンス文書のパス、種別、SHA-256を記録する索引です。v1.0.13のrelease checkでdrift checkされます。
+生成済みリファレンス文書のパス、種別、SHA-256を記録する索引です。v1.0.14のrelease checkでdrift checkされます。
 
 重要キー:
 
@@ -69,7 +69,7 @@ v1.0.13のrelease checkで使用する、生成済み診断コードリファレ
 
 ## `sldl.cli_help_reference`
 
-実装済みCLI parserから生成されるCLI helpの静的リファレンスです。v1.0.13のrelease checkでdrift checkされます。
+実装済みCLI parserから生成されるCLI helpの静的リファレンスです。v1.0.14のrelease checkでdrift checkされます。
 
 重要キー:
 

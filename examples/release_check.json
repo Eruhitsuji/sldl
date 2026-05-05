@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.13 release quality check target with CI workflow coverage",
-  "version": "1.0.13",
+  "description": "SLDL v1.0.14 release quality check target with CI dependency hotfix coverage",
+  "version": "1.0.14",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -118,6 +118,9 @@
     ".github/workflows/release-check.yml",
     "docs/ci_workflow.md",
     "docs/ja/ci_workflow.md",
+    "docs/v1_0_14_release_notes.md",
+    "docs/ja/v1_0_14_release_notes.md",
+    "pyproject.toml",
     "docs/v1_0_13_release_notes.md",
     "docs/ja/v1_0_13_release_notes.md"
   ],

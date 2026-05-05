@@ -1,25 +1,25 @@
 # SLDL Reference Index
 
-This page is the entry point for generated reference documents. In v1.0.13, the template reference, diagnostics reference, CLI help reference, release report, and CI release summary can be checked together.
+This page is the entry point for generated reference documents. In v1.0.14, the template reference, diagnostics reference, CLI help reference, release report, and CI release summary can be checked together.
 
-- version: `1.0.13`
+- version: `1.0.14`
 - references: `13`
 
 | Title | Path | Kind | Config type | SHA-256 |
 |---|---|---|---|---|
-| Template reference | `docs/generated_template_reference.md` | `markdown` | `` | `16ad4b281fa9` |
-| Template reference (Japanese) | `docs/ja/generated_template_reference.md` | `markdown` | `` | `dfcf7da2689f` |
-| Template reference JSON | `docs/generated_template_reference.json` | `json` | `sldl.template_reference` | `00c509b434b4` |
-| Diagnostics reference | `docs/diagnostics_reference.md` | `markdown` | `` | `58c8617fcf45` |
-| Diagnostics reference (Japanese) | `docs/ja/diagnostics_reference.md` | `markdown` | `` | `0a74b9b162b0` |
-| Diagnostics reference JSON | `docs/diagnostics_reference.json` | `json` | `sldl.diagnostics_reference` | `2597aa214ba6` |
-| CLI help reference | `docs/cli_help_reference.md` | `markdown` | `` | `9fbcbe17832a` |
-| CLI help reference (Japanese) | `docs/ja/cli_help_reference.md` | `markdown` | `` | `27c1eb4cd681` |
-| CLI help reference JSON | `docs/cli_help_reference.json` | `json` | `sldl.cli_help_reference` | `d82d5b3994eb` |
-| Release report | `docs/release_report.md` | `markdown` | `` | `396be06135fa` |
-| Release report (Japanese) | `docs/ja/release_report.md` | `markdown` | `` | `6d2806fdc5ae` |
-| Release report JSON | `docs/release_report.json` | `json` | `sldl.release_report` | `713ec91db088` |
-| Release summary JSON | `docs/release_summary.json` | `json` | `sldl.release_summary` | `67458f5206fd` |
+| Template reference | `docs/generated_template_reference.md` | `markdown` | `` | `c7b12d276600` |
+| Template reference (Japanese) | `docs/ja/generated_template_reference.md` | `markdown` | `` | `5e18dc4e64dc` |
+| Template reference JSON | `docs/generated_template_reference.json` | `json` | `sldl.template_reference` | `f86003b124ec` |
+| Diagnostics reference | `docs/diagnostics_reference.md` | `markdown` | `` | `ad1f0804d54b` |
+| Diagnostics reference (Japanese) | `docs/ja/diagnostics_reference.md` | `markdown` | `` | `f992d2b422e9` |
+| Diagnostics reference JSON | `docs/diagnostics_reference.json` | `json` | `sldl.diagnostics_reference` | `00250a210173` |
+| CLI help reference | `docs/cli_help_reference.md` | `markdown` | `` | `52731560e270` |
+| CLI help reference (Japanese) | `docs/ja/cli_help_reference.md` | `markdown` | `` | `916f4c481a74` |
+| CLI help reference JSON | `docs/cli_help_reference.json` | `json` | `sldl.cli_help_reference` | `2e22e7d5c6e1` |
+| Release report | `docs/release_report.md` | `markdown` | `` | `4c4fd8eb362c` |
+| Release report (Japanese) | `docs/ja/release_report.md` | `markdown` | `` | `3c64919b0cfd` |
+| Release report JSON | `docs/release_report.json` | `json` | `sldl.release_report` | `dd54335c2211` |
+| Release summary JSON | `docs/release_summary.json` | `json` | `sldl.release_summary` | `602d353e4e57` |
 
 ## Commands
 

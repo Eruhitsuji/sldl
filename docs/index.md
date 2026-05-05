@@ -2,7 +2,7 @@
 
 SLDL (Structured Logical Document Language) is a document source format for research reports, technical documents, and specifications. It keeps the document body, logical support relations, schemas, output settings, and release checks in a repeatable workflow.
 
-English documentation is the primary reference for the v1.0.13 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
+English documentation is the primary reference for the v1.0.14 public release. Japanese documentation is provided under `docs/ja/` as a companion translation and usage guide.
 
 ## Start here
 
@@ -45,6 +45,7 @@ The official example set is under `examples/`:
 - `v1_0_11_release_notes.md`: v1.0.11 release notes.
 - `v1_0_12_release_notes.md`: v1.0.12 release notes.
 - `v1_0_13_release_notes.md`: v1.0.13 release notes.
+- `v1_0_14_release_notes.md`: v1.0.14 release notes.
 - `v1_0_9_release_notes.md`: v1.0.9 release notes.
 - `v1_0_8_release_notes.md`: v1.0.8 release notes.
 - `v1_0_7_release_notes.md`: v1.0.7 release notes.

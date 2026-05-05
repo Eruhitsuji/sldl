@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.cli_help_reference",
   "description": "Generated SLDL CLI help reference",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "language": "en",
   "command_count": 45,
   "commands": [
@@ -9,7 +9,7 @@
       "command": "sldlc",
       "path": [],
       "usage": "sldlc <command>",
-      "description": "SLDL v1.0.13 compiler",
+      "description": "SLDL v1.0.14 compiler",
       "subcommands": [
         {
           "name": "bib",
@@ -79,7 +79,7 @@
           "help": "show this help message and exit"
         }
       ],
-      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.13 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
+      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.14 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
     },
     {
       "command": "bib",

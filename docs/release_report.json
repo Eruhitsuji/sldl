@@ -1,15 +1,15 @@
 {
   "config_type": "sldl.release_report",
   "description": "Generated SLDL release report",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "language": "en",
   "source_manifest": "build/release_manifest.json",
   "target": "examples/release_check.json",
-  "base_dir": "/mnt/data/sldl_v1013_work",
+  "base_dir": "/mnt/data/sldl_v1014_hotfix_work",
   "python": "python3",
   "summary": {
-    "total": 205,
-    "passed": 205,
+    "total": 208,
+    "passed": 208,
     "failed": 0,
     "warning_count": 13,
     "error_count": 0
@@ -45,8 +45,8 @@
     },
     {
       "category": "required-file",
-      "total": 116,
-      "passed": 116,
+      "total": 119,
+      "passed": 119,
       "failed": 0,
       "warnings": 0
     },
@@ -152,8 +152,8 @@
     },
     {
       "release_category": "required-file",
-      "total": 116,
-      "passed": 116,
+      "total": 119,
+      "passed": 119,
       "failed": 0,
       "warnings": 0
     },
@@ -189,8 +189,8 @@
   "severity_summary": [
     {
       "severity": "error",
-      "total": 196,
-      "passed": 196,
+      "total": 199,
+      "passed": 199,
       "failed": 0,
       "warnings": 0
     },

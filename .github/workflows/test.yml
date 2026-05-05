@@ -21,6 +21,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+
       - name: Run pytest
         env:
           PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"

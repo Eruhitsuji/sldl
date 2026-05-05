@@ -10,18 +10,22 @@ from sldl_compiler.quality import _cli_args_support_warnings_as_errors
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v113():
-    assert __version__=="1.0.13"
+def test_version_metadata_v114():
+    assert __version__=="1.0.14"
 
 
 def test_github_actions_workflows_are_present_and_use_release_gate():
     test_workflow=(ROOT/".github"/"workflows"/"test.yml").read_text(encoding="utf-8")
     release_workflow=(ROOT/".github"/"workflows"/"release-check.yml").read_text(encoding="utf-8")
     assert "python -m pytest -q" in test_workflow
+    assert "Install test dependencies" in test_workflow
+    assert "python -m pip install pytest" in test_workflow
     assert "PYTEST_DISABLE_PLUGIN_AUTOLOAD" in test_workflow
     assert "python -S -m sldl_compiler.cli quality release" in release_workflow
     assert "--summary-json docs/release_summary.json" in release_workflow
     assert "actions/upload-artifact@v4" in release_workflow
+    assert "Prepare build directory" in release_workflow
+    assert "mkdir -p build" in release_workflow
 
 
 def test_ci_documentation_is_bilingual_and_linked_from_index():
@@ -47,6 +51,9 @@ def test_release_check_declares_ci_files_and_strict_smoke_command():
         "docs/ja/ci_workflow.md",
         "docs/v1_0_13_release_notes.md",
         "docs/ja/v1_0_13_release_notes.md",
+        "docs/v1_0_14_release_notes.md",
+        "docs/ja/v1_0_14_release_notes.md",
+        "pyproject.toml",
     ]:
         assert path in required
     command_names={cmd.get("name") for cmd in data.get("commands", [])}
@@ -73,5 +80,12 @@ def test_release_summary_strict_smoke_command(tmp_path):
     ])==0
     data=json.loads(summary.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.release_summary"
-    assert data["version"]=="1.0.13"
+    assert data["version"]=="1.0.14"
     assert data["ci_summary"]["status"]=="passed"
+
+
+def test_pyproject_metadata_declares_v114_and_test_extra():
+    pyproject=(ROOT/"pyproject.toml").read_text(encoding="utf-8")
+    assert 'version = "1.0.14"' in pyproject
+    assert '[project.optional-dependencies]' in pyproject
+    assert 'pytest>=7.1' in pyproject

@@ -477,7 +477,7 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
     if(fmt=="json"):
         payload={
             "config_type":"sldl.template_reference",
-            "version":"1.0.13",
+            "version":"1.0.14",
             "language":language,
             "source_manifest": source_manifest or None,
             "source_manifest_sha256": source_manifest_sha256,
@@ -485,9 +485,9 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
         }
         return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.13では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.14では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.13, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.14, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -779,8 +779,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.13 project generated from template: {tmpl.name}",
-        "version": "1.0.13",
+        "description": f"SLDL v1.0.14 project generated from template: {tmpl.name}",
+        "version": "1.0.14",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -1270,7 +1270,7 @@ def command_quality(args) -> int:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.13 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.14 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)

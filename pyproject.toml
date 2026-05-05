@@ -1,9 +1,14 @@
 [project]
 name = "sldl-compiler"
-version = "1.0.12"
-description = "SLDL v1.0.12 stable bilingual release with CI-ready release summaries"
+version = "1.0.14"
+description = "SLDL v1.0.14 stable bilingual release with GitHub Actions CI dependency hotfix"
 requires-python = ">=3.10"
 dependencies = []
+
+[project.optional-dependencies]
+test = [
+  "pytest>=7.1",
+]
 
 [project.scripts]
 sldlc = "sldl_compiler.cli:main"
