@@ -98,7 +98,7 @@ v1.0.6 keeps `templates/template_manifest.json` as the canonical manifest and `t
 
 ## `sldl.diagnostics_reference`
 
-Records the generated diagnostics-code reference used by v1.0.15 release checks.
+Records the generated diagnostics-code reference used by v1.0.16 release checks.
 
 Important keys:
 
@@ -111,7 +111,7 @@ Canonical example: `docs/diagnostics_reference.json`.
 
 ## `sldl.reference_index`
 
-Records paths, kinds, and SHA-256 hashes for generated static reference documents. It is drift-checked by the v1.0.15 release gate.
+Records paths, kinds, and SHA-256 hashes for generated static reference documents. It is drift-checked by the v1.0.16 release gate.
 
 Important keys:
 
@@ -121,7 +121,7 @@ Important keys:
 
 ## `sldl.cli_help_reference`
 
-Records static CLI help generated from the implemented argument parser. It is drift-checked by the v1.0.15 release gate.
+Records static CLI help generated from the implemented argument parser. It is drift-checked by the v1.0.16 release gate.
 
 Important keys:
 

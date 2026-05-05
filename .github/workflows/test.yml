@@ -24,7 +24,23 @@ jobs:
       - name: Install test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e ".[test]"
+          python -m pip install pytest
+          python - <<'PY'
+          import sldl_compiler
+          print(f"source checkout sldl_compiler {sldl_compiler.__version__}")
+          PY
+
+      - name: Validate package metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text=Path("pyproject.toml").read_text(encoding="utf-8")
+          required=["[build-system]", "[tool.setuptools.packages.find]", "include = [\"sldl_compiler*\"]", "namespaces = false"]
+          missing=[item for item in required if item not in text]
+          if(missing):
+              raise SystemExit(f"missing package metadata: {missing}")
+          print("package metadata is explicit")
+          PY
 
       - name: Run pytest
         env:

@@ -1,7 +1,11 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sldl-compiler"
-version = "1.0.15"
-description = "SLDL v1.0.15 stable bilingual release with GitHub Actions CI dependency hotfix"
+version = "1.0.16"
+description = "SLDL v1.0.16 stable bilingual release with GitHub Actions editable-install metadata fix"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -12,6 +16,11 @@ test = [
 
 [project.scripts]
 sldlc = "sldl_compiler.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sldl_compiler*"]
+namespaces = false
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

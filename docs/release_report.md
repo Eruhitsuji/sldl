@@ -2,10 +2,10 @@
 
 This static release report is generated from a `quality release` manifest. Report-check commands are excluded from the aggregate to avoid circular drift.
 
-- version: `1.0.15`
+- version: `1.0.16`
 - source_manifest: `build/release_manifest.json`
 - status: `passed`
-- checks: `210/210 passed, 0 failed, 13 warnings`
+- checks: `212/212 passed, 0 failed, 13 warnings`
 
 ## Category summary
 
@@ -15,7 +15,7 @@ This static release report is generated from a `quality release` manifest. Repor
 | `command` | 59 | 59 | 0 | 0 |
 | `config-check` | 18 | 18 | 0 | 13 |
 | `forbidden-paths` | 1 | 1 | 0 | 0 |
-| `required-file` | 121 | 121 | 0 | 0 |
+| `required-file` | 123 | 123 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
 | `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
@@ -35,7 +35,7 @@ This static release report is generated from a `quality release` manifest. Repor
 | `generated-reference` | 21 | 21 | 0 | 0 |
 | `negative-example` | 6 | 6 | 0 | 0 |
 | `release-summary` | 2 | 2 | 0 | 0 |
-| `required-file` | 121 | 121 | 0 | 0 |
+| `required-file` | 123 | 123 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
 | `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
@@ -45,7 +45,7 @@ This static release report is generated from a `quality release` manifest. Repor
 
 | Severity | Total | Passed | Failed | Warnings |
 |---|---:|---:|---:|---:|
-| `error` | 201 | 201 | 0 | 0 |
+| `error` | 203 | 203 | 0 | 0 |
 | `info` | 1 | 1 | 0 | 0 |
 | `warning` | 8 | 8 | 0 | 13 |
 

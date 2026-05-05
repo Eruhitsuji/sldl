@@ -1,3 +1,3 @@
-"""SLDL v1.0.15 Python compiler."""
+"""SLDL v1.0.16 Python compiler."""
 
-__version__ = "1.0.15"
+__version__ = "1.0.16"

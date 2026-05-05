@@ -1,15 +1,15 @@
 {
   "config_type": "sldl.release_report",
   "description": "Generated SLDL release report",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "language": "en",
   "source_manifest": "build/release_manifest.json",
   "target": "examples/release_check.json",
   "base_dir": ".",
   "python": "python3",
   "summary": {
-    "total": 210,
-    "passed": 210,
+    "total": 212,
+    "passed": 212,
     "failed": 0,
     "warning_count": 13,
     "error_count": 0
@@ -45,8 +45,8 @@
     },
     {
       "category": "required-file",
-      "total": 121,
-      "passed": 121,
+      "total": 123,
+      "passed": 123,
       "failed": 0,
       "warnings": 0
     },
@@ -152,8 +152,8 @@
     },
     {
       "release_category": "required-file",
-      "total": 121,
-      "passed": 121,
+      "total": 123,
+      "passed": 123,
       "failed": 0,
       "warnings": 0
     },
@@ -189,8 +189,8 @@
   "severity_summary": [
     {
       "severity": "error",
-      "total": 201,
-      "passed": 201,
+      "total": 203,
+      "passed": 203,
       "failed": 0,
       "warnings": 0
     },

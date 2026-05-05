@@ -10,8 +10,8 @@ from sldl_compiler.quality import _cli_args_support_warnings_as_errors
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v115():
-    assert __version__=="1.0.15"
+def test_version_metadata_v116():
+    assert __version__=="1.0.16"
 
 
 def test_github_actions_workflows_are_present_and_use_release_gate():
@@ -19,8 +19,9 @@ def test_github_actions_workflows_are_present_and_use_release_gate():
     release_workflow=(ROOT/".github"/"workflows"/"release-check.yml").read_text(encoding="utf-8")
     assert "python -m pytest -q" in test_workflow
     assert "Install test dependencies" in test_workflow
-    assert "python -m pip install -e" in test_workflow
-    assert ".[test]" in test_workflow
+    assert "python -m pip install pytest" in test_workflow
+    assert "Validate package metadata" in test_workflow
+    assert "python -m pip install -e" not in test_workflow
     assert "PYTEST_DISABLE_PLUGIN_AUTOLOAD" in test_workflow
     assert "python -S -m sldl_compiler.cli quality release" in release_workflow
     assert "--summary-json build/release_summary.json" in release_workflow
@@ -60,6 +61,8 @@ def test_release_check_declares_ci_files_and_strict_smoke_command():
         "docs/ja/v1_0_14_release_notes.md",
         "docs/v1_0_15_release_notes.md",
         "docs/ja/v1_0_15_release_notes.md",
+        "docs/v1_0_16_release_notes.md",
+        "docs/ja/v1_0_16_release_notes.md",
         "pyproject.toml",
     ]:
         assert path in required
@@ -88,12 +91,16 @@ def test_release_summary_strict_smoke_command(tmp_path):
     ])==0
     data=json.loads(summary.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.release_summary"
-    assert data["version"]=="1.0.15"
+    assert data["version"]=="1.0.16"
     assert data["ci_summary"]["status"]=="passed"
 
 
-def test_pyproject_metadata_declares_v115_and_test_extra():
+def test_pyproject_metadata_declares_v116_and_test_extra():
     pyproject=(ROOT/"pyproject.toml").read_text(encoding="utf-8")
-    assert 'version = "1.0.15"' in pyproject
+    assert 'version = "1.0.16"' in pyproject
     assert '[project.optional-dependencies]' in pyproject
     assert 'pytest>=7.1' in pyproject
+    assert '[build-system]' in pyproject
+    assert '[tool.setuptools.packages.find]' in pyproject
+    assert 'include = ["sldl_compiler*"]' in pyproject
+    assert 'namespaces = false' in pyproject

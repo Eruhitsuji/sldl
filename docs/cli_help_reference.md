@@ -2,7 +2,7 @@
 
 This reference captures CLI `--help` output as static documentation generated from the implemented argument parser.
 
-- version: `1.0.15`
+- version: `1.0.16`
 - commands: `45`
 
 ## `sldlc`
@@ -12,7 +12,7 @@ Command: sldlc
 Usage: sldlc <command>
 
 Description:
-SLDL v1.0.15 compiler
+SLDL v1.0.16 compiler
 
 Subcommands:
   bib

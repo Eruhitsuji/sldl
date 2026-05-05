@@ -2,7 +2,7 @@
 
 CLIの `--help` 出力を静的ドキュメントとしてまとめたリファレンスです。ヘルプ本文はCLI実装から生成されます。
 
-- version: `1.0.15`
+- version: `1.0.16`
 - commands: `45`
 
 ## `sldlc`
@@ -12,7 +12,7 @@ Command: sldlc
 Usage: sldlc <command>
 
 Description:
-SLDL v1.0.15 compiler
+SLDL v1.0.16 compiler
 
 Subcommands:
   bib

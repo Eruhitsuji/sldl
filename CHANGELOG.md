@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.16 - GitHub Actions test workflow stabilization
+
+- Changed the test workflow back to direct pytest installation to avoid editable-install failures on GitHub-hosted runners.
+- Added explicit setuptools package discovery in `pyproject.toml` for future packaging compatibility.
+- Added a lightweight CI package-metadata validation step.
+- Added v1.0.16 bilingual release notes and refreshed generated release artifacts.
+
 ## 1.0.15 - clean checkout CI fix
 
 - Removed self-dependent release-report commands from the in-gate release-check command list.

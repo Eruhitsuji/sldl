@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.diagnostics_reference",
   "description": "Generated SLDL diagnostics code reference",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "language": "en",
   "generator": "sldl_compiler.diagnostic_reference",
   "source_root": "sldl_compiler",

@@ -1,8 +1,8 @@
-# SLDL v1.0.15 Python Compiler
+# SLDL v1.0.16 Python Compiler
 
 SLDL (Structured Logical Document Language) is a source format and compiler workflow for writing structured reports, project documents, technical notes, and specifications with explicit schemas, citations, output settings, diagnostics, and release-quality checks.
 
-v1.0.15 fixes the CI workflow for clean GitHub Actions checkouts. The bundled workflows install test dependencies explicitly, run the full `quality release` gate without relying on a pre-existing `build/release_manifest.json`, and preserve `build/release_manifest.json` plus `build/release_summary.json` as CI artifacts.
+v1.0.16 fixes the GitHub Actions test workflow by avoiding editable-install failures in clean runners while keeping package metadata explicit in `pyproject.toml`. The bundled workflows install pytest directly, validate the package metadata statically, run the full `quality release` gate without relying on a pre-existing `build/release_manifest.json`, and preserve `build/release_manifest.json` plus `build/release_summary.json` as CI artifacts.
 
 ## Quick Start: template-first workflow
 
@@ -79,9 +79,9 @@ python3 -S -m sldl_compiler.cli reference cli-help --format markdown --language 
 python3 -S -m sldl_compiler.cli reference cli-help --format json --check docs/cli_help_reference.json
 ```
 
-## What v1.0.15 emphasizes
+## What v1.0.16 emphasizes
 
-- GitHub Actions workflow files for pytest and release checks.
+- GitHub Actions workflow files for pytest, package metadata checks, and release checks.
 - CI artifact generation for `build/release_manifest.json` and `build/release_summary.json`.
 - Bilingual CI workflow documentation.
 - A strict release-summary smoke check using `--fail-on-warning`.

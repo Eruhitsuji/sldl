@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.15 release quality check target with CI dependency hotfix coverage",
-  "version": "1.0.15",
+  "description": "SLDL v1.0.16 release quality check target with CI dependency hotfix coverage",
+  "version": "1.0.16",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -118,13 +118,15 @@
     ".github/workflows/release-check.yml",
     "docs/ci_workflow.md",
     "docs/ja/ci_workflow.md",
-    "docs/v1_0_15_release_notes.md",
-    "docs/ja/v1_0_15_release_notes.md",
+    "docs/v1_0_16_release_notes.md",
+    "docs/ja/v1_0_16_release_notes.md",
     "pyproject.toml",
     "docs/v1_0_13_release_notes.md",
     "docs/ja/v1_0_13_release_notes.md",
     "docs/v1_0_14_release_notes.md",
-    "docs/ja/v1_0_14_release_notes.md"
+    "docs/ja/v1_0_14_release_notes.md",
+    "docs/v1_0_15_release_notes.md",
+    "docs/ja/v1_0_15_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",

@@ -23,8 +23,8 @@ def _build_smoke_manifest(tmp_path: Path) -> Path:
     return manifest
 
 
-def test_version_metadata_v115():
-    assert __version__=="1.0.15"
+def test_version_metadata_v116():
+    assert __version__=="1.0.16"
 
 
 def test_release_report_json_is_valid_config():
@@ -53,7 +53,7 @@ def test_release_report_commands_and_drift_check(tmp_path):
     assert main(["quality", "report", str(manifest), "--format", "json", "-o", str(json_out)])==0
     data=json.loads(json_out.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.release_report"
-    assert data["version"]=="1.0.15"
+    assert data["version"]=="1.0.16"
 
 
 def test_release_report_ignores_own_drift_checks(tmp_path):
@@ -78,6 +78,6 @@ def test_release_summary_command(tmp_path):
     ])==0
     data=json.loads(summary_path.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.release_summary"
-    assert data["version"]=="1.0.15"
+    assert data["version"]=="1.0.16"
     assert data["ci_summary"]["status"]=="passed"
     assert any(row["release_category"]=="release-summary" for row in data["release_category_summary"])

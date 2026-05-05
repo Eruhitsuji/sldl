@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.reference_index",
   "description": "Generated SLDL reference index",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "language": "en",
   "references": [
     {
@@ -12,7 +12,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 1838,
-      "sha256": "d3e3887000cca845df5e8d177f78bfe68795a51a71365591920d24dd928bfd33"
+      "sha256": "bae1f2cbed41f95a6b79f7bd63065fae9cd390d038c7d0d61a193bed50d49110"
     },
     {
       "path": "docs/ja/generated_template_reference.md",
@@ -22,7 +22,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 1892,
-      "sha256": "579ddf5e7e1824cea0cdfe2ba589428a6ed65a70074ced0e970a7073f359372e"
+      "sha256": "3c368926fa8a63911968cb6867523cbe0d9407093cfc0a0bd3f559c077a974a6"
     },
     {
       "path": "docs/generated_template_reference.json",
@@ -32,7 +32,7 @@
       "config_type": "sldl.template_reference",
       "exists": true,
       "bytes": 7350,
-      "sha256": "328d7ab62f3780c94f383ba23b51af54cc103f90d8228fca4d55fb0a853192d7"
+      "sha256": "a90f795c244e68d86b4378e57b4a6a59f374ea6ce8fb4a78c42b5d1e56d392e3"
     },
     {
       "path": "docs/diagnostics_reference.md",
@@ -42,7 +42,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 70480,
-      "sha256": "121476119bcd1f7e35a525c3b58959e337b0b78467b398ba7b3c7a5c3ffbd812"
+      "sha256": "e79784a913c5be789e5211e51e7d9f6c5e0189f174515309cd0b55fa709861c1"
     },
     {
       "path": "docs/ja/diagnostics_reference.md",
@@ -52,7 +52,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 77360,
-      "sha256": "5b76d954a256a9cd41fff943be3a31b28d81b48507a9ef3db45b8d3c5a5ca62f"
+      "sha256": "9e93c5d6da79dedc6be4785dd51f9ecc260de3f0532340e119c9dd2ebad65aec"
     },
     {
       "path": "docs/diagnostics_reference.json",
@@ -62,7 +62,7 @@
       "config_type": "sldl.diagnostics_reference",
       "exists": true,
       "bytes": 118322,
-      "sha256": "25ea7f3004de027135c9fa1ddbd97927297caf5b6bb95db373590e98e0a971eb"
+      "sha256": "3d88c8c4864159f93b99958c5eb97281e6f5906a9b7d067a411f057a032a3607"
     },
     {
       "path": "docs/cli_help_reference.md",
@@ -72,7 +72,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 15331,
-      "sha256": "b1c6d1e64151b35b473593b8dc07be38ef047bdd5a701541d78841396cd3074e"
+      "sha256": "ee12b2cf18b3fff8c55320ac1ab495aab40387f1562fa76eeed0b46c47d54b61"
     },
     {
       "path": "docs/ja/cli_help_reference.md",
@@ -82,7 +82,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 15382,
-      "sha256": "99bebc58c3a6873f09c6d3f7e9ade616306d43131d5d607e5ee7f141e16e14d1"
+      "sha256": "05fe8549ca9066bd7ea22c071da79e75750f3966fd03a94db4836d1be6c103e7"
     },
     {
       "path": "docs/cli_help_reference.json",
@@ -92,7 +92,7 @@
       "config_type": "sldl.cli_help_reference",
       "exists": true,
       "bytes": 51881,
-      "sha256": "fc86845eee895035d4d07c2da0e1e8a588e84d37f5a0085e71130e973480acbb"
+      "sha256": "7c6bef9af084f3798b49bdc121309ac0b7f77bb96ba2567a1e4dfbd3b4d18bf1"
     },
     {
       "path": "docs/release_report.md",
@@ -102,7 +102,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 2337,
-      "sha256": "e1971ccf806e35dc2dfd40deeee6b58ad89860364b4c6f763fb5061227eff7ae"
+      "sha256": "9cbe6165e631f060aa160d44175cd1a01d0acf6630d4981a28c6df9522b56e05"
     },
     {
       "path": "docs/ja/release_report.md",
@@ -112,7 +112,7 @@
       "config_type": null,
       "exists": true,
       "bytes": 2441,
-      "sha256": "b46f7f52998b6434ec107065fe870f2e3f3a42031b000d3c73a95d641034a5a8"
+      "sha256": "8b74f480aae714b858e41bc309d22ce54a62f020f25d9282058a4f6fd122db2f"
     },
     {
       "path": "docs/release_report.json",
@@ -122,7 +122,7 @@
       "config_type": "sldl.release_report",
       "exists": true,
       "bytes": 4356,
-      "sha256": "028198efd96ac49c0abe626dce6a6f369cbf85f72a9bd044a3ef075b9d0c10ff"
+      "sha256": "918996ec262b632e7773ed538c252cee7a06635a6f6920e12fea7562f127a509"
     },
     {
       "path": "docs/release_summary.json",
@@ -132,7 +132,7 @@
       "config_type": "sldl.release_summary",
       "exists": true,
       "bytes": 4602,
-      "sha256": "2874938a09b442b6c1a6cb57542985ec4fbb2320d89ea807a377fdf6a4628bc8"
+      "sha256": "54dff8ee2d0d91b0c4e9e35686aae1ed6bde132b710be76b289f1db0ae9ec68a"
     }
   ]
 }
