@@ -12,13 +12,13 @@ python3 -S -m sldl_compiler.cli quality release \
   --summary-json docs/release_summary.json
 ```
 
-v1.0.14では、template referenceとdiagnostics referenceのdrift checkもrelease品質確認に含めます。次の版では、version表記、release notes、生成reference、snapshot、release-check manifestを更新してからパッケージ化します。
+v1.0.15では、template referenceとdiagnostics referenceのdrift checkもrelease品質確認に含めます。次の版では、version表記、release notes、生成reference、snapshot、release-check manifestを更新してからパッケージ化します。
 
-## v1.0.14 generated references
+## v1.0.15 generated references
 
 Before packaging, regenerate and check `template docs`, `diagnostics docs`, `reference index`, and `reference cli-help` outputs. The release gate includes drift checks for these generated files.
 
-## v1.0.14 生成リリースレポート
+## v1.0.15 生成リリースレポート
 
 release gateを実行した後、次のコマンドで静的release reportを生成または確認します。
 

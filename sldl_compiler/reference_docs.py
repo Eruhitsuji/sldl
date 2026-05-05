@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import Any, Iterable
 
-VERSION="1.0.14"
+VERSION="1.0.15"
 
 
 def _project_root(root: str | Path | None = None) -> Path:
@@ -73,7 +73,7 @@ def render_reference_index_markdown(index: dict[str, Any], language: str = "en")
         lines=[
             "# SLDL Reference Index（日本語）",
             "",
-            "生成済みリファレンス文書への入口です。v1.0.14では、template reference、diagnostics reference、CLI help reference、release report、CI向けrelease summaryをまとめて確認できます。",
+            "生成済みリファレンス文書への入口です。v1.0.15では、template reference、diagnostics reference、CLI help reference、release report、CI向けrelease summaryをまとめて確認できます。",
             "",
             f"- version: `{index.get('version', '')}`",
             f"- references: `{len(index.get('references', []))}`",
@@ -85,7 +85,7 @@ def render_reference_index_markdown(index: dict[str, Any], language: str = "en")
         lines=[
             "# SLDL Reference Index",
             "",
-            "This page is the entry point for generated reference documents. In v1.0.14, the template reference, diagnostics reference, CLI help reference, release report, and CI release summary can be checked together.",
+            "This page is the entry point for generated reference documents. In v1.0.15, the template reference, diagnostics reference, CLI help reference, release report, and CI release summary can be checked together.",
             "",
             f"- version: `{index.get('version', '')}`",
             f"- references: `{len(index.get('references', []))}`",

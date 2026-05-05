@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.14 release quality check target with CI dependency hotfix coverage",
-  "version": "1.0.14",
+  "description": "SLDL v1.0.15 release quality check target with CI dependency hotfix coverage",
+  "version": "1.0.15",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -118,11 +118,13 @@
     ".github/workflows/release-check.yml",
     "docs/ci_workflow.md",
     "docs/ja/ci_workflow.md",
-    "docs/v1_0_14_release_notes.md",
-    "docs/ja/v1_0_14_release_notes.md",
+    "docs/v1_0_15_release_notes.md",
+    "docs/ja/v1_0_15_release_notes.md",
     "pyproject.toml",
     "docs/v1_0_13_release_notes.md",
-    "docs/ja/v1_0_13_release_notes.md"
+    "docs/ja/v1_0_13_release_notes.md",
+    "docs/v1_0_14_release_notes.md",
+    "docs/ja/v1_0_14_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -753,74 +755,6 @@
         "--help"
       ],
       "category": "generated-reference",
-      "severity": "error"
-    },
-    {
-      "name": "quality-report-markdown",
-      "args": [
-        "quality",
-        "report",
-        "build/release_manifest.json",
-        "--format",
-        "markdown"
-      ],
-      "category": "release-report",
-      "severity": "error"
-    },
-    {
-      "name": "quality-report-json",
-      "args": [
-        "quality",
-        "report",
-        "build/release_manifest.json",
-        "--format",
-        "json"
-      ],
-      "category": "release-report",
-      "severity": "error"
-    },
-    {
-      "name": "quality-report-markdown-check",
-      "args": [
-        "quality",
-        "report",
-        "build/release_manifest.json",
-        "--format",
-        "markdown",
-        "--check",
-        "docs/release_report.md"
-      ],
-      "category": "release-report",
-      "severity": "error"
-    },
-    {
-      "name": "quality-report-markdown-ja-check",
-      "args": [
-        "quality",
-        "report",
-        "build/release_manifest.json",
-        "--format",
-        "markdown",
-        "--language",
-        "ja",
-        "--check",
-        "docs/ja/release_report.md"
-      ],
-      "category": "release-report",
-      "severity": "error"
-    },
-    {
-      "name": "quality-report-json-check",
-      "args": [
-        "quality",
-        "report",
-        "build/release_manifest.json",
-        "--format",
-        "json",
-        "--check",
-        "docs/release_report.json"
-      ],
-      "category": "release-report",
       "severity": "error"
     },
     {

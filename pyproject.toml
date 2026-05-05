@@ -1,7 +1,7 @@
 [project]
 name = "sldl-compiler"
-version = "1.0.14"
-description = "SLDL v1.0.14 stable bilingual release with GitHub Actions CI dependency hotfix"
+version = "1.0.15"
+description = "SLDL v1.0.15 stable bilingual release with GitHub Actions CI dependency hotfix"
 requires-python = ">=3.10"
 dependencies = []
 

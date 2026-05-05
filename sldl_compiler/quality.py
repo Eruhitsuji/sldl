@@ -14,7 +14,7 @@ from typing import Any
 from .config_tools import check_config_file, load_config_json
 from .diagnostics import Diagnostic
 
-VERSION="1.0.14"
+VERSION="1.0.15"
 ALLOWED_RELEASE_SEVERITIES={"error", "warning", "info"}
 
 

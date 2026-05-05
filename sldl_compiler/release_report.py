@@ -7,7 +7,7 @@ from typing import Any
 
 from .config_tools import load_config_json
 
-VERSION="1.0.14"
+VERSION="1.0.15"
 IGNORED_REPORT_COMMAND_PREFIXES=("quality-report-",)
 IGNORED_REPORT_COMMAND_NAMES={"config-explain-release-report"}
 
@@ -91,6 +91,13 @@ def _failed_checks(checks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
+def _stable_base_dir(value: Any) -> str:
+    text=str(value or ".")
+    if(Path(text).is_absolute()):
+        return "."
+    return text or "."
+
+
 def build_release_report(manifest_path: str | Path, language: str = "en") -> dict[str, Any]:
     path=Path(manifest_path)
     manifest=_load_manifest(path)
@@ -107,7 +114,7 @@ def build_release_report(manifest_path: str | Path, language: str = "en") -> dic
         "language": language,
         "source_manifest": path.as_posix(),
         "target": manifest.get("target"),
-        "base_dir": manifest.get("base_dir"),
+        "base_dir": _stable_base_dir(manifest.get("base_dir")),
         "python": Path(str(manifest.get("python", "python"))).name,
         "summary": summary,
         "category_summary": _category_summary(checks),

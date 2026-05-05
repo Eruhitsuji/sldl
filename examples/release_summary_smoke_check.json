@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "Small v1.0.14 release summary smoke target used to test --summary-json without recursion.",
-  "version": "1.0.14",
+  "description": "Small v1.0.15 release summary smoke target used to test --summary-json without recursion.",
+  "version": "1.0.15",
   "base_dir": "..",
   "required_files": [
     "README.md",

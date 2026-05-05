@@ -1,25 +1,25 @@
 # SLDL Reference Index（日本語）
 
-生成済みリファレンス文書への入口です。v1.0.14では、template reference、diagnostics reference、CLI help reference、release report、CI向けrelease summaryをまとめて確認できます。
+生成済みリファレンス文書への入口です。v1.0.15では、template reference、diagnostics reference、CLI help reference、release report、CI向けrelease summaryをまとめて確認できます。
 
-- version: `1.0.14`
+- version: `1.0.15`
 - references: `13`
 
 | Title | Path | Kind | Config type | SHA-256 |
 |---|---|---|---|---|
-| テンプレートリファレンス | `docs/generated_template_reference.md` | `markdown` | `` | `c7b12d276600` |
-| テンプレートリファレンス（日本語） | `docs/ja/generated_template_reference.md` | `markdown` | `` | `5e18dc4e64dc` |
-| テンプレートリファレンスJSON | `docs/generated_template_reference.json` | `json` | `sldl.template_reference` | `f86003b124ec` |
-| 診断コードリファレンス | `docs/diagnostics_reference.md` | `markdown` | `` | `ad1f0804d54b` |
-| 診断コードリファレンス（日本語） | `docs/ja/diagnostics_reference.md` | `markdown` | `` | `f992d2b422e9` |
-| 診断コードリファレンスJSON | `docs/diagnostics_reference.json` | `json` | `sldl.diagnostics_reference` | `00250a210173` |
-| CLI helpリファレンス | `docs/cli_help_reference.md` | `markdown` | `` | `52731560e270` |
-| CLI helpリファレンス（日本語） | `docs/ja/cli_help_reference.md` | `markdown` | `` | `916f4c481a74` |
-| CLI helpリファレンスJSON | `docs/cli_help_reference.json` | `json` | `sldl.cli_help_reference` | `2e22e7d5c6e1` |
-| リリースレポート | `docs/release_report.md` | `markdown` | `` | `4c4fd8eb362c` |
-| リリースレポート（日本語） | `docs/ja/release_report.md` | `markdown` | `` | `3c64919b0cfd` |
-| リリースレポートJSON | `docs/release_report.json` | `json` | `sldl.release_report` | `dd54335c2211` |
-| リリースサマリーJSON | `docs/release_summary.json` | `json` | `sldl.release_summary` | `602d353e4e57` |
+| テンプレートリファレンス | `docs/generated_template_reference.md` | `markdown` | `` | `d3e3887000cc` |
+| テンプレートリファレンス（日本語） | `docs/ja/generated_template_reference.md` | `markdown` | `` | `579ddf5e7e18` |
+| テンプレートリファレンスJSON | `docs/generated_template_reference.json` | `json` | `sldl.template_reference` | `328d7ab62f37` |
+| 診断コードリファレンス | `docs/diagnostics_reference.md` | `markdown` | `` | `121476119bcd` |
+| 診断コードリファレンス（日本語） | `docs/ja/diagnostics_reference.md` | `markdown` | `` | `5b76d954a256` |
+| 診断コードリファレンスJSON | `docs/diagnostics_reference.json` | `json` | `sldl.diagnostics_reference` | `25ea7f3004de` |
+| CLI helpリファレンス | `docs/cli_help_reference.md` | `markdown` | `` | `b1c6d1e64151` |
+| CLI helpリファレンス（日本語） | `docs/ja/cli_help_reference.md` | `markdown` | `` | `99bebc58c3a6` |
+| CLI helpリファレンスJSON | `docs/cli_help_reference.json` | `json` | `sldl.cli_help_reference` | `fc86845eee89` |
+| リリースレポート | `docs/release_report.md` | `markdown` | `` | `e1971ccf806e` |
+| リリースレポート（日本語） | `docs/ja/release_report.md` | `markdown` | `` | `b46f7f52998b` |
+| リリースレポートJSON | `docs/release_report.json` | `json` | `sldl.release_report` | `028198efd96a` |
+| リリースサマリーJSON | `docs/release_summary.json` | `json` | `sldl.release_summary` | `2874938a09b4` |
 
 ## コマンド
 

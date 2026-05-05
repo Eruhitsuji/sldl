@@ -2,10 +2,10 @@
 
 `quality release` の結果から生成した静的なリリースレポートです。レポート自身を検査するコマンドは循環差分を避けるため集計から除外されます。
 
-- version: `1.0.14`
+- version: `1.0.15`
 - source_manifest: `build/release_manifest.json`
 - status: `passed`
-- checks: `208/208 passed, 0 failed, 13 warnings`
+- checks: `210/210 passed, 0 failed, 13 warnings`
 
 ## カテゴリ別サマリー
 
@@ -15,7 +15,7 @@
 | `command` | 59 | 59 | 0 | 0 |
 | `config-check` | 18 | 18 | 0 | 13 |
 | `forbidden-paths` | 1 | 1 | 0 | 0 |
-| `required-file` | 119 | 119 | 0 | 0 |
+| `required-file` | 121 | 121 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
 | `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
@@ -35,7 +35,7 @@
 | `generated-reference` | 21 | 21 | 0 | 0 |
 | `negative-example` | 6 | 6 | 0 | 0 |
 | `release-summary` | 2 | 2 | 0 | 0 |
-| `required-file` | 119 | 119 | 0 | 0 |
+| `required-file` | 121 | 121 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
 | `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
@@ -45,7 +45,7 @@
 
 | 重要度 | 合計 | 成功 | 失敗 | 警告 |
 |---|---:|---:|---:|---:|
-| `error` | 199 | 199 | 0 | 0 |
+| `error` | 201 | 201 | 0 | 0 |
 | `info` | 1 | 1 | 0 | 0 |
 | `warning` | 8 | 8 | 0 | 13 |
 

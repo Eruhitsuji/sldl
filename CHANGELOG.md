@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.15 - clean checkout CI fix
+
+- Removed self-dependent release-report commands from the in-gate release-check command list.
+- Moved release-report drift checks to the GitHub Actions workflow after `build/release_manifest.json` is generated.
+- Updated CI output to use `build/release_summary.json` so tracked documentation files are not modified during CI.
+- Updated release-report tests so they generate temporary manifests instead of relying on local build leftovers.
+- Added v1.0.15 bilingual release notes and refreshed generated release artifacts.
+
 ## 1.0.14 - CI dependency hotfix
 
 - Added explicit pytest installation to the GitHub Actions test workflow.

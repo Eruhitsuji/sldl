@@ -26,7 +26,16 @@ jobs:
           python -S -m sldl_compiler.cli quality release \
             --targets examples/release_check.json \
             --manifest build/release_manifest.json \
-            --summary-json docs/release_summary.json
+            --summary-json build/release_summary.json
+
+      - name: Check generated release report
+        run: |
+          python -S -m sldl_compiler.cli quality report build/release_manifest.json \
+            --format markdown --check docs/release_report.md
+          python -S -m sldl_compiler.cli quality report build/release_manifest.json \
+            --format markdown --language ja --check docs/ja/release_report.md
+          python -S -m sldl_compiler.cli quality report build/release_manifest.json \
+            --format json --check docs/release_report.json
 
       - name: Write GitHub step summary
         if: always()
@@ -35,7 +44,7 @@ jobs:
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
-          path=Path("docs/release_summary.json")
+          path=Path("build/release_summary.json")
           if(not path.exists()):
               print("release_summary.json was not generated.")
               raise SystemExit(0)
@@ -55,7 +64,7 @@ jobs:
           name: sldl-release-check
           path: |
             build/release_manifest.json
-            docs/release_summary.json
+            build/release_summary.json
             docs/release_report.md
             docs/release_report.json
           if-no-files-found: ignore
