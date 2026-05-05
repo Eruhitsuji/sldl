@@ -1,6 +1,6 @@
 # Commands reference
 
-This reference is synchronized with the v1.0.11 template-first workflow with generated diagnostics references.
+This reference is synchronized with the v1.0.12 template-first workflow with generated diagnostics references.
 
 ## Recommended workflow commands
 
@@ -151,3 +151,13 @@ python3 -S -m sldl_compiler.cli config explain sldl.release_report
 ```
 
 `quality report` renders an `sldl.release_manifest` as stable human-readable Markdown or machine-readable JSON. The generated report excludes report-check commands from its aggregate summary to avoid circular drift.
+
+## CI release summary
+
+```bash
+python3 -S -m sldl_compiler.cli quality release \
+  --targets examples/release_check.json \
+  --manifest build/release_manifest.json \
+  --summary-json docs/release_summary.json \
+  --fail-on-warning
+```

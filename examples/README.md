@@ -70,3 +70,7 @@ python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --check docs/
 python3 -S -m sldl_compiler.cli diagnostics docs --format markdown --language ja --check docs/ja/diagnostics_reference.md
 python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diagnostics_reference.json
 ```
+
+## v1.0.12 release summary smoke target
+
+`release_summary_smoke_check.json` is a small non-recursive release target used to test `quality release --summary-json` during the main release gate.

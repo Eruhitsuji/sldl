@@ -11,8 +11,8 @@ from sldl_compiler.release_report import build_release_report
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v111():
-    assert __version__=="1.0.11"
+def test_version_metadata_v112():
+    assert __version__=="1.0.12"
 
 
 def test_release_report_json_is_valid_config():
@@ -40,10 +40,31 @@ def test_release_report_commands_and_drift_check(tmp_path):
     assert main(["quality", "report", str(manifest), "--format", "json", "-o", str(json_out)])==0
     data=json.loads(json_out.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.release_report"
-    assert data["version"]=="1.0.11"
+    assert data["version"]=="1.0.12"
 
 
 def test_release_report_ignores_own_drift_checks():
     report=build_release_report(ROOT/"build"/"release_manifest.json")
     names={item["name"] for item in report.get("failed_checks", [])}
     assert not any(name.startswith("quality-report-") for name in names)
+
+
+def test_release_summary_json_is_valid_config():
+    diagnostics=check_config_file(ROOT/"docs"/"release_summary.json")
+    assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]
+
+
+def test_release_summary_command(tmp_path):
+    manifest_path=tmp_path/"summary_manifest.json"
+    summary_path=tmp_path/"release_summary.json"
+    assert main([
+        "quality", "release",
+        "--targets", str(ROOT/"examples"/"release_summary_smoke_check.json"),
+        "--manifest", str(manifest_path),
+        "--summary-json", str(summary_path),
+    ])==0
+    data=json.loads(summary_path.read_text(encoding="utf-8"))
+    assert data["config_type"]=="sldl.release_summary"
+    assert data["version"]=="1.0.12"
+    assert data["ci_summary"]["status"]=="passed"
+    assert any(row["release_category"]=="release-summary" for row in data["release_category_summary"])

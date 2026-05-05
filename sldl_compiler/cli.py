@@ -24,7 +24,7 @@ from .schema_tools import check_schema_files, schema_explain, schema_summary
 from .semantic import install_schema_semantics, check_semantics
 from .bibtex_importer import attach_bibtex_references, parse_bibtex, bibtex_to_sldl_fragment, reference_id_from_bibkey
 from .config_tools import SUPPORTED_CONFIG_TYPES, check_config_file, config_summary, explain_config_file, explain_config_type, init_config_data
-from .quality import check_snapshot, make_snapshot, run_release_check, validate_build_manifest
+from .quality import build_release_summary, check_snapshot, make_snapshot, run_release_check, validate_build_manifest
 from .release_report import build_release_report, render_release_report_json, render_release_report_markdown
 from .diagnostics import Diagnostic
 from .diagnostic_reference import build_diagnostics_reference, render_diagnostics_reference_json, render_diagnostics_reference_markdown
@@ -477,7 +477,7 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
     if(fmt=="json"):
         payload={
             "config_type":"sldl.template_reference",
-            "version":"1.0.11",
+            "version":"1.0.12",
             "language":language,
             "source_manifest": source_manifest or None,
             "source_manifest_sha256": source_manifest_sha256,
@@ -485,9 +485,9 @@ def _template_docs_output(template_dir: str | None, fmt: str, language: str = "e
         }
         return json.dumps(payload, ensure_ascii=False, indent=2)+"\n"
     if(language=="ja"):
-        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.11では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference（日本語）", "", "同梱template manifestから生成したテンプレート一覧です。v1.0.12では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     else:
-        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.11, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
+        lines=["# SLDL Template Reference", "", "Generated from the bundled template manifest. In v1.0.12, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.", "", "| Name | Document type | Language | Schema | Role |", "|---|---|---|---|---|"]
     for item in display_items:
         lines.append(f"| `{item['name']}` | `{item.get('document_type','')}` | `{item.get('language','')}` | `{item.get('schema','')}` | `{item.get('manifest_role','')}` |")
     lines.append("")
@@ -779,8 +779,8 @@ def _make_template_project_config(args, tmpl) -> dict:
 
     config={
         "config_type": "sldl.project",
-        "description": f"SLDL v1.0.11 project generated from template: {tmpl.name}",
-        "version": "1.0.11",
+        "description": f"SLDL v1.0.12 project generated from template: {tmpl.name}",
+        "version": "1.0.12",
         "output_dir": build_dir,
         "citation_style": args.citation_style,
         "toc": args.toc,
@@ -1240,7 +1240,13 @@ def command_quality(args) -> int:
         return _reference_check_or_write(output, args, "RELEASE REPORT")
     if(args.quality_command=="release"):
         target=args.targets or "examples/release_check.json"
-        exit_code,manifest=run_release_check(target, args.manifest, args.warnings_as_errors)
+        fail_on_warning=bool(getattr(args, "fail_on_warning", False))
+        exit_code,manifest=run_release_check(target, args.manifest, args.warnings_as_errors or fail_on_warning)
+        if(getattr(args, "summary_json", None)):
+            summary_payload=build_release_summary(manifest)
+            summary_path=Path(args.summary_json)
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
+            summary_path.write_text(json.dumps(summary_payload, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
         if(args.json):
             print(json.dumps(manifest, ensure_ascii=False, indent=2))
         else:
@@ -1257,12 +1263,14 @@ def command_quality(args) -> int:
             print(f"Release check: {summary.get('passed', 0)}/{summary.get('total', 0)} passed, {summary.get('failed', 0)} failed")
             if(args.manifest):
                 print(f"Manifest: {args.manifest}")
+            if(getattr(args, "summary_json", None)):
+                print(f"Summary JSON: {args.summary_json}")
         return exit_code
     return 2
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.11 compiler")
+    parser=argparse.ArgumentParser(prog="sldlc", description="SLDL v1.0.12 compiler")
     sub=parser.add_subparsers(dest="command", required=True)
     p_check=sub.add_parser("check", help="check SLDL file"); p_check.add_argument("input"); p_check.add_argument("--schema", action="append"); p_check.add_argument("--warnings-as-errors", action="store_true"); p_check.add_argument("--no-source-context", action="store_true"); p_check.set_defaults(func=command_check)
     p_build=sub.add_parser("build", help="build JSON AST"); p_build.add_argument("input"); p_build.add_argument("-o","--output"); p_build.add_argument("--schema", action="append"); p_build.add_argument("--warnings-as-errors", action="store_true"); p_build.add_argument("--no-source-context", action="store_true"); p_build.set_defaults(func=command_build)
@@ -1393,6 +1401,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p_quality_release.add_argument("--targets", required=True, help="sldl.release_check JSON target file")
     p_quality_release.add_argument("--manifest", help="write an sldl.release_manifest JSON")
     p_quality_release.add_argument("--warnings-as-errors", action="store_true")
+    p_quality_release.add_argument("--fail-on-warning", action="store_true", help="treat release warnings as failures; CI-friendly alias for warning-sensitive release gates")
+    p_quality_release.add_argument("--summary-json", help="write a compact sldl.release_summary JSON file for CI systems")
     p_quality_release.add_argument("--json", action="store_true")
     p_quality_release.set_defaults(func=command_quality)
     p_grammar=sub.add_parser("grammar", help="print implemented EBNF grammar"); p_grammar.add_argument("-o","--output"); p_grammar.set_defaults(func=command_grammar)

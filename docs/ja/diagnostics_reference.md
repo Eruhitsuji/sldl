@@ -2,14 +2,14 @@
 
 このファイルは `sldl_compiler` のソースから生成した診断コード一覧です。
 
-- version: `1.0.11`
-- total: `277`
-- errors: `231`
-- warnings: `46`
+- version: `1.0.12`
+- total: `283`
+- errors: `236`
+- warnings: `47`
 
 ## 使い方
 
-エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.11では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
+エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.12では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
 
 ## Codes
 
@@ -128,6 +128,7 @@
 | E_RELEASE_COMMAND_EXCEPTION | error | Release check | Release checkに関するエラー: Release Command Exception。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_COMMAND_EXPECT_FAILURE | error | Release check | Release checkに関するエラー: Release Command Expect Failure。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_COMMAND_FAILED | error | Release check | Release checkに関するエラー: Release Command Failed。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
+| E_RELEASE_COMMAND_METADATA | error | Release check | Release checkに関するエラー: Release Command Metadata。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_COMMAND_UNEXPECTED_SUCCESS | error | Release check | Release checkに関するエラー: Release Command Unexpected Success。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_COMPILEALL | error | Release check | Release checkに関するエラー: Release Compileall。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py, sldl_compiler/quality.py |
 | E_RELEASE_COMPILE_PATH | error | Release check | Release checkに関するエラー: Release Compile Path。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
@@ -153,6 +154,10 @@
 | E_RELEASE_REQUIRED_FILE | error | Release check | Release checkに関するエラー: Release Required File。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_REQUIRED_FILES | error | Release check | Release checkに関するエラー: Release Required Files。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_RELEASE_SNAPSHOT | error | Release check | Release checkに関するエラー: Release Snapshot。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_SUMMARY_CI | error | Release check | Release checkに関するエラー: Release Summary Ci。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_SUMMARY_LIST | error | Release check | Release checkに関するエラー: Release Summary List。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_SUMMARY_SUMMARY | error | Release check | Release checkに関するエラー: Release Summary Summary。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
+| E_RELEASE_SUMMARY_VALUE | error | Release check | Release checkに関するエラー: Release Summary Value。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | E_RELEASE_SYNTAX | error | Release check | Release checkに関するエラー: Release Syntax。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | E_SCHEMA_CONFIG_TYPE | error | Schema | Schemaに関するエラー: Schema Config Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/cli.py |
 | E_SCHEMA_DOCUMENT_TYPE | error | Schema | Schemaに関するエラー: Schema Document Type。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |
@@ -270,6 +275,7 @@
 | W_OBJECT_MISSING_FIELD | warning | Object/schema | Object/schemaに関する警告: Object Missing Field。 | object fieldをschemaで定義したobject classと許可field typeに照合してください。 | sldl_compiler/schemas.py |
 | W_PROJECT_CITATION_STYLE | warning | Project | Projectに関する警告: Project Citation Style。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
 | W_PROJECT_MERMAID_MODE | warning | Project | Projectに関する警告: Project Mermaid Mode。 | project JSON、document input path、output定義、schema参照、declared document_typeを確認してください。 | sldl_compiler/config_tools.py |
+| W_RELEASE_COMMAND_SEVERITY | warning | Release check | Release checkに関する警告: Release Command Severity。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/config_tools.py |
 | W_RELEASE_PATH_MISSING | warning | Release check | Release checkに関する警告: Release Path Missing。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | W_RELEASE_SNAPSHOT_MISSING | warning | Release check | Release checkに関する警告: Release Snapshot Missing。 | examples/release_check.jsonと失敗したrelease-check command、required file、config、snapshot、manifest項目を確認してください。 | sldl_compiler/quality.py |
 | W_SCHEMA_ORDER_WITHOUT_ORDER | warning | Schema | Schemaに関する警告: Schema Order Without Order。 | schema JSONの構造、document_types、node rules、object classes、relation rules、schema config_typeを確認してください。 | sldl_compiler/schema_tools.py |

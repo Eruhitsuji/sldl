@@ -1,16 +1,28 @@
 {
-  "config_type": "sldl.release_report",
-  "description": "Generated SLDL release report",
+  "config_type": "sldl.release_summary",
+  "description": "Machine-readable SLDL release summary for CI",
   "version": "1.0.12",
-  "language": "en",
-  "source_manifest": "build/release_manifest.json",
   "target": "examples/release_check.json",
-  "base_dir": "/mnt/data/sldl_v1012_work",
-  "python": "python3",
   "summary": {
-    "total": 197,
-    "passed": 197,
+    "total": 203,
+    "passed": 203,
     "failed": 0,
+    "warning_count": 13,
+    "error_count": 0,
+    "expected_failure_checks": 6,
+    "status": "passed",
+    "failed_by_severity": {},
+    "total_by_severity": {
+      "error": 194,
+      "info": 1,
+      "warning": 8
+    }
+  },
+  "ci_summary": {
+    "status": "passed",
+    "exit_code": 0,
+    "machine_readable": true,
+    "summary_version": "1.0.12",
     "warning_count": 13,
     "error_count": 0
   },
@@ -24,8 +36,8 @@
     },
     {
       "category": "command",
-      "total": 58,
-      "passed": 58,
+      "total": 64,
+      "passed": 64,
       "failed": 0,
       "warnings": 0
     },
@@ -137,6 +149,13 @@
       "warnings": 0
     },
     {
+      "release_category": "release-report",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "warnings": 0
+    },
+    {
       "release_category": "release-summary",
       "total": 2,
       "passed": 2,
@@ -182,8 +201,8 @@
   "severity_summary": [
     {
       "severity": "error",
-      "total": 188,
-      "passed": 188,
+      "total": 194,
+      "passed": 194,
       "failed": 0,
       "warnings": 0
     },
@@ -214,12 +233,5 @@
       "count": 1
     }
   ],
-  "failed_checks": [],
-  "ci_summary": {
-    "status": "passed",
-    "exit_code": 0,
-    "machine_readable": true,
-    "warning_count": 13,
-    "error_count": 0
-  }
+  "failed_checks": []
 }

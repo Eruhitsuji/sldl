@@ -1,6 +1,6 @@
 # Project workflow
 
-`project build` is the standard workflow for repeatable output generation. In v1.0.11, the recommended entry point for new material is `template project`, because it creates both an SLDL source file and a schema-bound project JSON.
+`project build` is the standard workflow for repeatable output generation. In v1.0.12, the recommended entry point for new material is `template project`, because it creates both an SLDL source file and a schema-bound project JSON.
 
 ## Template-bound project flow
 

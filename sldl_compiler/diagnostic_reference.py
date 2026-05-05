@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-VERSION="1.0.11"
+VERSION="1.0.12"
 CODE_RE=re.compile(r"\b[EW]_[A-Z0-9_]+\b")
 
 CATEGORY_PREFIXES=[
@@ -161,7 +161,7 @@ def render_diagnostics_reference_markdown(reference: dict[str, Any], language: s
             "",
             "## 使い方",
             "",
-            "エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.11では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。",
+            "エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.12では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。",
             "",
         ]
     else:
@@ -177,7 +177,7 @@ def render_diagnostics_reference_markdown(reference: dict[str, Any], language: s
             "",
             "## How to use this reference",
             "",
-            "When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.11, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.",
+            "When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.12, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.",
             "",
         ]
     lines.extend([

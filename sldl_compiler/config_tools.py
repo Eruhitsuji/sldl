@@ -84,7 +84,13 @@ SUPPORTED_CONFIG_TYPES={
         "title": "SLDL generated release report",
         "description": "Summarize a release quality manifest as stable Markdown/JSON documentation for humans and CI.",
         "required": ["config_type", "summary", "category_summary", "ci_summary"],
-        "important": ["version", "source_manifest", "summary", "category_summary", "diagnostic_codes", "failed_checks", "ci_summary"],
+        "important": ["version", "source_manifest", "summary", "category_summary", "release_category_summary", "severity_summary", "diagnostic_codes", "failed_checks", "ci_summary"],
+    },
+    "sldl.release_summary": {
+        "title": "SLDL CI release summary",
+        "description": "Compact machine-readable release summary for CI systems.",
+        "required": ["config_type", "summary", "ci_summary"],
+        "important": ["version", "target", "summary", "category_summary", "release_category_summary", "severity_summary", "diagnostic_codes", "failed_checks", "ci_summary"],
     },
     "sldl.snapshot_manifest": {
         "title": "SLDL golden file snapshot manifest",
@@ -131,6 +137,8 @@ def detect_config_type(data: dict[str, Any]) -> tuple[str | None, Diagnostic | N
         inferred="sldl.schema"
     elif("engine" in data or "dvi_to_pdf" in data or "steps" in data or "cleanup" in data):
         inferred="sldl.latex_build"
+    elif("release_category_summary" in data and "severity_summary" in data and "ci_summary" in data and "source_manifest" not in data):
+        inferred="sldl.release_summary"
     elif("category_summary" in data and "ci_summary" in data):
         inferred="sldl.release_report"
     elif("checks" in data and "summary" in data):
@@ -199,6 +207,8 @@ def check_config_file(path: str | Path, expected_type: str | None = None, check_
         diagnostics.extend(_check_release_manifest(data))
     elif(config_type=="sldl.release_report"):
         diagnostics.extend(_check_release_report(data))
+    elif(config_type=="sldl.release_summary"):
+        diagnostics.extend(_check_release_summary(data))
     elif(config_type=="sldl.snapshot_manifest"):
         diagnostics.extend(_check_snapshot_manifest(data, base_dir, check_paths))
     return diagnostics
@@ -255,6 +265,10 @@ def config_summary(path: str | Path) -> dict[str, Any]:
         report_summary=data.get("summary") if(isinstance(data.get("summary"), dict)) else {}
         summary["checks"]=report_summary.get("total")
         summary["failed"]=report_summary.get("failed")
+    elif(config_type=="sldl.release_summary"):
+        release_summary=data.get("summary") if(isinstance(data.get("summary"), dict)) else {}
+        summary["checks"]=release_summary.get("total")
+        summary["failed"]=release_summary.get("failed")
     elif(config_type=="sldl.snapshot_manifest"):
         files=data.get("files") if(isinstance(data.get("files"), list)) else []
         summary["files"]=len(files)
@@ -395,7 +409,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.template_manifest",
             "description": "SLDL template manifest with schema binding.",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "templates": [
                 {
                     "name": "sample",
@@ -422,7 +436,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.diagnostics_reference",
             "description": "Generated SLDL diagnostics code reference.",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "language": "en",
             "counts": {"total": 0, "errors": 0, "warnings": 0},
             "codes": []
@@ -431,7 +445,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.cli_help_reference",
             "description": "Generated SLDL CLI help reference.",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "language": "en",
             "command_count": 0,
             "commands": []
@@ -440,7 +454,7 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.reference_index",
             "description": "Generated SLDL reference index.",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "language": "en",
             "references": []
         }
@@ -477,11 +491,27 @@ def init_config_data(config_type: str) -> dict[str, Any]:
         return {
             "config_type": "sldl.release_report",
             "description": "Generated SLDL release report.",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "language": "en",
             "source_manifest": "build/release_manifest.json",
-            "summary": {"total": 0, "passed": 0, "failed": 0},
+            "summary": {"total": 0, "passed": 0, "failed": 0, "warning_count": 0, "error_count": 0},
             "category_summary": [],
+            "release_category_summary": [],
+            "severity_summary": [],
+            "diagnostic_codes": [],
+            "failed_checks": [],
+            "ci_summary": {"status": "passed", "exit_code": 0, "machine_readable": True}
+        }
+    if(config_type=="sldl.release_summary"):
+        return {
+            "config_type": "sldl.release_summary",
+            "description": "Machine-readable SLDL release summary for CI.",
+            "version": "1.0.12",
+            "target": "examples/release_check.json",
+            "summary": {"total": 0, "passed": 0, "failed": 0, "warning_count": 0, "error_count": 0},
+            "category_summary": [],
+            "release_category_summary": [],
+            "severity_summary": [],
             "diagnostic_codes": [],
             "failed_checks": [],
             "ci_summary": {"status": "passed", "exit_code": 0, "machine_readable": True}
@@ -694,7 +724,7 @@ def _check_template_manifest(data: dict[str, Any], base_dir: Path, check_paths: 
     if(manifest_role is not None and manifest_role not in {"canonical", "legacy_compatibility", "adhoc"}):
         diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_ROLE", "manifest_role must be canonical, legacy_compatibility, or adhoc"))
     if(manifest_path is not None and manifest_path.name=="manifest.json"):
-        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.11"))
+        diagnostics.append(Diagnostic("warning", "W_TEMPLATE_MANIFEST_LEGACY", "templates/manifest.json is a legacy compatibility copy; templates/template_manifest.json is canonical in v1.0.12"))
         canonical_value=data.get("canonical_manifest")
         if(canonical_value is not None and canonical_value!="template_manifest.json"):
             diagnostics.append(Diagnostic("error", "E_TEMPLATE_MANIFEST_CANONICAL", "legacy manifest canonical_manifest must be template_manifest.json"))
@@ -1141,6 +1171,11 @@ def _check_release_check_config(data: dict[str, Any], base_dir: Path, check_path
                     diagnostics.append(Diagnostic("error", "E_RELEASE_COMMAND_ARGS", f"commands[{i}].args must be a list of strings"))
                 if("expect_failure" in command and not isinstance(command.get("expect_failure"), bool)):
                     diagnostics.append(Diagnostic("error", "E_RELEASE_COMMAND_EXPECT_FAILURE", f"commands[{i}].expect_failure must be a boolean"))
+                for key in ("category", "release_category", "severity"):
+                    if(key in command and not isinstance(command.get(key), str)):
+                        diagnostics.append(Diagnostic("error", "E_RELEASE_COMMAND_METADATA", f"commands[{i}].{key} must be a string"))
+                if(command.get("severity") is not None and command.get("severity") not in {"error", "warning", "info"}):
+                    diagnostics.append(Diagnostic("warning", "W_RELEASE_COMMAND_SEVERITY", f"commands[{i}].severity should be error, warning, or info"))
     snapshot=data.get("golden_snapshot")
     if(snapshot is not None):
         if(not isinstance(snapshot, str)):
@@ -1188,6 +1223,24 @@ def _check_release_report(data: dict[str, Any]) -> list[Diagnostic]:
         diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_CI", "ci_summary must be an object"))
     elif("exit_code" in ci_summary and not isinstance(ci_summary.get("exit_code"), int)):
         diagnostics.append(Diagnostic("error", "E_RELEASE_REPORT_EXIT_CODE", "ci_summary.exit_code must be an integer"))
+    return diagnostics
+
+
+def _check_release_summary(data: dict[str, Any]) -> list[Diagnostic]:
+    diagnostics=[]
+    summary=data.get("summary")
+    if(not isinstance(summary, dict)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_SUMMARY_SUMMARY", "summary must be an object"))
+    else:
+        for key in ["total", "passed", "failed", "warning_count", "error_count"]:
+            if(key in summary and not isinstance(summary.get(key), int)):
+                diagnostics.append(Diagnostic("error", "E_RELEASE_SUMMARY_VALUE", f"summary.{key} must be an integer"))
+    ci_summary=data.get("ci_summary")
+    if(not isinstance(ci_summary, dict)):
+        diagnostics.append(Diagnostic("error", "E_RELEASE_SUMMARY_CI", "ci_summary must be an object"))
+    for key in ["category_summary", "release_category_summary", "severity_summary", "diagnostic_codes", "failed_checks"]:
+        if(not isinstance(data.get(key, []), list)):
+            diagnostics.append(Diagnostic("error", "E_RELEASE_SUMMARY_LIST", f"{key} must be a list"))
     return diagnostics
 
 

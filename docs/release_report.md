@@ -2,23 +2,51 @@
 
 This static release report is generated from a `quality release` manifest. Report-check commands are excluded from the aggregate to avoid circular drift.
 
-- version: `1.0.11`
+- version: `1.0.12`
 - source_manifest: `build/release_manifest.json`
 - status: `passed`
-- checks: `190/190 passed, 0 failed`
+- checks: `197/197 passed, 0 failed, 13 warnings`
 
 ## Category summary
 
-| Category | Total | Passed | Failed |
-|---|---:|---:|---:|
-| `build-manifest-check` | 2 | 2 | 0 |
-| `command` | 56 | 56 | 0 |
-| `config-check` | 16 | 16 | 0 |
-| `forbidden-paths` | 1 | 1 | 0 |
-| `required-file` | 107 | 107 | 0 |
-| `snapshot-check` | 1 | 1 | 0 |
-| `syntax-check` | 6 | 6 | 0 |
-| `target-config` | 1 | 1 | 0 |
+| Category | Total | Passed | Failed | Warnings |
+|---|---:|---:|---:|---:|
+| `build-manifest-check` | 2 | 2 | 0 | 0 |
+| `command` | 58 | 58 | 0 | 0 |
+| `config-check` | 18 | 18 | 0 | 13 |
+| `forbidden-paths` | 1 | 1 | 0 | 0 |
+| `required-file` | 110 | 110 | 0 | 0 |
+| `snapshot-check` | 1 | 1 | 0 | 0 |
+| `syntax-check` | 6 | 6 | 0 | 0 |
+| `target-config` | 1 | 1 | 0 | 0 |
+
+## Release category summary
+
+| Release category | Total | Passed | Failed | Warnings |
+|---|---:|---:|---:|---:|
+| `build-manifest-check` | 2 | 2 | 0 | 0 |
+| `command` | 4 | 4 | 0 | 0 |
+| `config` | 8 | 8 | 0 | 0 |
+| `config-check` | 18 | 18 | 0 | 13 |
+| `core-cli` | 5 | 5 | 0 | 0 |
+| `diagnostics` | 2 | 2 | 0 | 0 |
+| `forbidden-paths` | 1 | 1 | 0 | 0 |
+| `generated-reference` | 21 | 21 | 0 | 0 |
+| `negative-example` | 6 | 6 | 0 | 0 |
+| `release-summary` | 2 | 2 | 0 | 0 |
+| `required-file` | 110 | 110 | 0 | 0 |
+| `snapshot-check` | 1 | 1 | 0 | 0 |
+| `syntax-check` | 6 | 6 | 0 | 0 |
+| `target-config` | 1 | 1 | 0 | 0 |
+| `template-workflow` | 10 | 10 | 0 | 0 |
+
+## Severity summary
+
+| Severity | Total | Passed | Failed | Warnings |
+|---|---:|---:|---:|---:|
+| `error` | 188 | 188 | 0 | 0 |
+| `info` | 1 | 1 | 0 | 0 |
+| `warning` | 8 | 8 | 0 | 13 |
 
 ## Diagnostic codes
 
@@ -39,4 +67,5 @@ python3 -S -m sldl_compiler.cli quality release \
   --manifest build/release_manifest.json
 python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format markdown --check docs/release_report.md
 python3 -S -m sldl_compiler.cli quality report build/release_manifest.json --format json --check docs/release_report.json
+python3 -S -m sldl_compiler.cli quality release --targets examples/release_summary_smoke_check.json --summary-json build/release_summary_smoke.json
 ```

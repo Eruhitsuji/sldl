@@ -1,14 +1,14 @@
 {
   "config_type": "sldl.diagnostics_reference",
   "description": "Generated SLDL diagnostics code reference",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "language": "en",
   "generator": "sldl_compiler.diagnostic_reference",
   "source_root": "sldl_compiler",
   "counts": {
-    "total": 277,
-    "errors": 231,
-    "warnings": 46
+    "total": 283,
+    "errors": 236,
+    "warnings": 47
   },
   "codes": [
     {
@@ -1258,6 +1258,17 @@
       ]
     },
     {
+      "code": "E_RELEASE_COMMAND_METADATA",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Command Metadata",
+      "meaning": "Error related to Release check: Release Command Metadata.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
       "code": "E_RELEASE_COMMAND_UNEXPECTED_SUCCESS",
       "level": "error",
       "category": "Release check",
@@ -1529,6 +1540,50 @@
       "category": "Release check",
       "title": "Release Snapshot",
       "meaning": "Error related to Release check: Release Snapshot.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_SUMMARY_CI",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Summary Ci",
+      "meaning": "Error related to Release check: Release Summary Ci.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_SUMMARY_LIST",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Summary List",
+      "meaning": "Error related to Release check: Release Summary List.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_SUMMARY_SUMMARY",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Summary Summary",
+      "meaning": "Error related to Release check: Release Summary Summary.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "E_RELEASE_SUMMARY_VALUE",
+      "level": "error",
+      "category": "Release check",
+      "title": "Release Summary Value",
+      "meaning": "Error related to Release check: Release Summary Value.",
       "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
       "sources": [
         "sldl_compiler/config_tools.py"
@@ -2825,6 +2880,17 @@
       "title": "Project Mermaid Mode",
       "meaning": "Warning related to Project: Project Mermaid Mode.",
       "fix": "Check the project JSON, document input paths, output definitions, schema references, and declared document_type values.",
+      "sources": [
+        "sldl_compiler/config_tools.py"
+      ]
+    },
+    {
+      "code": "W_RELEASE_COMMAND_SEVERITY",
+      "level": "warning",
+      "category": "Release check",
+      "title": "Release Command Severity",
+      "meaning": "Warning related to Release check: Release Command Severity.",
+      "fix": "Check examples/release_check.json and the failing release-check command, required file, config, snapshot, or manifest entry.",
       "sources": [
         "sldl_compiler/config_tools.py"
       ]

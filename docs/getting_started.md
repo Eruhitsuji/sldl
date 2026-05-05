@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide shows the recommended v1.0.11 workflow. Start from a schema-bound template, generate a project JSON, build outputs through the project command, and verify the build manifest.
+This guide shows the recommended v1.0.12 workflow. Start from a schema-bound template, generate a project JSON, build outputs through the project command, and verify the build manifest.
 
 ## 1. Inspect available templates
 

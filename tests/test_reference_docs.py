@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata_v110():
-    assert __version__=="1.0.11"
+    assert __version__=="1.0.12"
 
 
 def test_reference_index_json_is_valid_config():
@@ -56,8 +56,8 @@ def test_reference_json_outputs_are_valid_configs(tmp_path):
     index_data=json.loads(index_json.read_text(encoding="utf-8"))
     assert help_data["config_type"]=="sldl.cli_help_reference"
     assert index_data["config_type"]=="sldl.reference_index"
-    assert help_data["version"]=="1.0.11"
-    assert index_data["version"]=="1.0.11"
+    assert help_data["version"]=="1.0.12"
+    assert index_data["version"]=="1.0.12"
     assert [d.to_dict() for d in check_config_file(help_json) if d.level=="error"]==[]
     assert [d.to_dict() for d in check_config_file(index_json) if d.level=="error"]==[]
 

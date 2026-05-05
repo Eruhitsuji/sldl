@@ -8,10 +8,14 @@ import json
 from pathlib import Path
 import sys
 import time
+from collections import Counter
 from typing import Any
 
 from .config_tools import check_config_file, load_config_json
 from .diagnostics import Diagnostic
+
+VERSION="1.0.12"
+ALLOWED_RELEASE_SEVERITIES={"error", "warning", "info"}
 
 
 def sha256_file(path: str | Path) -> str:
@@ -193,7 +197,7 @@ def _new_release_manifest(target_file: Path | None, base: Path) -> dict[str, Any
     return {
         "config_type": "sldl.release_manifest",
         "description": "SLDL release quality check manifest",
-        "version": "1.0.0",
+        "version": VERSION,
         "target": str(target_file) if(target_file is not None) else None,
         "base_dir": str(base),
         "python": sys.executable,
@@ -205,9 +209,34 @@ def _new_release_manifest(target_file: Path | None, base: Path) -> dict[str, Any
 
 
 def _finish_manifest(manifest: dict[str, Any]) -> None:
-    total=len(manifest["checks"])
-    failed=sum(1 for item in manifest["checks"] if(not item.get("ok")))
-    manifest["summary"]={"total": total, "passed": total-failed, "failed": failed}
+    checks=manifest.get("checks", []) if(isinstance(manifest.get("checks"), list)) else []
+    total=len(checks)
+    failed=sum(1 for item in checks if(not item.get("ok")))
+    warning_count=sum(1 for item in checks for diag in item.get("diagnostics", []) if(isinstance(diag, dict) and diag.get("level")=="warning"))
+    error_count=sum(1 for item in checks for diag in item.get("diagnostics", []) if(isinstance(diag, dict) and diag.get("level")=="error"))
+    expected_failure_count=sum(1 for item in checks if(item.get("expect_failure") is True)
+                               or (isinstance(item.get("extra"), dict) and item.get("extra", {}).get("expect_failure") is True))
+    failed_by_severity=Counter(str(item.get("severity", "error")) for item in checks if(not item.get("ok")))
+    total_by_severity=Counter(str(item.get("severity", "error")) for item in checks)
+    manifest["summary"]={
+        "total": total,
+        "passed": total-failed,
+        "failed": failed,
+        "warning_count": warning_count,
+        "error_count": error_count,
+        "expected_failure_checks": expected_failure_count,
+        "status": "passed" if(failed==0) else "failed",
+        "failed_by_severity": dict(sorted(failed_by_severity.items())),
+        "total_by_severity": dict(sorted(total_by_severity.items())),
+    }
+    manifest["ci_summary"]={
+        "status": "passed" if(failed==0) else "failed",
+        "exit_code": 0 if(failed==0) else 1,
+        "machine_readable": True,
+        "summary_version": VERSION,
+        "warning_count": warning_count,
+        "error_count": error_count,
+    }
     manifest["elapsed_sec"]=round(time.monotonic()-manifest.get("_start", time.monotonic()), 3) if("_start" in manifest) else manifest.get("elapsed_sec", 0.0)
     manifest.pop("_start", None)
 
@@ -294,10 +323,12 @@ def _run_cli_command_check(manifest: dict[str, Any], base: Path, command: Any, w
     if(warnings_as_errors and "--warnings-as-errors" not in args and args and args[0] in {"check", "project", "schema", "config"}):
         args=args+["--warnings-as-errors"]
     expect_failure=bool(command.get("expect_failure", False))
-    _run_cli_args_check(manifest, base, name, args, expect_failure=expect_failure)
+    release_category=str(command.get("category") or command.get("release_category") or "command")
+    severity=str(command.get("severity") or "error")
+    _run_cli_args_check(manifest, base, name, args, expect_failure=expect_failure, release_category=release_category, severity=severity)
 
 
-def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: list[str], expect_failure: bool = False) -> None:
+def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: list[str], expect_failure: bool = False, release_category: str | None = None, severity: str | None = None) -> None:
     old_cwd=Path.cwd()
     stdout_text=""
     stderr_text=""
@@ -336,13 +367,13 @@ def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: l
             "expect_failure": expect_failure,
             "stdout_tail": _tail(stdout_text),
             "stderr_tail": _tail(stderr_text),
-        })
+        }, release_category=release_category, severity=severity)
     except Exception as exc:
         _add_check(manifest, "command", name, False, [Diagnostic("error", "E_RELEASE_COMMAND_EXCEPTION", f"command raised {type(exc).__name__}: {exc}")], extra={
             "args": args,
             "stdout_tail": _tail(stdout_text),
             "stderr_tail": _tail(stderr_text),
-        })
+        }, release_category=release_category, severity=severity)
     finally:
         import os
         os.chdir(old_cwd)
@@ -500,16 +531,81 @@ def _validate_release_target(data: dict[str, Any], base: Path, check_paths: bool
     return diagnostics
 
 
-def _add_check(manifest: dict[str, Any], category: str, name: str, ok: bool, diagnostics: list[Diagnostic], extra: dict[str, Any] | None = None) -> None:
+def _add_check(manifest: dict[str, Any], category: str, name: str, ok: bool, diagnostics: list[Diagnostic], extra: dict[str, Any] | None = None, release_category: str | None = None, severity: str | None = None) -> None:
+    diag_dicts=[diag.to_dict() if(hasattr(diag, "to_dict")) else diag for diag in diagnostics]
+    normalized_severity=(severity or _infer_severity(bool(ok), diag_dicts)).lower()
+    if(normalized_severity not in ALLOWED_RELEASE_SEVERITIES):
+        normalized_severity="error"
     item={
         "category": category,
+        "release_category": release_category or category,
+        "severity": normalized_severity,
         "name": name,
         "ok": bool(ok),
-        "diagnostics": [diag.to_dict() if(hasattr(diag, "to_dict")) else diag for diag in diagnostics],
+        "status": "passed" if(ok) else "failed",
+        "diagnostics": diag_dicts,
     }
     if(extra):
         item.update(extra)
     manifest["checks"].append(item)
+
+
+def _infer_severity(ok: bool, diagnostics: list[dict[str, Any]]) -> str:
+    if(any(isinstance(diag, dict) and diag.get("level")=="warning" for diag in diagnostics) and not any(isinstance(diag, dict) and diag.get("level")=="error" for diag in diagnostics)):
+        return "warning"
+    return "error"
+
+
+def build_release_summary(manifest: dict[str, Any]) -> dict[str, Any]:
+    checks=manifest.get("checks", []) if(isinstance(manifest.get("checks"), list)) else []
+    return {
+        "config_type": "sldl.release_summary",
+        "description": "Machine-readable SLDL release summary for CI",
+        "version": VERSION,
+        "target": manifest.get("target"),
+        "summary": manifest.get("summary", {}),
+        "ci_summary": manifest.get("ci_summary", {}),
+        "category_summary": _count_rows(checks, "category"),
+        "release_category_summary": _count_rows(checks, "release_category"),
+        "severity_summary": _count_rows(checks, "severity"),
+        "diagnostic_codes": _diagnostic_code_rows(checks),
+        "failed_checks": [
+            {
+                "category": item.get("category"),
+                "release_category": item.get("release_category"),
+                "severity": item.get("severity"),
+                "name": item.get("name"),
+                "diagnostics": item.get("diagnostics", []),
+            }
+            for item in checks if(not item.get("ok"))
+        ],
+    }
+
+
+def _count_rows(checks: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
+    values=sorted({str(item.get(key, "unknown")) for item in checks})
+    rows=[]
+    for value in values:
+        subset=[item for item in checks if(str(item.get(key, "unknown"))==value)]
+        total=len(subset)
+        failed=sum(1 for item in subset if(not item.get("ok")))
+        warnings=sum(1 for item in subset for diag in item.get("diagnostics", []) if(isinstance(diag, dict) and diag.get("level")=="warning"))
+        rows.append({key: value, "total": total, "passed": total-failed, "failed": failed, "warnings": warnings})
+    return rows
+
+
+def _diagnostic_code_rows(checks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    counter: Counter[str]=Counter()
+    levels: dict[str, str]={}
+    for item in checks:
+        for diag in item.get("diagnostics", []):
+            if(not isinstance(diag, dict)):
+                continue
+            code=str(diag.get("code") or "UNKNOWN")
+            level=str(diag.get("level") or "error")
+            counter[code]+=1
+            levels.setdefault(code, level)
+    return [{"code": code, "level": levels.get(code, "error"), "count": counter[code]} for code in sorted(counter)]
 
 
 def _has_failures(diagnostics: list[Diagnostic], warnings_as_errors: bool) -> bool:

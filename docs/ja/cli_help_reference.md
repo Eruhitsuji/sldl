@@ -2,7 +2,7 @@
 
 CLIの `--help` 出力を静的ドキュメントとしてまとめたリファレンスです。ヘルプ本文はCLI実装から生成されます。
 
-- version: `1.0.11`
+- version: `1.0.12`
 - commands: `45`
 
 ## `sldlc`
@@ -12,7 +12,7 @@ Command: sldlc
 Usage: sldlc <command>
 
 Description:
-SLDL v1.0.11 compiler
+SLDL v1.0.12 compiler
 
 Subcommands:
   bib
@@ -136,7 +136,7 @@ Arguments:
 
 Options:
   -h, --help - show this help message and exit
-  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.
+  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.release_summary, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.
   --warnings-as-errors
   --no-path-check - do not warn when referenced files do not exist
   --json
@@ -452,6 +452,8 @@ Options:
   --targets TARGETS - sldl.release_check JSON target file
   --manifest MANIFEST - write an sldl.release_manifest JSON
   --warnings-as-errors
+  --fail-on-warning - treat release warnings as failures; CI-friendly alias for warning-sensitive release gates
+  --summary-json SUMMARY_JSON - write a compact sldl.release_summary JSON file for CI systems
   --json
 ```
 

@@ -1,7 +1,7 @@
 [project]
 name = "sldl-compiler"
-version = "1.0.10"
-description = "SLDL v1.0.10 stable bilingual release with generated reference index and CLI help reference"
+version = "1.0.12"
+description = "SLDL v1.0.12 stable bilingual release with CI-ready release summaries"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -11,4 +11,4 @@ sldlc = "sldl_compiler.cli:main"
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
-addopts = ["-p", "no:ddtrace"]
+addopts = ["-p", "no:ddtrace", "-p", "no:metadata", "-p", "no:asyncio", "-p", "no:anyio", "-p", "no:json-report", "-p", "no:cov", "-p", "no:faker", "-p", "no:Faker"]

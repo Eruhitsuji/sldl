@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.12 - CI-ready release summary
+
+- Added `quality release --summary-json <path>` for compact machine-readable CI summaries.
+- Added `quality release --fail-on-warning` as an explicit warning-sensitive release gate.
+- Added command-level release metadata (`category` / `release_category` and `severity`) to release manifests.
+- Extended generated release reports with warning, release-category, and severity summaries.
+- Added `docs/release_summary.json` and a release-summary smoke target.
+
 ## 1.0.11 - generated release report
 
 - Added `quality report` to render release manifests as Markdown or JSON.

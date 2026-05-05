@@ -1,0 +1,22 @@
+{
+  "config_type": "sldl.release_check",
+  "description": "Small v1.0.12 release summary smoke target used to test --summary-json without recursion.",
+  "version": "1.0.12",
+  "base_dir": "..",
+  "required_files": [
+    "README.md",
+    "sldl_compiler/cli.py"
+  ],
+  "commands": [
+    {
+      "name": "smoke-config-list",
+      "category": "release-summary",
+      "severity": "info",
+      "args": [
+        "config",
+        "list"
+      ]
+    }
+  ],
+  "compileall": false
+}

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
   "description": "SLDL v1.0.11 release quality check target",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -110,7 +110,10 @@
     "docs/ja/release_report.md",
     "docs/release_report.json",
     "sldl_compiler/release_report.py",
-    "tests/test_release_report.py"
+    "tests/test_release_report.py",
+    "docs/v1_0_12_release_notes.md",
+    "docs/ja/v1_0_12_release_notes.md",
+    "docs/release_summary.json"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -146,7 +149,9 @@
     "docs/diagnostics_reference.json",
     "docs/reference_index.json",
     "docs/cli_help_reference.json",
-    "docs/release_report.json"
+    "docs/release_report.json",
+    "docs/release_summary.json",
+    "examples/release_summary_smoke_check.json"
   ],
   "commands": [
     {
@@ -154,7 +159,9 @@
       "args": [
         "template",
         "list"
-      ]
+      ],
+      "category": "core-cli",
+      "severity": "error"
     },
     {
       "name": "template-explain-research-report-en",
@@ -162,7 +169,9 @@
         "template",
         "explain",
         "research_report_en"
-      ]
+      ],
+      "category": "core-cli",
+      "severity": "error"
     },
     {
       "name": "template-explain-research-report-en-markdown",
@@ -172,7 +181,9 @@
         "research_report_en",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "core-cli",
+      "severity": "error"
     },
     {
       "name": "template-explain-research-report-en-json",
@@ -182,7 +193,9 @@
         "research_report_en",
         "--format",
         "json"
-      ]
+      ],
+      "category": "core-cli",
+      "severity": "error"
     },
     {
       "name": "template-docs-markdown",
@@ -191,7 +204,9 @@
         "docs",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "template-docs-json",
@@ -200,7 +215,9 @@
         "docs",
         "--format",
         "json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "template-docs-markdown-check",
@@ -211,7 +228,9 @@
         "markdown",
         "--check",
         "docs/generated_template_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "template-docs-markdown-ja-check",
@@ -224,7 +243,9 @@
         "ja",
         "--check",
         "docs/ja/generated_template_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "template-docs-json-check",
@@ -235,14 +256,18 @@
         "json",
         "--check",
         "docs/generated_template_reference.json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "diagnostics-list",
       "args": [
         "diagnostics",
         "list"
-      ]
+      ],
+      "category": "diagnostics",
+      "severity": "error"
     },
     {
       "name": "diagnostics-list-json",
@@ -250,7 +275,9 @@
         "diagnostics",
         "list",
         "--json"
-      ]
+      ],
+      "category": "diagnostics",
+      "severity": "error"
     },
     {
       "name": "diagnostics-docs-markdown",
@@ -259,7 +286,9 @@
         "docs",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "diagnostics-docs-json",
@@ -268,7 +297,9 @@
         "docs",
         "--format",
         "json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "diagnostics-docs-markdown-check",
@@ -279,7 +310,9 @@
         "markdown",
         "--check",
         "docs/diagnostics_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "diagnostics-docs-markdown-ja-check",
@@ -292,7 +325,9 @@
         "ja",
         "--check",
         "docs/ja/diagnostics_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "diagnostics-docs-json-check",
@@ -303,7 +338,9 @@
         "json",
         "--check",
         "docs/diagnostics_reference.json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "config-explain-diagnostics-reference",
@@ -311,7 +348,9 @@
         "config",
         "explain",
         "sldl.diagnostics_reference"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "reference-index-markdown",
@@ -320,7 +359,9 @@
         "index",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-index-json",
@@ -329,7 +370,9 @@
         "index",
         "--format",
         "json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-index-markdown-check",
@@ -340,7 +383,9 @@
         "markdown",
         "--check",
         "docs/reference_index.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-index-markdown-ja-check",
@@ -353,7 +398,9 @@
         "ja",
         "--check",
         "docs/ja/reference_index.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-index-json-check",
@@ -364,7 +411,9 @@
         "json",
         "--check",
         "docs/reference_index.json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-cli-help-markdown",
@@ -373,7 +422,9 @@
         "cli-help",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-cli-help-json",
@@ -382,7 +433,9 @@
         "cli-help",
         "--format",
         "json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-cli-help-markdown-check",
@@ -393,7 +446,9 @@
         "markdown",
         "--check",
         "docs/cli_help_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-cli-help-markdown-ja-check",
@@ -406,7 +461,9 @@
         "ja",
         "--check",
         "docs/ja/cli_help_reference.md"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "reference-cli-help-json-check",
@@ -417,7 +474,9 @@
         "json",
         "--check",
         "docs/cli_help_reference.json"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "config-explain-reference-index",
@@ -425,7 +484,9 @@
         "config",
         "explain",
         "sldl.reference_index"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "config-explain-cli-help-reference",
@@ -433,7 +494,9 @@
         "config",
         "explain",
         "sldl.cli_help_reference"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "project-check-template-binding-negative-example",
@@ -442,7 +505,9 @@
         "check",
         "examples/template_schema_binding_failure_project.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "check-missing-schema-diagnostic-negative-example",
@@ -452,7 +517,9 @@
         "--schema",
         "examples/missing_schema.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "check-wrong-schema-config-type-negative-example",
@@ -462,7 +529,9 @@
         "--schema",
         "examples/export_labels_en.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "config-check-template-manifest-missing-schema-negative-example",
@@ -471,7 +540,9 @@
         "check",
         "examples/template_manifest_bad_missing_schema.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "config-check-template-manifest-wrong-config-type-negative-example",
@@ -480,7 +551,9 @@
         "check",
         "examples/template_manifest_bad_wrong_config_type.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "config-check-template-manifest-missing-template-negative-example",
@@ -489,7 +562,9 @@
         "check",
         "examples/template_manifest_bad_missing_template.json"
       ],
-      "expect_failure": true
+      "expect_failure": true,
+      "category": "negative-example",
+      "severity": "warning"
     },
     {
       "name": "schema-check",
@@ -497,14 +572,18 @@
         "schema",
         "check",
         "examples/sldl_schema.json"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "config-list",
       "args": [
         "config",
         "list"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "config-explain-project",
@@ -512,7 +591,9 @@
         "config",
         "explain",
         "sldl.project"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "config-explain-release-check",
@@ -520,13 +601,17 @@
         "config",
         "explain",
         "sldl.release_check"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "grammar",
       "args": [
         "grammar"
-      ]
+      ],
+      "category": "core-cli",
+      "severity": "error"
     },
     {
       "name": "template-project-help",
@@ -534,7 +619,9 @@
         "template",
         "project",
         "--help"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "check-overview-en",
@@ -543,7 +630,9 @@
         "examples/official_project_overview_en.sldl",
         "--schema",
         "examples/sldl_schema.json"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "check-overview-ja",
@@ -552,7 +641,9 @@
         "examples/official_project_overview_ja.sldl",
         "--schema",
         "examples/sldl_schema.json"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "check-report-en",
@@ -561,7 +652,9 @@
         "examples/research_report_en.sldl",
         "--schema",
         "examples/sldl_schema.json"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "check-report-ja",
@@ -570,7 +663,9 @@
         "examples/research_report_ja.sldl",
         "--schema",
         "examples/sldl_schema.json"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "config-explain-template-manifest",
@@ -578,7 +673,9 @@
         "config",
         "explain",
         "sldl.template_manifest"
-      ]
+      ],
+      "category": "config",
+      "severity": "error"
     },
     {
       "name": "template-check-research-report-en",
@@ -586,7 +683,9 @@
         "template",
         "check",
         "research_report_en"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "template-check-research-report-ja",
@@ -594,7 +693,9 @@
         "template",
         "check",
         "research_report_ja"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "template-check-minutes",
@@ -602,7 +703,9 @@
         "template",
         "check",
         "minutes"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "template-project-schema-bound",
@@ -619,7 +722,9 @@
         "markdown,html,latex,pdf",
         "--build-dir",
         "../build/template_schema_binding"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "template-check-help",
@@ -627,7 +732,9 @@
         "template",
         "check",
         "--help"
-      ]
+      ],
+      "category": "template-workflow",
+      "severity": "error"
     },
     {
       "name": "template-docs-help",
@@ -635,7 +742,9 @@
         "template",
         "docs",
         "--help"
-      ]
+      ],
+      "category": "generated-reference",
+      "severity": "error"
     },
     {
       "name": "quality-report-markdown",
@@ -645,7 +754,9 @@
         "build/release_manifest.json",
         "--format",
         "markdown"
-      ]
+      ],
+      "category": "release-report",
+      "severity": "error"
     },
     {
       "name": "quality-report-json",
@@ -655,7 +766,9 @@
         "build/release_manifest.json",
         "--format",
         "json"
-      ]
+      ],
+      "category": "release-report",
+      "severity": "error"
     },
     {
       "name": "quality-report-markdown-check",
@@ -667,7 +780,9 @@
         "markdown",
         "--check",
         "docs/release_report.md"
-      ]
+      ],
+      "category": "release-report",
+      "severity": "error"
     },
     {
       "name": "quality-report-markdown-ja-check",
@@ -681,7 +796,9 @@
         "ja",
         "--check",
         "docs/ja/release_report.md"
-      ]
+      ],
+      "category": "release-report",
+      "severity": "error"
     },
     {
       "name": "quality-report-json-check",
@@ -693,7 +810,9 @@
         "json",
         "--check",
         "docs/release_report.json"
-      ]
+      ],
+      "category": "release-report",
+      "severity": "error"
     },
     {
       "name": "config-explain-release-report",
@@ -701,6 +820,33 @@
         "config",
         "explain",
         "sldl.release_report"
+      ],
+      "category": "release-report",
+      "severity": "error"
+    },
+    {
+      "name": "quality-release-summary-smoke",
+      "category": "release-summary",
+      "severity": "error",
+      "args": [
+        "quality",
+        "release",
+        "--targets",
+        "examples/release_summary_smoke_check.json",
+        "--manifest",
+        "build/release_summary_smoke_manifest.json",
+        "--summary-json",
+        "build/release_summary_smoke.json"
+      ]
+    },
+    {
+      "name": "config-explain-release-summary",
+      "category": "release-summary",
+      "severity": "info",
+      "args": [
+        "config",
+        "explain",
+        "sldl.release_summary"
       ]
     }
   ],

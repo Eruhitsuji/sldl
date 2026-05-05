@@ -14,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def test_version_metadata():
-    assert __version__=="1.0.11"
+    assert __version__=="1.0.12"
 
 
 def test_curated_config_files_are_valid():
@@ -99,7 +99,7 @@ def test_release_check_passes_after_project_build():
     assert manifest["summary"]["failed"]==0
 
 
-def test_v109_readme_and_getting_started_are_template_first():
+def test_v112_readme_and_getting_started_are_template_first():
     readme=(ROOT/"README.md").read_text(encoding="utf-8")
     getting_started=(ROOT/"docs"/"getting_started.md").read_text(encoding="utf-8")
     ja_getting_started=(ROOT/"docs"/"ja"/"getting_started.md").read_text(encoding="utf-8")
@@ -110,7 +110,7 @@ def test_v109_readme_and_getting_started_are_template_first():
         assert "quality manifest build/my_report/sldl_build_manifest.json" in text
 
 
-def test_v109_commands_reference_documents_template_docs_checks():
+def test_v112_commands_reference_documents_template_docs_checks():
     commands=(ROOT/"docs"/"commands_reference.md").read_text(encoding="utf-8")
     ja_commands=(ROOT/"docs"/"ja"/"commands_reference.md").read_text(encoding="utf-8")
     for text in [commands, ja_commands]:
@@ -121,7 +121,7 @@ def test_v109_commands_reference_documents_template_docs_checks():
         assert "template docs --format json --check docs/generated_template_reference.json" in text
 
 
-def test_v109_project_workflow_and_examples_document_template_provenance():
+def test_v112_project_workflow_and_examples_document_template_provenance():
     project_workflow=(ROOT/"docs"/"project_workflow.md").read_text(encoding="utf-8")
     ja_project_workflow=(ROOT/"docs"/"ja"/"project_workflow.md").read_text(encoding="utf-8")
     examples_readme=(ROOT/"examples"/"README.md").read_text(encoding="utf-8")

@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.cli_help_reference",
   "description": "Generated SLDL CLI help reference",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "language": "en",
   "command_count": 45,
   "commands": [
@@ -9,7 +9,7 @@
       "command": "sldlc",
       "path": [],
       "usage": "sldlc <command>",
-      "description": "SLDL v1.0.11 compiler",
+      "description": "SLDL v1.0.12 compiler",
       "subcommands": [
         {
           "name": "bib",
@@ -79,7 +79,7 @@
           "help": "show this help message and exit"
         }
       ],
-      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.11 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
+      "help": "Command: sldlc\nUsage: sldlc <command>\n\nDescription:\nSLDL v1.0.12 compiler\n\nSubcommands:\n  bib\n  build\n  check\n  config\n  diagnostics\n  export\n  format\n  grammar\n  latex\n  logic\n  project\n  quality\n  reference\n  schema\n  template\n\nOptions:\n  -h, --help - show this help message and exit\n"
     },
     {
       "command": "bib",
@@ -285,7 +285,7 @@
         },
         {
           "names": "--type TYPE",
-          "help": "expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference."
+          "help": "expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.release_summary, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference."
         },
         {
           "names": "--warnings-as-errors",
@@ -300,7 +300,7 @@
           "help": ""
         }
       ],
-      "help": "Command: config check\nUsage: config check <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.\n  --warnings-as-errors\n  --no-path-check - do not warn when referenced files do not exist\n  --json\n"
+      "help": "Command: config check\nUsage: config check <files> [options]\n\nArguments:\n  files\n\nOptions:\n  -h, --help - show this help message and exit\n  --type TYPE - expected config_type Choices: sldl.build_manifest, sldl.cli_help_reference, sldl.diagnostics_reference, sldl.export_labels, sldl.latex_build, sldl.project, sldl.reference_index, sldl.release_check, sldl.release_manifest, sldl.release_report, sldl.release_summary, sldl.schema, sldl.snapshot_manifest, sldl.template_manifest, sldl.template_reference.\n  --warnings-as-errors\n  --no-path-check - do not warn when referenced files do not exist\n  --json\n"
     },
     {
       "command": "config explain",
@@ -995,11 +995,19 @@
           "help": ""
         },
         {
+          "names": "--fail-on-warning",
+          "help": "treat release warnings as failures; CI-friendly alias for warning-sensitive release gates"
+        },
+        {
+          "names": "--summary-json SUMMARY_JSON",
+          "help": "write a compact sldl.release_summary JSON file for CI systems"
+        },
+        {
           "names": "--json",
           "help": ""
         }
       ],
-      "help": "Command: quality release\nUsage: quality release [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --targets TARGETS - sldl.release_check JSON target file\n  --manifest MANIFEST - write an sldl.release_manifest JSON\n  --warnings-as-errors\n  --json\n"
+      "help": "Command: quality release\nUsage: quality release [options]\n\nOptions:\n  -h, --help - show this help message and exit\n  --targets TARGETS - sldl.release_check JSON target file\n  --manifest MANIFEST - write an sldl.release_manifest JSON\n  --warnings-as-errors\n  --fail-on-warning - treat release warnings as failures; CI-friendly alias for warning-sensitive release gates\n  --summary-json SUMMARY_JSON - write a compact sldl.release_summary JSON file for CI systems\n  --json\n"
     },
     {
       "command": "quality report",

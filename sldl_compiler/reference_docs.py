@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import Any, Iterable
 
-VERSION="1.0.11"
+VERSION="1.0.12"
 
 
 def _project_root(root: str | Path | None = None) -> Path:
@@ -53,6 +53,7 @@ def build_reference_index(root: str | Path | None = None, language: str = "en") 
         _file_record(base, "docs/release_report.md", "Release report", "リリースレポート", "markdown"),
         _file_record(base, "docs/ja/release_report.md", "Release report (Japanese)", "リリースレポート（日本語）", "markdown"),
         _file_record(base, "docs/release_report.json", "Release report JSON", "リリースレポートJSON", "json", "sldl.release_report"),
+        _file_record(base, "docs/release_summary.json", "Release summary JSON", "リリースサマリーJSON", "json", "sldl.release_summary"),
     ]
     return {
         "config_type": "sldl.reference_index",
@@ -72,7 +73,7 @@ def render_reference_index_markdown(index: dict[str, Any], language: str = "en")
         lines=[
             "# SLDL Reference Index（日本語）",
             "",
-            "生成済みリファレンス文書への入口です。v1.0.11では、template reference、diagnostics reference、CLI help reference、release reportをまとめて確認できます。",
+            "生成済みリファレンス文書への入口です。v1.0.12では、template reference、diagnostics reference、CLI help reference、release report、CI向けrelease summaryをまとめて確認できます。",
             "",
             f"- version: `{index.get('version', '')}`",
             f"- references: `{len(index.get('references', []))}`",
@@ -84,7 +85,7 @@ def render_reference_index_markdown(index: dict[str, Any], language: str = "en")
         lines=[
             "# SLDL Reference Index",
             "",
-            "This page is the entry point for generated reference documents. In v1.0.11, the template reference, diagnostics reference, CLI help reference, and release report can be checked together.",
+            "This page is the entry point for generated reference documents. In v1.0.12, the template reference, diagnostics reference, CLI help reference, release report, and CI release summary can be checked together.",
             "",
             f"- version: `{index.get('version', '')}`",
             f"- references: `{len(index.get('references', []))}`",
