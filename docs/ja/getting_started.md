@@ -1,6 +1,6 @@
 # はじめに
 
-このページでは、v1.0.12で推奨する流れを説明します。基本は、schema-bound templateからSLDL文書とproject JSONを生成し、project commandで出力し、最後にbuild manifestを検査する流れです。
+このページでは、v1.0.13で推奨する流れを説明します。基本は、schema-bound templateからSLDL文書とproject JSONを生成し、project commandで出力し、最後にbuild manifestを検査する流れです。
 
 ## 1. 利用できるテンプレートを確認する
 

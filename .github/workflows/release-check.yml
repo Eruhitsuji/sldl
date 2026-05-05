@@ -1,0 +1,57 @@
+name: SLDL release check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run release gate
+        run: |
+          python -S -m sldl_compiler.cli quality release \
+            --targets examples/release_check.json \
+            --manifest build/release_manifest.json \
+            --summary-json docs/release_summary.json
+
+      - name: Write GitHub step summary
+        if: always()
+        run: |
+          echo "## SLDL release check" >> "$GITHUB_STEP_SUMMARY"
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          path=Path("docs/release_summary.json")
+          if(not path.exists()):
+              print("release_summary.json was not generated.")
+              raise SystemExit(0)
+          data=json.loads(path.read_text(encoding="utf-8"))
+          summary=data.get("summary", {})
+          ci=data.get("ci_summary", {})
+          print(f"- status: `{ci.get('status', 'unknown')}`")
+          print(f"- checks: `{summary.get('passed', 0)}/{summary.get('total', 0)} passed`")
+          print(f"- failed: `{summary.get('failed', 0)}`")
+          print(f"- warnings: `{summary.get('warning_count', 0)}`")
+          PY
+
+      - name: Upload release artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sldl-release-check
+          path: |
+            build/release_manifest.json
+            docs/release_summary.json
+            docs/release_report.md
+            docs/release_report.json
+          if-no-files-found: ignore

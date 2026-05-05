@@ -11,8 +11,8 @@ from sldl_compiler.diagnostic_reference import build_diagnostics_reference
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v112():
-    assert __version__=="1.0.12"
+def test_version_metadata_v113():
+    assert __version__=="1.0.13"
 
 
 def test_diagnostics_reference_contains_schema_template_codes():
@@ -45,6 +45,6 @@ def test_diagnostics_docs_json_output_is_valid_config(tmp_path):
     assert main(["diagnostics", "docs", "--format", "json", "-o", str(out)])==0
     data=json.loads(out.read_text(encoding="utf-8"))
     assert data["config_type"]=="sldl.diagnostics_reference"
-    assert data["version"]=="1.0.12"
+    assert data["version"]=="1.0.13"
     diagnostics=check_config_file(out)
     assert [d.to_dict() for d in diagnostics if d.level=="error"]==[]

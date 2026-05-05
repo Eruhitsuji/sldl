@@ -23,7 +23,10 @@ python3 -S -m sldl_compiler.cli diagnostics docs --format json --check docs/diag
 ## 4. Run release check
 
 ```bash
-python3 -S -m sldl_compiler.cli quality release   --targets examples/release_check.json   --manifest build/release_manifest.json
+python3 -S -m sldl_compiler.cli quality release \
+  --targets examples/release_check.json \
+  --manifest build/release_manifest.json \
+  --summary-json docs/release_summary.json
 ```
 
 ## 5. Inspect generated manifests
@@ -41,11 +44,11 @@ python3 -S -m sldl_compiler.cli quality manifest build/release_manifest.json
 
 For v1.0.0 and later releases, update version strings, release notes, generated references, snapshots, and release-check manifests before packaging.
 
-## v1.0.12 generated references
+## v1.0.13 generated references
 
 Before packaging, regenerate and check `template docs`, `diagnostics docs`, `reference index`, and `reference cli-help` outputs. The release gate includes drift checks for these generated files.
 
-## v1.0.12 generated release report
+## v1.0.13 generated release report
 
 After running the release gate, generate or check the stable release report:
 

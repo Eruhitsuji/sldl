@@ -1,11 +1,11 @@
 {
   "config_type": "sldl.release_summary",
   "description": "Machine-readable SLDL release summary for CI",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "target": "examples/release_check.json",
   "summary": {
-    "total": 203,
-    "passed": 203,
+    "total": 211,
+    "passed": 211,
     "failed": 0,
     "warning_count": 13,
     "error_count": 0,
@@ -13,7 +13,7 @@
     "status": "passed",
     "failed_by_severity": {},
     "total_by_severity": {
-      "error": 194,
+      "error": 202,
       "info": 1,
       "warning": 8
     }
@@ -22,7 +22,7 @@
     "status": "passed",
     "exit_code": 0,
     "machine_readable": true,
-    "summary_version": "1.0.12",
+    "summary_version": "1.0.13",
     "warning_count": 13,
     "error_count": 0
   },
@@ -36,8 +36,8 @@
     },
     {
       "category": "command",
-      "total": 64,
-      "passed": 64,
+      "total": 65,
+      "passed": 65,
       "failed": 0,
       "warnings": 0
     },
@@ -57,8 +57,8 @@
     },
     {
       "category": "required-file",
-      "total": 110,
-      "passed": 110,
+      "total": 116,
+      "passed": 116,
       "failed": 0,
       "warnings": 0
     },
@@ -71,8 +71,8 @@
     },
     {
       "category": "syntax-check",
-      "total": 6,
-      "passed": 6,
+      "total": 7,
+      "passed": 7,
       "failed": 0,
       "warnings": 0
     },
@@ -89,6 +89,13 @@
       "release_category": "build-manifest-check",
       "total": 2,
       "passed": 2,
+      "failed": 0,
+      "warnings": 0
+    },
+    {
+      "release_category": "ci-workflow",
+      "total": 1,
+      "passed": 1,
       "failed": 0,
       "warnings": 0
     },
@@ -164,8 +171,8 @@
     },
     {
       "release_category": "required-file",
-      "total": 110,
-      "passed": 110,
+      "total": 116,
+      "passed": 116,
       "failed": 0,
       "warnings": 0
     },
@@ -178,8 +185,8 @@
     },
     {
       "release_category": "syntax-check",
-      "total": 6,
-      "passed": 6,
+      "total": 7,
+      "passed": 7,
       "failed": 0,
       "warnings": 0
     },
@@ -201,8 +208,8 @@
   "severity_summary": [
     {
       "severity": "error",
-      "total": 194,
-      "passed": 194,
+      "total": 202,
+      "passed": 202,
       "failed": 0,
       "warnings": 0
     },

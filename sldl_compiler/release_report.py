@@ -7,7 +7,7 @@ from typing import Any
 
 from .config_tools import load_config_json
 
-VERSION="1.0.12"
+VERSION="1.0.13"
 IGNORED_REPORT_COMMAND_PREFIXES=("quality-report-",)
 IGNORED_REPORT_COMMAND_NAMES={"config-explain-release-report"}
 

@@ -1,6 +1,6 @@
 # Commands reference
 
-This reference is synchronized with the v1.0.12 template-first workflow with generated diagnostics references.
+This reference is synchronized with the v1.0.13 template-first workflow with generated diagnostics references.
 
 ## Recommended workflow commands
 

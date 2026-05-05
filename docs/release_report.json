@@ -1,15 +1,15 @@
 {
   "config_type": "sldl.release_report",
   "description": "Generated SLDL release report",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "language": "en",
   "source_manifest": "build/release_manifest.json",
   "target": "examples/release_check.json",
-  "base_dir": "/mnt/data/sldl_v1012_work",
+  "base_dir": "/mnt/data/sldl_v1013_work",
   "python": "python3",
   "summary": {
-    "total": 197,
-    "passed": 197,
+    "total": 205,
+    "passed": 205,
     "failed": 0,
     "warning_count": 13,
     "error_count": 0
@@ -24,8 +24,8 @@
     },
     {
       "category": "command",
-      "total": 58,
-      "passed": 58,
+      "total": 59,
+      "passed": 59,
       "failed": 0,
       "warnings": 0
     },
@@ -45,8 +45,8 @@
     },
     {
       "category": "required-file",
-      "total": 110,
-      "passed": 110,
+      "total": 116,
+      "passed": 116,
       "failed": 0,
       "warnings": 0
     },
@@ -59,8 +59,8 @@
     },
     {
       "category": "syntax-check",
-      "total": 6,
-      "passed": 6,
+      "total": 7,
+      "passed": 7,
       "failed": 0,
       "warnings": 0
     },
@@ -77,6 +77,13 @@
       "release_category": "build-manifest-check",
       "total": 2,
       "passed": 2,
+      "failed": 0,
+      "warnings": 0
+    },
+    {
+      "release_category": "ci-workflow",
+      "total": 1,
+      "passed": 1,
       "failed": 0,
       "warnings": 0
     },
@@ -145,8 +152,8 @@
     },
     {
       "release_category": "required-file",
-      "total": 110,
-      "passed": 110,
+      "total": 116,
+      "passed": 116,
       "failed": 0,
       "warnings": 0
     },
@@ -159,8 +166,8 @@
     },
     {
       "release_category": "syntax-check",
-      "total": 6,
-      "passed": 6,
+      "total": 7,
+      "passed": 7,
       "failed": 0,
       "warnings": 0
     },
@@ -182,8 +189,8 @@
   "severity_summary": [
     {
       "severity": "error",
-      "total": 188,
-      "passed": 188,
+      "total": 196,
+      "passed": 196,
       "failed": 0,
       "warnings": 0
     },

@@ -2,14 +2,14 @@
 
 This file is generated from diagnostic codes found in the `sldl_compiler` source tree.
 
-- version: `1.0.12`
+- version: `1.0.13`
 - total: `283`
 - errors: `236`
 - warnings: `47`
 
 ## How to use this reference
 
-When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.12, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.
+When an error or warning appears, look up its `Code`, then use `Category` and `Fix` to narrow down the relevant file, schema, project, template, or source block. In v1.0.13, this list can be regenerated and drift-checked with `diagnostics docs`, and it is linked from the generated `reference index`.
 
 ## Codes
 

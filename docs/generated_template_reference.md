@@ -1,6 +1,6 @@
 # SLDL Template Reference
 
-Generated from the bundled template manifest. In v1.0.12, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.
+Generated from the bundled template manifest. In v1.0.13, release checks keep the template and diagnostics reference drift checks and also drift-check the reference index and CLI help reference.
 
 | Name | Document type | Language | Schema | Role |
 |---|---|---|---|---|

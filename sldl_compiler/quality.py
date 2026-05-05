@@ -14,7 +14,7 @@ from typing import Any
 from .config_tools import check_config_file, load_config_json
 from .diagnostics import Diagnostic
 
-VERSION="1.0.12"
+VERSION="1.0.13"
 ALLOWED_RELEASE_SEVERITIES={"error", "warning", "info"}
 
 
@@ -320,13 +320,31 @@ def _run_cli_command_check(manifest: dict[str, Any], base: Path, command: Any, w
     if(not isinstance(args, list) or not all(isinstance(item, str) for item in args)):
         _add_check(manifest, "command", name, False, [Diagnostic("error", "E_RELEASE_COMMAND_ARGS", "command.args must be a list of strings")])
         return
-    if(warnings_as_errors and "--warnings-as-errors" not in args and args and args[0] in {"check", "project", "schema", "config"}):
+    if(warnings_as_errors and "--warnings-as-errors" not in args and _cli_args_support_warnings_as_errors(args)):
         args=args+["--warnings-as-errors"]
     expect_failure=bool(command.get("expect_failure", False))
     release_category=str(command.get("category") or command.get("release_category") or "command")
     severity=str(command.get("severity") or "error")
     _run_cli_args_check(manifest, base, name, args, expect_failure=expect_failure, release_category=release_category, severity=severity)
 
+
+
+def _cli_args_support_warnings_as_errors(args: list[str]) -> bool:
+    if(not args):
+        return False
+    if(args[0] in {"check", "build", "export"}):
+        return True
+    if(args[0]=="logic" and len(args)>1 and args[1] in {"report", "graph"}):
+        return True
+    if(args[0]=="project" and len(args)>1 and args[1] in {"check", "build"}):
+        return True
+    if(args[0]=="schema" and len(args)>1 and args[1]=="check"):
+        return True
+    if(args[0]=="config" and len(args)>1 and args[1]=="check"):
+        return True
+    if(args[0]=="quality" and len(args)>1 and args[1] in {"manifest", "snapshot-check", "release"}):
+        return True
+    return False
 
 def _run_cli_args_check(manifest: dict[str, Any], base: Path, name: str, args: list[str], expect_failure: bool = False, release_category: str | None = None, severity: str | None = None) -> None:
     old_cwd=Path.cwd()

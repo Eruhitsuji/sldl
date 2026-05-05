@@ -1,7 +1,7 @@
 {
   "config_type": "sldl.release_check",
-  "description": "SLDL v1.0.11 release quality check target",
-  "version": "1.0.12",
+  "description": "SLDL v1.0.13 release quality check target with CI workflow coverage",
+  "version": "1.0.13",
   "base_dir": "..",
   "required_files": [
     "README.md",
@@ -113,7 +113,13 @@
     "tests/test_release_report.py",
     "docs/v1_0_12_release_notes.md",
     "docs/ja/v1_0_12_release_notes.md",
-    "docs/release_summary.json"
+    "docs/release_summary.json",
+    ".github/workflows/test.yml",
+    ".github/workflows/release-check.yml",
+    "docs/ci_workflow.md",
+    "docs/ja/ci_workflow.md",
+    "docs/v1_0_13_release_notes.md",
+    "docs/ja/v1_0_13_release_notes.md"
   ],
   "forbidden_paths": [
     "docs/bilingual_release_preparation.md",
@@ -848,6 +854,22 @@
         "explain",
         "sldl.release_summary"
       ]
+    },
+    {
+      "name": "quality-release-summary-strict-smoke",
+      "category": "ci-workflow",
+      "severity": "error",
+      "args": [
+        "quality",
+        "release",
+        "--targets",
+        "examples/release_summary_smoke_check.json",
+        "--manifest",
+        "build/release_summary_smoke_manifest.json",
+        "--summary-json",
+        "build/release_summary_smoke.json",
+        "--fail-on-warning"
+      ]
     }
   ],
   "project_files": [
@@ -870,6 +892,7 @@
     "tests/test_template_schema_binding.py",
     "tests/test_diagnostics_reference.py",
     "tests/test_reference_docs.py",
-    "tests/test_release_report.py"
+    "tests/test_release_report.py",
+    "tests/test_ci_workflow.py"
   ]
 }

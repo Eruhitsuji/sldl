@@ -12,8 +12,8 @@ from sldl_compiler.templates import get_template, list_templates
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def test_version_metadata_v112():
-    assert __version__=="1.0.12"
+def test_version_metadata_v113():
+    assert __version__=="1.0.13"
 
 
 def test_template_manifest_is_schema_bound():
@@ -68,7 +68,7 @@ def test_template_project_inherits_manifest_defaults(tmp_path):
         "--build-dir", str(tmp_path/"build"),
     ])==0
     project=json.loads(project_path.read_text(encoding="utf-8"))
-    assert project["version"]=="1.0.12"
+    assert project["version"]=="1.0.13"
     assert project["schemas"]
     assert project["export_config"].endswith("examples/export_labels_en.json")
     assert project["latex_build_config"].endswith("examples/latex_build_platex_dvipdfmx_dry_run.json")
@@ -278,7 +278,7 @@ def test_build_manifest_template_metadata_matches_manifest_entry(tmp_path):
     assert main(["quality", "manifest", str(manifest_path)])==1
 
 
-def test_v112_schema_input_diagnostics_are_graceful(capsys):
+def test_v113_schema_input_diagnostics_are_graceful(capsys):
     assert main([
         "check",
         str(ROOT/"examples"/"research_report_en.sldl"),
@@ -299,7 +299,7 @@ def test_v112_schema_input_diagnostics_are_graceful(capsys):
     assert "sldl.schema" in captured.out
 
 
-def test_v112_template_manifest_negative_examples_have_specific_errors():
+def test_v113_template_manifest_negative_examples_have_specific_errors():
     cases={
         "template_manifest_bad_missing_schema.json":"E_TEMPLATE_MANIFEST_SCHEMA_MISSING",
         "template_manifest_bad_wrong_config_type.json":"E_TEMPLATE_MANIFEST_BOUND_CONFIG_TYPE",
@@ -310,7 +310,7 @@ def test_v112_template_manifest_negative_examples_have_specific_errors():
         assert any(d.level=="error" and d.code==code for d in diagnostics)
 
 
-def test_v112_schema_override_warning_is_explicit(tmp_path, capsys):
+def test_v113_schema_override_warning_is_explicit(tmp_path, capsys):
     wrong_schema=tmp_path/"other_schema.json"
     wrong_schema.write_text(json.dumps({"config_type":"sldl.schema","document_types":{}}, ensure_ascii=False), encoding="utf-8")
     assert main([

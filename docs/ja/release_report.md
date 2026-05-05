@@ -2,22 +2,22 @@
 
 `quality release` の結果から生成した静的なリリースレポートです。レポート自身を検査するコマンドは循環差分を避けるため集計から除外されます。
 
-- version: `1.0.12`
+- version: `1.0.13`
 - source_manifest: `build/release_manifest.json`
 - status: `passed`
-- checks: `197/197 passed, 0 failed, 13 warnings`
+- checks: `205/205 passed, 0 failed, 13 warnings`
 
 ## カテゴリ別サマリー
 
 | カテゴリ | 合計 | 成功 | 失敗 | 警告 |
 |---|---:|---:|---:|---:|
 | `build-manifest-check` | 2 | 2 | 0 | 0 |
-| `command` | 58 | 58 | 0 | 0 |
+| `command` | 59 | 59 | 0 | 0 |
 | `config-check` | 18 | 18 | 0 | 13 |
 | `forbidden-paths` | 1 | 1 | 0 | 0 |
-| `required-file` | 110 | 110 | 0 | 0 |
+| `required-file` | 116 | 116 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
-| `syntax-check` | 6 | 6 | 0 | 0 |
+| `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
 
 ## リリース分類別サマリー
@@ -25,6 +25,7 @@
 | リリース分類 | 合計 | 成功 | 失敗 | 警告 |
 |---|---:|---:|---:|---:|
 | `build-manifest-check` | 2 | 2 | 0 | 0 |
+| `ci-workflow` | 1 | 1 | 0 | 0 |
 | `command` | 4 | 4 | 0 | 0 |
 | `config` | 8 | 8 | 0 | 0 |
 | `config-check` | 18 | 18 | 0 | 13 |
@@ -34,9 +35,9 @@
 | `generated-reference` | 21 | 21 | 0 | 0 |
 | `negative-example` | 6 | 6 | 0 | 0 |
 | `release-summary` | 2 | 2 | 0 | 0 |
-| `required-file` | 110 | 110 | 0 | 0 |
+| `required-file` | 116 | 116 | 0 | 0 |
 | `snapshot-check` | 1 | 1 | 0 | 0 |
-| `syntax-check` | 6 | 6 | 0 | 0 |
+| `syntax-check` | 7 | 7 | 0 | 0 |
 | `target-config` | 1 | 1 | 0 | 0 |
 | `template-workflow` | 10 | 10 | 0 | 0 |
 
@@ -44,7 +45,7 @@
 
 | 重要度 | 合計 | 成功 | 失敗 | 警告 |
 |---|---:|---:|---:|---:|
-| `error` | 188 | 188 | 0 | 0 |
+| `error` | 196 | 196 | 0 | 0 |
 | `info` | 1 | 1 | 0 | 0 |
 | `warning` | 8 | 8 | 0 | 13 |
 

@@ -1,6 +1,6 @@
 # SLDL Template Reference（日本語）
 
-同梱template manifestから生成したテンプレート一覧です。v1.0.12では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。
+同梱template manifestから生成したテンプレート一覧です。v1.0.13では、template referenceとdiagnostics referenceに加えて、reference indexとCLI help referenceもrelease checkで差分確認できます。
 
 | Name | Document type | Language | Schema | Role |
 |---|---|---|---|---|

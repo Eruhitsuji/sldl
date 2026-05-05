@@ -2,14 +2,14 @@
 
 このファイルは `sldl_compiler` のソースから生成した診断コード一覧です。
 
-- version: `1.0.12`
+- version: `1.0.13`
 - total: `283`
 - errors: `236`
 - warnings: `47`
 
 ## 使い方
 
-エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.12では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
+エラーや警告が出たら、まず `Code` を確認し、この表の `Category` と `Fix` を見て原因の範囲を絞ります。v1.0.13では、この一覧を `diagnostics docs` で再生成・差分確認でき、`reference index` から他の生成リファレンスとまとめて参照できます。
 
 ## Codes
 
